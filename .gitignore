@@ -1,0 +1,12 @@
+# build dirs
+build*/
+
+# cache dirs
+.cppcheck-suppressions.cfg
+.cache
+
+*__pycache__/
+
+# cmake files
+CMakeFiles/
+CMakeCache.txt
