@@ -1,5 +1,0 @@
-/home/michalmo/AOSYW/aosyw_eval/build/Debug/CMakeFiles/aosyw_eval.dir
-/home/michalmo/AOSYW/aosyw_eval/build/Debug/CMakeFiles/edit_cache.dir
-/home/michalmo/AOSYW/aosyw_eval/build/Debug/CMakeFiles/rebuild_cache.dir
-/home/michalmo/AOSYW/aosyw_eval/build/Debug/cmake/stm32cubemx/CMakeFiles/edit_cache.dir
-/home/michalmo/AOSYW/aosyw_eval/build/Debug/cmake/stm32cubemx/CMakeFiles/rebuild_cache.dir

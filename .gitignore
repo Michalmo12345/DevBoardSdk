@@ -1,0 +1,10 @@
+# build dirs
+build*/
+
+# cache dirs
+.cppcheck-suppressions.cfg
+.cache
+
+*__pycache__/
+
+
