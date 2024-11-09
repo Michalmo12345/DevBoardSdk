@@ -6,3 +6,7 @@
  *
  *
  */
+
+#pragma once
+
+void start();

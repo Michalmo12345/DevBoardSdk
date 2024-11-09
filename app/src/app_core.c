@@ -7,3 +7,9 @@
 
  *
  */
+
+#include "../include/app_core.h"
+
+void start()
+{
+}
