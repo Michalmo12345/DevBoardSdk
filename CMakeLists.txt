@@ -63,6 +63,14 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
-
+    ${FRAMEWORK_LIB}
     # Add user defined libraries
 )
+
+
+set(FRAMEWORK_DIR
+    ${CMAKE_SOURCE_DIR}/framework
+    CACHE INTERNAL " "
+)
+set(FRAMEWORK_LIB framework)
+add_subdirectory(${FRAMEWORK_DIR})
