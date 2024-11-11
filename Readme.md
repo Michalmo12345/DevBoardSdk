@@ -26,3 +26,22 @@ Pozwoli to wygenerować Doxygen-style komentarze:
  (Pomijamy copyright i wersję)
 ```
 Przydatne potem w tworzeniu dokumentacji.
+
+#### Pinout
+
+Konfiguracja stm32l476 na nucleo wygląda następująco:
+(Należy updatować readme po konifguracji w cubemx)
+![CubeMx](docs/pinout.png)
+
+Pin PA5 // GPIO Output No Pull up /// odpowiada za diodę L2D (green)
+PC13 // // skonfigurowany od przycisk B1
+
+PC7, PA8, PB10, PB4, PB5 - Led array pins // muszą zostać skonfigurowane w cube mx
+
+
+
+### Znalezione Problemy
+
+##### LED Array:
+- nie działa dioda PC7
+- na diodzie PB4 odkłada się jakieś niskie napięcie co powoduje lekkie świecenie tej diody nawet w stanie reset
