@@ -8,7 +8,7 @@
  *
  */
 
-#include "../include/app_core.h"
+#include "app_core.h"
 
 void start()
 {
