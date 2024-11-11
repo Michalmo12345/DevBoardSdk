@@ -9,6 +9,7 @@
  */
 
 #include "app_core.h"
+#include "FreeRTOS.h"
 
 void start()
 {

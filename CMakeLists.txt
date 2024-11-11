@@ -35,7 +35,7 @@ project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Create an executable object type
-add_executable(${CMAKE_PROJECT_NAME})
+add_executable(${CMAKE_PROJECT_NAME} Core/Src/main.c) # idk if correct
 
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
@@ -80,3 +80,5 @@ set(FRAMEWORK_DIR
 )
 set(FRAMEWORK_LIB framework)
 add_subdirectory(${FRAMEWORK_DIR})
+
+# this framework includes need to be changed cause it doesnt work
