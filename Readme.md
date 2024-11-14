@@ -27,6 +27,11 @@ Pozwoli to wygenerować Doxygen-style komentarze:
 ```
 Przydatne potem w tworzeniu dokumentacji.
 
+### ToDo
+
+Mieć driver do SN74AHCT367PWR, pozwoli na sterownaie matrycą led i serwami.
+Ewentualnie prosy driver do wyświetlacza led ssd1306.
+
 #### Pinout
 
 Konfiguracja stm32l476 na nucleo wygląda następująco:
