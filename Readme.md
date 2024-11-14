@@ -31,6 +31,7 @@ Przydatne potem w tworzeniu dokumentacji.
 
 Konfiguracja stm32l476 na nucleo wygląda następująco:
 (Należy updatować readme po konifguracji w cubemx)
+
 ![CubeMx](docs/pinout.png)
 
 Pin PA5 // GPIO Output No Pull up /// odpowiada za diodę L2D (green)
@@ -45,3 +46,11 @@ PC7, PA8, PB10, PB4, PB5 - Led array pins // muszą zostać skonfigurowane w cub
 ##### LED Array:
 - nie działa dioda PC7
 - na diodzie PB4 odkłada się jakieś niskie napięcie co powoduje lekkie świecenie tej diody nawet w stanie reset
+
+#### Dokumentacja
+
+- Nieścisłości/błędy w oznaczeniach
+-i2c2 w dokumntacji to tak naprawdę i2c3, wskazane piny nie pozwalją na konfiguracj i2c2 tylko i2c3
+- analogicznie spi to tak naprawdę spi2 i spi2 to spi3
+
+`wydaje mi się ze to tylko kwestia nazewnictwa i nie powinno być problemów`
