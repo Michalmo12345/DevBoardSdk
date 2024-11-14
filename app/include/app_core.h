@@ -13,5 +13,5 @@
 #include "stm32l4xx_hal_def.h"
 #include "stm32l4xx_hal_gpio.h"
 // need to wrap it up later so it would be reusable for different platforms, developing in framework stm_headers.h
-
+void init_gpios(void);
 void start();

@@ -44,6 +44,10 @@ add_subdirectory(cmake/stm32cubemx)
 # Add other subdirectories
 add_subdirectory(app)
 
+set(FRAMEWORK_DIR ${CMAKE_SOURCE_DIR}/framework)
+
+# Add the framework library
+add_subdirectory(${FRAMEWORK_DIR})
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
@@ -61,24 +65,25 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 )
 
 # Add project symbols (macros)
+# we can use it to define multiple platforms
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined symbols
+    STM32L476xx
 )
 
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
     app_core
-    ${FRAMEWORK_LIB}
+    framework
     # Add user defined libraries
 )
 
 
-set(FRAMEWORK_DIR
-    ${CMAKE_SOURCE_DIR}/framework
-    CACHE INTERNAL " "
-)
-set(FRAMEWORK_LIB framework)
-add_subdirectory(${FRAMEWORK_DIR})
+# set(FRAMEWORK_DIR
+#     ${CMAKE_SOURCE_DIR}/framework
+#     CACHE INTERNAL " "
+# )
+# set(FRAMEWORK_LIB framework)
+# add_subdirectory(${FRAMEWORK_DIR})
 
 # this framework includes need to be changed cause it doesnt work

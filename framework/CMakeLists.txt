@@ -1,18 +1,10 @@
-cmake_minimum_required(VERSION 3.22)
-project(${FRAMEWORK_LIB})
+add_library(framework)
 
-set(FRAMEWORK_DIRS
-tools
-)
+target_sources(framework PRIVATE
+    gpio/Gpio.c)
 
-set(FRAMEWORK_LIBS ${FRAMEWORK_DIRS})
+target_include_directories(framework PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/gpio
+    ${CMAKE_CURRENT_SOURCE_DIR}/tools)
 
-foreach(dir IN LISTS FRAMEWORK_DIRS)
-    add_subdirectory(${dir})
-endforeach()
-
-add_library(${PROJECT_NAME} INTERFACE)
-
-target_link_libraries(${PROJECT_NAME} INTERFACE ${FRAMEWORK_LIBS})
-
-
+    target_link_libraries(framework PUBLIC stm32cubemx)

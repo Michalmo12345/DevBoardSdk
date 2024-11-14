@@ -27,6 +27,10 @@ Pozwoli to wygenerować Doxygen-style komentarze:
 ```
 Przydatne potem w tworzeniu dokumentacji.
 
+
+##### Framework
+
+Enkapsulacja operacji na peryferiach w interfejs
 ### ToDo
 
 Mieć driver do SN74AHCT367PWR, pozwoli na sterownaie matrycą led i serwami.

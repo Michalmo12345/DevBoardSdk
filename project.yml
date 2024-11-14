@@ -36,7 +36,7 @@
   :source:
     - app/src/**
   :include:
-    - app/inc/**
+    - app/include/**
   :support:
     - test/support
   :libraries: []

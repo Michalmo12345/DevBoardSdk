@@ -9,5 +9,16 @@
 
 #pragma once
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+
+// #if defined STM32L476xx
 #include "stm32l4xx.h"
 #include "stm32l4xx_hal_def.h"
+
+#define HAL_GPIO "stm32l4xx_hal_gpio.h"
+// define other peripherial headers
+// #else
+// #error "Unsupported platform"
+// #endif
+#pragma GCC diagnostic pop
