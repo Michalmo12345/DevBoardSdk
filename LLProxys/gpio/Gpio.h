@@ -24,7 +24,6 @@ typedef struct
 
 void gpio_initialize(Gpio *gpio, void *port, uint16_t pin);
 void gpio_configure(Gpio *gpio, void *port, uint16_t pin);
-// uint8_t gpio_access(const Gpio *gpio);
-// void gpio_set_pin(const Gpio *gpio);
-// void gpio_reset_pin(const Gpio *gpio);
-// void gpio_toggle_pin(const Gpio *gpio);
+int gpio_read(Gpio *gpio);
+void gpio_set(Gpio *gpio, int value);
+void gpio_reset_pin(Gpio *gpio, int value);

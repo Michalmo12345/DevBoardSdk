@@ -24,22 +24,18 @@ void gpio_configure(Gpio *gpio, void *port, uint16_t pin)
     gpio->pin = pin;
 }
 
-// uint8_t gpio_access(Gpio *gpio)
-// {
-//     return HAL_GPIO_ReadPin(gpio->port, gpio->pin);
-// }
+int gpio_read(Gpio *gpio)
+{
+    return HAL_GPIO_ReadPin(gpio->port, gpio->pin); // Użycie HAL do odczytu stanu pinu
+}
 
-// void gpio_set_pin(Gpio *gpio)
-// {
-//     HAL_GPIO_WritePin(gpio->port, gpio->pin, GPIO_PIN_SET);
-// }
+void gpio_set(Gpio *gpio, int value)
+{
+    HAL_GPIO_WritePin(gpio->port, gpio->pin, value);
+}
 
-// void gpio_reset_pin(Gpio *gpio)
-// {
-//     HAL_GPIO_WritePin(gpio->port, gpio->pin, GPIO_PIN_RESET);
-// }
+void gpio_reset_pin(Gpio *gpio, int value)
+{
+    HAL_GPIO_WritePin(gpio->port, gpio->pin, value);
+}
 
-// void gpio_toggle_pin(Gpio *gpio)
-// {
-//     HAL_GPIO_TogglePin(gpio->port, gpio->pin);
-// }
