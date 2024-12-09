@@ -11,7 +11,7 @@
 #include "app_core.h"
 #include "FreeRTOS.h"
 #include "main.h"
-#include "Gpio.h"
+#include "GpioProxy.h"
 
 // Gpio dig_led1;
 // Gpio dig_led2;

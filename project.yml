@@ -43,15 +43,16 @@
     # - Drivers/CMSIS/Device/ST/STM32L4xx/Include/**
     # - Core/Inc/**
     - LLProxys/gpio/**
+    - LLProxys/spi/**
   :support:
     - test/support
   :libraries: []
 
 :files:
   :source:
-    - LLProxys/gpio/Gpio.c
+    - LLProxys/gpio/GpioProxy.c
   # :include:
-  #   - LLProxys/gpio/Gpio.h
+  #   - LLProxys/gpio/GpioProxy.h
     
 
 :defines:

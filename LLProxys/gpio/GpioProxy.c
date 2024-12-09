@@ -8,7 +8,7 @@
  *
  */
 
-#include "Gpio.h"
+#include "GpioProxy.h"
 #include "main.h"
 
 void gpio_initialize(Gpio *gpio, void *port, uint16_t pin)
@@ -38,4 +38,3 @@ void gpio_reset_pin(Gpio *gpio, int value)
 {
     HAL_GPIO_WritePin(gpio->port, gpio->pin, value);
 }
-
