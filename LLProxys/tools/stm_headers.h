@@ -17,6 +17,8 @@
 #include "stm32l4xx_hal_def.h"
 
 #define HAL_GPIO "stm32l4xx_hal_gpio.h"
+#define HAL_SPI "stm32l4xx_hal_spi.h"
+
 // define other peripherial headers
 // #else
 // #error "Unsupported platform"

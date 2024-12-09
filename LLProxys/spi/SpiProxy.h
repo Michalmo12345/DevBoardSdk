@@ -10,8 +10,3 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-
-typedef struct
-{
-    void *spi_handle;
-} SpiProxy;

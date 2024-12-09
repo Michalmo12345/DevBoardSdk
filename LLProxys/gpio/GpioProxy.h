@@ -20,10 +20,11 @@ typedef struct
 {
     void *port;
     uint16_t pin;
+
+    void (*initialize)(void *self, void *port, uint16_t pin);
+    int (*read)(void *self);
+    void (*set)(void *self, int value);
+    void (*reset)(void *self, int value);
 } Gpio;
 
-void gpio_initialize(Gpio *gpio, void *port, uint16_t pin);
-void gpio_configure(Gpio *gpio, void *port, uint16_t pin);
-int gpio_read(Gpio *gpio);
-void gpio_set(Gpio *gpio, int value);
-void gpio_reset_pin(Gpio *gpio, int value);
+void gpio_init(Gpio *gpio);

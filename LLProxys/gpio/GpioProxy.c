@@ -11,30 +11,36 @@
 #include "GpioProxy.h"
 #include "main.h"
 
-void gpio_initialize(Gpio *gpio, void *port, uint16_t pin)
+static void gpio_initialize(void *self, void *port, uint16_t pin)
 {
+    Gpio *gpio = (Gpio *)self;
     gpio->port = port;
     gpio->pin = pin;
 }
 
-// Configure a GPIO pin
-void gpio_configure(Gpio *gpio, void *port, uint16_t pin)
+static int gpio_read(void *self)
 {
-    gpio->port = port;
-    gpio->pin = pin;
+    Gpio *gpio = (Gpio *)self;
+    int value = HAL_GPIO_ReadPin(gpio->port, gpio->pin);
+    return value;
 }
 
-int gpio_read(Gpio *gpio)
+static void gpio_set(void *self, int value)
 {
-    return HAL_GPIO_ReadPin(gpio->port, gpio->pin); // Użycie HAL do odczytu stanu pinu
-}
-
-void gpio_set(Gpio *gpio, int value)
-{
+    Gpio *gpio = (Gpio *)self;
     HAL_GPIO_WritePin(gpio->port, gpio->pin, value);
 }
 
-void gpio_reset_pin(Gpio *gpio, int value)
+static void gpio_reset(void *self, int value)
 {
+    Gpio *gpio = (Gpio *)self;
     HAL_GPIO_WritePin(gpio->port, gpio->pin, value);
+}
+
+void gpio_init(Gpio *gpio)
+{
+    gpio->initialize = gpio_initialize;
+    gpio->read = gpio_read;
+    gpio->set = gpio_set;
+    gpio->reset = gpio_reset;
 }
