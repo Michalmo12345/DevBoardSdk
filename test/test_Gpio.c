@@ -14,49 +14,19 @@ void tearDown(void)
     mock_GpioProxy_Destroy();
 }
 
-// void setUp(void)
-// {
-//     mock_hal_Init();
-// }
-
-// void tearDown(void)
-// {
-//     mock_hal_Destroy();
-// }
-
-void test_initialize_should_set_port_and_pin(void)
+void test_gpio_configure_should_set_port_and_pin(void)
 {
+    // Arrange
     Gpio gpio;
+    gpio_init(&gpio);
+
     void *dummy_port = (void *)0x12345678;
+    uint16_t dummy_pin = 42;
 
-    gpio_initialize_Expect(&gpio, dummy_port, 42);
+    // Act
+    gpio.configure(&gpio, dummy_port, dummy_pin);
 
-    gpio_initialize(&gpio, dummy_port, 42);
-
-    mock_GpioProxy_Verify();
+    // Assert
+    TEST_ASSERT_EQUAL_PTR(dummy_port, gpio.port);
+    TEST_ASSERT_EQUAL_UINT16(dummy_pin, gpio.pin);
 }
-// void test_gpio_set_should_call_HAL_GPIO_WritePin(void)
-// {
-//     Gpio gpio;
-//     gpio_initialize(&gpio, (void *)0x12345678, 42);
-
-//     HAL_GPIO_WritePin_Expect(gpio.port, gpio.pin, 1);
-
-//     gpio_set(&gpio, 1);
-
-//     mock_hal_Verify();
-// }
-
-// void test_gpio_read_should_call_HAL_GPIO_ReadPin(void)
-// {
-//     Gpio gpio;
-//     gpio_initialize(&gpio, (void *)0x12345678, 42);
-
-//     HAL_GPIO_ReadPin_ExpectAndReturn(gpio.port, gpio.pin, 1);
-
-//     int value = gpio_read(&gpio);
-
-//     TEST_ASSERT_EQUAL(1, value);
-
-//     mock_hal_Verify();
-// }

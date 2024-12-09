@@ -11,7 +11,7 @@
 #include "GpioProxy.h"
 #include "main.h"
 
-static void gpio_initialize(void *self, void *port, uint16_t pin)
+static void gpio_configure(void *self, void *port, uint16_t pin)
 {
     Gpio *gpio = (Gpio *)self;
     gpio->port = port;
@@ -39,7 +39,7 @@ static void gpio_reset(void *self, int value)
 
 void gpio_init(Gpio *gpio)
 {
-    gpio->initialize = gpio_initialize;
+    gpio->configure = gpio_configure;
     gpio->read = gpio_read;
     gpio->set = gpio_set;
     gpio->reset = gpio_reset;

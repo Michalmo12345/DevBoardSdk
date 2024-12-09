@@ -21,7 +21,7 @@ typedef struct
     void *port;
     uint16_t pin;
 
-    void (*initialize)(void *self, void *port, uint16_t pin);
+    void (*configure)(void *self, void *port, uint16_t pin);
     int (*read)(void *self);
     void (*set)(void *self, int value);
     void (*reset)(void *self, int value);

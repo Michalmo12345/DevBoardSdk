@@ -16,7 +16,7 @@
 #include "stm_headers.h"
 #include HAL_SPI
 
-void Test_SPI_Communication(void)
+void Test_SPI_Communication(Gpio *led1, Gpio *led2, Gpio *led3, Gpio *csPinSpi1)
 {
     extern SPI_HandleTypeDef hspi1;
 
@@ -26,30 +26,54 @@ void Test_SPI_Communication(void)
     HAL_SPI_Transmit(&hspi1, &txData, 1, HAL_MAX_DELAY);
 
     HAL_SPI_Receive(&hspi1, &rxData, 1, HAL_MAX_DELAY);
+    if (HAL_SPI_Transmit(&hspi1, &txData, 1, HAL_MAX_DELAY) != HAL_OK)
+    {
+        led2->set(&led2, GPIO_PIN_SET);
+    }
+    if (HAL_SPI_Receive(&hspi1, &rxData, 1, HAL_MAX_DELAY) != HAL_OK)
+    {
+        led3->set(&led3, GPIO_PIN_SET);
+    }
     if (rxData == txData)
     {
+        led1->set(&led1, GPIO_PIN_SET);
     }
     else
     {
+        led1->set(&led1, GPIO_PIN_RESET);
     }
-    HAL_Delay(100);
 }
 
 void start()
 {
 
     // just tests
-    // Gpio led1;
-    // Gpio led2;
-    // Gpio led3;
+    Gpio led1;
+    Gpio led2;
+    Gpio led3;
 
-    // gpio_initialize(&led1, DIG_LED1_GPIO_Port, DIG_LED1_Pin);
-    // gpio_initialize(&led2, DIG_LED2_GPIO_Port, DIG_LED2_Pin);
-    // gpio_initialize(&led3, DIG_LED3_GPIO_Port, DIG_LED3_Pin);
+    Gpio csPinSpi1;
 
-        while (1)
+    gpio_init(&led1);
+    gpio_init(&led2);
+    gpio_init(&led3);
+    gpio_init(&csPinSpi1);
+
+    led1.configure(&led1, DIG_LED1_GPIO_Port, DIG_LED1_Pin);
+    led2.configure(&led2, DIG_LED2_GPIO_Port, DIG_LED2_Pin);
+    led3.configure(&led3, DIG_LED3_GPIO_Port, DIG_LED3_Pin);
+
+    csPinSpi1.configure(&csPinSpi1, SPI1_CS_GPIO_Port, SPI1_CS_Pin);
+
+    led1.set(&led1, GPIO_PIN_RESET);
+    led2.set(&led2, GPIO_PIN_RESET);
+    led3.set(&led3, GPIO_PIN_RESET);
+
+    csPinSpi1.set(&csPinSpi1, GPIO_PIN_RESET);
+
+    while (1)
     {
-
-        HAL_Delay(100);
+        Test_SPI_Communication(&led1, &led2, &led3, &csPinSpi1);
+        HAL_Delay(500);
     }
 }
