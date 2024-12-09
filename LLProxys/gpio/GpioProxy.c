@@ -1,8 +1,8 @@
 
 /**
- * @file Gpio.c
+ * @file GpioProxy.c
  * @author Michał Mokrzycki
- * @brief Framework for Gpio
+ * @brief ProxyFramework for Gpio
  * @date 2024-11-14
 
  *
