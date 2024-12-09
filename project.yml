@@ -34,12 +34,24 @@
     - +:test/**
     - -:test/support
   :source:
-    - app/src/**
+    - +:app/src/**
+    - +:Drivers/STM32L4xx_HAL_Driver/Src/**
+    - +:Core/Src/**
   :include:
     - app/include/**
+    - Drivers/STM32L4xx_HAL_Driver/Inc/**
+    - Drivers/CMSIS/Device/ST/STM32L4xx/Include/**
+    - Core/Inc/**
   :support:
     - test/support
   :libraries: []
+
+:files:
+  :source:
+    - +:LLProxys/gpio/Gpio.c
+  :include:
+    - +:LLProxys/gpio/Gpio.h
+    - +:LLProxys/tools/stm_headers.h
 
 :defines:
   # in order to add common defines:

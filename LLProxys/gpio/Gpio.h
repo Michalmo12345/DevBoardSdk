@@ -10,8 +10,10 @@
 
 #pragma once
 
-#include "stm_headers.h"
-#include HAL_GPIO
+// #include "stm_headers.h"
+//  #include HAL_GPIO
+#include "stm32l4xx.h"
+#include "stm32l4xx_hal_def.h"
 
 typedef struct
 {
