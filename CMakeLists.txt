@@ -46,9 +46,10 @@ add_subdirectory(app)
 
 set(LLPROXYS_DIR ${CMAKE_SOURCE_DIR}/LLProxys )
 
+set(HLPROXYS_DIR ${CMAKE_SOURCE_DIR}/HLProxys )
 # Add the framework library
 add_subdirectory(${LLPROXYS_DIR})
-
+add_subdirectory(${HLPROXYS_DIR})
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
@@ -75,6 +76,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
     app_core
     LLProxys 
+    HLProxys
     # Add user defined libraries
 )
 
