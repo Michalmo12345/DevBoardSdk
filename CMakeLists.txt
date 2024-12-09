@@ -44,10 +44,10 @@ add_subdirectory(cmake/stm32cubemx)
 # Add other subdirectories
 add_subdirectory(app)
 
-set(FRAMEWORK_DIR ${CMAKE_SOURCE_DIR}/framework)
+set(LLPROXYS_DIR ${CMAKE_SOURCE_DIR}/LLProxys )
 
 # Add the framework library
-add_subdirectory(${FRAMEWORK_DIR})
+add_subdirectory(${LLPROXYS_DIR})
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
@@ -74,7 +74,7 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
     app_core
-    framework
+    LLProxys 
     # Add user defined libraries
 )
 

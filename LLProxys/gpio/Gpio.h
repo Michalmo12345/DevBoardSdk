@@ -19,9 +19,9 @@ typedef struct
     uint16_t pin;
 } Gpio;
 
+void gpio_initialize(Gpio *gpio, GPIO_TypeDef *port, uint16_t pin);
+void gpio_configure(Gpio *gpio, GPIO_TypeDef *port, uint16_t pin);
+uint8_t gpio_access(Gpio *gpio);
 void gpio_set_pin(Gpio *gpio);
 void gpio_reset_pin(Gpio *gpio);
 void gpio_toggle_pin(Gpio *gpio);
-void init_builtin_led(void);
-// test function used for toggling nucleo led
-void toggle_builtin_led(void);
