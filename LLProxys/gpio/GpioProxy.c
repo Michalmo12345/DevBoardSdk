@@ -25,16 +25,16 @@ static int gpio_read(void *self)
     return value;
 }
 
-static void gpio_set(void *self, int value)
+static void gpio_set(void *self)
 {
     Gpio *gpio = (Gpio *)self;
-    HAL_GPIO_WritePin(gpio->port, gpio->pin, value);
+    HAL_GPIO_WritePin(gpio->port, gpio->pin, GPIO_PIN_SET);
 }
 
-static void gpio_reset(void *self, int value)
+static void gpio_reset(void *self)
 {
     Gpio *gpio = (Gpio *)self;
-    HAL_GPIO_WritePin(gpio->port, gpio->pin, value);
+    HAL_GPIO_WritePin(gpio->port, gpio->pin, GPIO_PIN_RESET);
 }
 
 void gpio_init(Gpio *gpio)

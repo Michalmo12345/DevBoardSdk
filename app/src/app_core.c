@@ -28,19 +28,19 @@ void Test_SPI_Communication(Gpio *led1, Gpio *led2, Gpio *led3, Gpio *csPinSpi1)
     HAL_SPI_Receive(&hspi1, &rxData, 1, HAL_MAX_DELAY);
     if (HAL_SPI_Transmit(&hspi1, &txData, 1, HAL_MAX_DELAY) != HAL_OK)
     {
-        led2->set(&led2, GPIO_PIN_SET);
+        led2->set(&led2);
     }
     if (HAL_SPI_Receive(&hspi1, &rxData, 1, HAL_MAX_DELAY) != HAL_OK)
     {
-        led3->set(&led3, GPIO_PIN_SET);
+        led3->set(&led3);
     }
     if (rxData == txData)
     {
-        led1->set(&led1, GPIO_PIN_SET);
+        led1->set(&led1);
     }
     else
     {
-        led1->set(&led1, GPIO_PIN_RESET);
+        led1->reset(&led1);
     }
 }
 
@@ -65,11 +65,11 @@ void start()
 
     csPinSpi1.configure(&csPinSpi1, SPI1_CS_GPIO_Port, SPI1_CS_Pin);
 
-    led1.set(&led1, GPIO_PIN_RESET);
-    led2.set(&led2, GPIO_PIN_RESET);
-    led3.set(&led3, GPIO_PIN_RESET);
+    led1.reset(&led1);
+    led2.reset(&led2);
+    led3.reset(&led3);
 
-    csPinSpi1.set(&csPinSpi1, GPIO_PIN_RESET);
+    csPinSpi1.reset(&csPinSpi1);
 
     while (1)
     {

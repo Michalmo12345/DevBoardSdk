@@ -8,7 +8,8 @@
  *
  */
 
-#pragma once
+#ifndef GPIO_H
+#define GPIO_H
 
 #include <stdint.h>
 // #include "stm_headers.h"
@@ -23,8 +24,10 @@ typedef struct
 
     void (*configure)(void *self, void *port, uint16_t pin);
     int (*read)(void *self);
-    void (*set)(void *self, int value);
-    void (*reset)(void *self, int value);
+    void (*set)(void *self);
+    void (*reset)(void *self);
 } Gpio;
 
 void gpio_init(Gpio *gpio);
+
+#endif // GPIO_H
