@@ -14,6 +14,7 @@
 #include "GpioProxy.h"
 #include "LedMatrixProxy.h"
 #include "stm_headers.h"
+#include  "Mediator.h"
 #include HAL_SPI
 
 void Test_SPI_Communication(Gpio *led1, Gpio *led2, Gpio *led3, Gpio *csPinSpi1)
