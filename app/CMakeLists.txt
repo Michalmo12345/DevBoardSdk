@@ -4,7 +4,9 @@ project(app)
 include_directories(include)
 
 
-add_library(app_core src/app_core.c)
+add_library(app_core 
+src/app_core.c
+src/Mediator.c)
 
 target_include_directories(app_core PUBLIC include)
 

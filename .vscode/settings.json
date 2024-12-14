@@ -2,6 +2,8 @@
     "files.associations": {
         "freertos.h": "c",
         "gpioproxy.h": "c",
-        "ledmatrixproxy.h": "c"
+        "ledmatrixproxy.h": "c",
+        "cstdlib": "c",
+        "basehlproxymock.h": "c"
     }
 }

@@ -41,6 +41,7 @@
     - app/include/**
     - +:LLProxys/gpio/**
     - +:LLProxys/spi/**
+    - HLProxys/**
     # - -:LLProxys/gpio/**/*.c
     # - +:LLProxys/spi/**/*.h
   :support:
