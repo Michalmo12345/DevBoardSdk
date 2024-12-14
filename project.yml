@@ -37,6 +37,7 @@
     - +:app/src/**
     - +:LLProxys/gpio/**/*.c      # Tylko pliki .c z gpio
     - +:LLProxys/spi/**/*.c 
+    - +:HLProxys/**/*.c
   :include:
     - app/include/**
     - +:LLProxys/gpio/**
