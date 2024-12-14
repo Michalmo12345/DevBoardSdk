@@ -25,7 +25,7 @@ void mediator_register_proxy(Mediator* mediator, BaseHLProxy* proxy)
         mediator->hlProxies = (BaseHLProxy**)realloc(mediator->hlProxies, 
                                       (mediator->hlProxiesCount + 1) * sizeof(BaseHLProxy*));
         if (mediator->hlProxies == NULL) {
-            // Obsługa błędu: brak pamięci
+            // handle error
             return;
         }
     }
@@ -34,6 +34,16 @@ void mediator_register_proxy(Mediator* mediator, BaseHLProxy* proxy)
     mediator->hlProxiesCount++;
 }
 
+void mediator_notify(Mediator* mediator, const char* action, const char* proxy_name)
+{
+    for (size_t i = 0; i < mediator->hlProxiesCount; i++) {
+        BaseHLProxy* proxy = mediator->hlProxies[i];
+
+        if (proxy && proxy->execute && proxy->name == proxy_name) {
+            proxy->execute(proxy, action);
+        }
+    }
+}
 
 void mediator_shutdown(Mediator* mediator)
 {

@@ -72,6 +72,14 @@ void start()
 
     csPinSpi1.reset(&csPinSpi1);
 
+
+    //  mediator test
+
+    Mediator mediator;
+    mediator.init(&mediator);
+
+    mediator.shutdown(&mediator);
+
     while (1)
     {
         Test_SPI_Communication(&led1, &led2, &led3, &csPinSpi1);

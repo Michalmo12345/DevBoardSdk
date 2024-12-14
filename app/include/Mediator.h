@@ -3,6 +3,8 @@
 
 
 #include <stdint.h>
+#include <stdlib.h>
+#include <stddef.h>
 #include "BaseHLProxy.h"
 
 
@@ -12,6 +14,7 @@ typedef struct Mediator
 {
     BaseHLProxy** hlProxies;
     size_t hlProxiesCount;
+    void (*init)(struct Mediator*);
     void (*register_proxy)(struct Mediator* , BaseHLProxy*);
     void (*notify)(struct Mediator*, const char*, const char*);
     void (*shutdown)(struct Mediator* );
