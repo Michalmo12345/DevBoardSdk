@@ -6,7 +6,7 @@
 #include "BaseHLProxy.h"
 
 
-
+#define INIT_HL_PROXIES_COUNT 10
 
 typedef struct Mediator
 {
@@ -17,5 +17,10 @@ typedef struct Mediator
     void (*shutdown)(struct Mediator* );
 } Mediator;
 
+
+void mediator_init(Mediator* mediator);
+void mediator_register_proxy(Mediator* mediator, BaseHLProxy* proxy);
+void mediator_notify(Mediator* mediator, const char* action, const char* proxy_name);
+void mediator_shutdown(Mediator* mediator);
 
 #endif // MEDIATOR_H
