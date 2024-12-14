@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "ssd1306.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -104,7 +105,9 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
-
+  ssd1306_Init();
+  ssd1306_Fill(White);
+  ssd1306_UpdateScreen();
   start();
   /* USER CODE END 2 */
 
