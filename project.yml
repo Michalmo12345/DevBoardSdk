@@ -34,12 +34,25 @@
     - +:test/**
     - -:test/support
   :source:
-    - app/src/**
+    - +:app/src/**
+    - +:LLProxys/gpio/**/*.c      # Tylko pliki .c z gpio
+    - +:LLProxys/spi/**/*.c 
   :include:
     - app/include/**
+    - +:LLProxys/gpio/**
+    - +:LLProxys/spi/**
+    # - -:LLProxys/gpio/**/*.c
+    # - +:LLProxys/spi/**/*.h
   :support:
     - test/support
   :libraries: []
+
+# :files:
+#   :source:
+#     - LLProxys/gpio/GpioProxy.c
+#   :include:
+#     - LLProxys/gpio/GpioProxy.h
+    
 
 :defines:
   # in order to add common defines:

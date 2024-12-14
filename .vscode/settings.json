@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "freertos.h": "c"
+        "freertos.h": "c",
+        "gpioproxy.h": "c",
+        "ledmatrixproxy.h": "c"
     }
 }
