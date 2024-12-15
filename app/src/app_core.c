@@ -84,7 +84,6 @@ void start()
     
     while (1)
     {
-        
         ssd1306_Fill(Black);
         ssd1306_SetCursor(2, 2);
         ssd1306_WriteString("World", Font_11x18, White);

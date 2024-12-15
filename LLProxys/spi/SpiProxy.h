@@ -5,8 +5,26 @@
  * @date 2024-12-09
  */
 
-#pragma once
+#ifndef SPIPROXY_H
+#define SPIPROXY_H
 
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+
+typedef struct
+{
+    void *spi_handle;
+    void *csPort;
+    uint16_t csPin;
+
+    void (*configure)(void *self, void *spi_handle, void *csPort, uint16_t csPin);
+
+    void (*transmit)(void *self, uint8_t *data, uint16_t size);
+    void (*receive)(void *self, uint8_t *data, uint16_t size);
+    void (*transmit_receive)(void *self, uint8_t *txData, uint8_t *rxData, uint16_t size);
+
+} Spi;
+
+void spi_init(Spi *spi);
+#endif // SPIPROXY_H

@@ -8,14 +8,10 @@
  *
  */
 
-#ifndef GPIO_H
-#define GPIO_H
+#ifndef GPIOPROXY_H
+#define GPIOPROXY_H
 
 #include <stdint.h>
-// #include "stm_headers.h"
-//  #include HAL_GPIO
-// #include "stm32l4xx.h"
-// #include "stm32l4xx_hal_def.h"
 
 typedef struct
 {

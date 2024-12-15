@@ -1,3 +1,12 @@
+/**
+ * @file Mediator.c
+ * @author Michał Mokrzycki
+ * @brief Mediator  (manager) class for communciation between HLProxies and main application 
+ * @date 2024-12-15
+
+ */
+
+
 #include "Mediator.h"
 
 
