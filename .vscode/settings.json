@@ -11,6 +11,7 @@
         "spiproxymock.h": "c",
         "cstdint": "c",
         "compare": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "string.h": "c"
     }
 }

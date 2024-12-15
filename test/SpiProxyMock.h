@@ -19,6 +19,6 @@ extern void *mock_csPort;
 extern uint16_t mock_csPin;
 
 extern size_t mock_size;
-extern uint16_t mock_data[1024];
+extern uint8_t mock_data[256];
 
 void spi_mock_init(Spi *spi);

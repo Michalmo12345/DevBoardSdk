@@ -16,7 +16,7 @@ uint16_t mock_csPin = 0;
 // extern size_t mock_size;
 // extern uint8_t mock_data[256];
 size_t mock_size = 0;    
-uint16_t mock_data[1024];  
+uint8_t mock_data[256];  
 
 
 static void mock_spi_configure(void *self, void *spi_handle, void *csPort, uint16_t csPin)
@@ -38,12 +38,21 @@ static void mock_spi_transmit(void *self, uint8_t *data, size_t size)
 
 static void mock_spi_receive(void *self, uint8_t *data, size_t size)
 {
-    printf("Mock SPI Receive\n");
+    mock_size = size;
+
+    for (size_t i = 0; i < size; ++i) {
+        data[i] = mock_data[i];
+    }
 }
 
 static void mock_spi_transmit_receive(void *self, uint8_t *txData, uint8_t *rxData, size_t size)
 {
-    printf("Mock SPI Transmit Receive\n");
+    mock_size = size;
+
+    for (size_t i = 0; i < size; ++i) {
+        mock_data[i] = txData[i];
+        rxData[i] = txData[i];
+    }
 }
 
 static void mock_spi_set_cs(void *self, uint16_t state)

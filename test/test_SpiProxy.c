@@ -5,7 +5,7 @@
 #include <string.h>
 
 extern size_t mock_size;
-extern uint16_t mock_data[1024];
+extern uint8_t mock_data[256];
 
 void setUp(void)
 {
@@ -72,6 +72,39 @@ void test_spi_should_transmit_data(void)
     TEST_ASSERT_EQUAL_UINT8(0x03, mock_data[2]);
     TEST_ASSERT_EQUAL_UINT8(dummy_size, mock_size);
 
-
 }
 
+void test_spi_should_receive_data(void)
+{
+    Spi spi;
+    spi_mock_init(&spi);
+
+    uint8_t dummy_data[] = {0x01, 0x02, 0x03};
+    size_t dummy_size = sizeof(dummy_data);
+
+    spi.receive(&spi, dummy_data, dummy_size);
+
+    TEST_ASSERT_EQUAL_UINT8(0x01, dummy_data[0]);
+    TEST_ASSERT_EQUAL_UINT8(0x02, dummy_data[1]);
+    TEST_ASSERT_EQUAL_UINT8(0x03, dummy_data[2]);
+    TEST_ASSERT_EQUAL_UINT8(dummy_size, mock_size);
+}
+
+void test_spi_should_transmit_and_receive_data(void)
+{
+    Spi spi;
+    spi_mock_init(&spi);
+
+    uint8_t dummy_data[] = {0x01, 0x02, 0x03};
+    size_t dummy_size = sizeof(dummy_data);
+
+    spi.transmit_receive(&spi, dummy_data, dummy_data, dummy_size);
+
+    TEST_ASSERT_EQUAL_UINT8(0x01, mock_data[0]);
+    TEST_ASSERT_EQUAL_UINT8(0x02, mock_data[1]);
+    TEST_ASSERT_EQUAL_UINT8(0x03, mock_data[2]);
+    TEST_ASSERT_EQUAL_UINT8(dummy_size, mock_size);
+    TEST_ASSERT_EQUAL_UINT8(0x01, dummy_data[0]);
+    TEST_ASSERT_EQUAL_UINT8(0x02, dummy_data[1]);
+    TEST_ASSERT_EQUAL_UINT8(0x03, dummy_data[2]);
+}
