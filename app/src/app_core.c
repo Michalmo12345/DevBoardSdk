@@ -15,6 +15,8 @@
 #include "LedMatrixProxy.h"
 #include "stm_headers.h"
 #include  "Mediator.h"
+#include "ssd1306.h"
+#include "ssd1306_fonts.h"
 #include HAL_SPI
 
 void Test_SPI_Communication(Gpio *led1, Gpio *led2, Gpio *led3, Gpio *csPinSpi1)
@@ -49,40 +51,49 @@ void start()
 {
 
     // just tests
-    Gpio led1;
-    Gpio led2;
-    Gpio led3;
+    // Gpio led1;
+    // Gpio led2;
+    // Gpio led3;
 
-    Gpio csPinSpi1;
+    // Gpio csPinSpi1;
 
-    gpio_init(&led1);
-    gpio_init(&led2);
-    gpio_init(&led3);
-    gpio_init(&csPinSpi1);
+    // gpio_init(&led1);
+    // gpio_init(&led2);
+    // gpio_init(&led3);
+    // gpio_init(&csPinSpi1);
 
-    led1.configure(&led1, DIG_LED1_GPIO_Port, DIG_LED1_Pin);
-    led2.configure(&led2, DIG_LED2_GPIO_Port, DIG_LED2_Pin);
-    led3.configure(&led3, DIG_LED3_GPIO_Port, DIG_LED3_Pin);
+    // led1.configure(&led1, DIG_LED1_GPIO_Port, DIG_LED1_Pin);
+    // led2.configure(&led2, DIG_LED2_GPIO_Port, DIG_LED2_Pin);
+    // led3.configure(&led3, DIG_LED3_GPIO_Port, DIG_LED3_Pin);
 
-    csPinSpi1.configure(&csPinSpi1, SPI1_CS_GPIO_Port, SPI1_CS_Pin);
+    // csPinSpi1.configure(&csPinSpi1, SPI1_CS_GPIO_Port, SPI1_CS_Pin);
 
-    led1.reset(&led1);
-    led2.reset(&led2);
-    led3.reset(&led3);
+    // led1.reset(&led1);
+    // led2.reset(&led2);
+    // led3.reset(&led3);
 
-    csPinSpi1.reset(&csPinSpi1);
+    // csPinSpi1.reset(&csPinSpi1);
 
 
-    //  mediator test
+    // //  mediator test
 
-    Mediator mediator;
-    mediator.init(&mediator);
+    // Mediator mediator;
+    // mediator.init(&mediator);
 
-    mediator.shutdown(&mediator);
-
+    // mediator.shutdown(&mediator);
+    
     while (1)
     {
-        Test_SPI_Communication(&led1, &led2, &led3, &csPinSpi1);
+        
+        ssd1306_Fill(Black);
+        ssd1306_SetCursor(2, 2);
+        ssd1306_WriteString("World", Font_11x18, White);
+        ssd1306_UpdateScreen();
+        HAL_Delay(500);
+        ssd1306_Fill(White);
+        ssd1306_SetCursor(2, 2);
+        ssd1306_WriteString("Hello", Font_11x18, Black);
+        ssd1306_UpdateScreen();
         HAL_Delay(500);
     }
 }

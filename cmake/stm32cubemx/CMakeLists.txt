@@ -72,6 +72,9 @@ target_link_directories(stm32cubemx INTERFACE
 )
 
 target_link_libraries(stm32cubemx INTERFACE
+app_core
+LLProxys
+HLProxys
 )
 
 # Validate that STM32CubeMX code is compatible with C standard

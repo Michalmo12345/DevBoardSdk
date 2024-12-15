@@ -4,6 +4,8 @@
         "gpioproxy.h": "c",
         "ledmatrixproxy.h": "c",
         "cstdlib": "c",
-        "basehlproxymock.h": "c"
+        "basehlproxymock.h": "c",
+        "ssd1306.h": "c",
+        "ssd1306_fonts.h": "c"
     }
 }
