@@ -86,12 +86,12 @@ void start()
     {
         ssd1306_Fill(Black);
         ssd1306_SetCursor(2, 2);
-        ssd1306_WriteString("World", Font_11x18, White);
+        ssd1306_WriteString("Hello", Font_11x18, White);
         ssd1306_UpdateScreen();
         HAL_Delay(500);
         ssd1306_Fill(White);
         ssd1306_SetCursor(2, 2);
-        ssd1306_WriteString("Hello", Font_11x18, Black);
+        ssd1306_WriteString("World",Font_11x18, Black);
         ssd1306_UpdateScreen();
         HAL_Delay(500);
     }

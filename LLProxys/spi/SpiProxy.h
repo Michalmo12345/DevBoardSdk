@@ -22,6 +22,7 @@ typedef struct
 
     void (*transmit)(void *self, uint8_t *data, size_t size);
     void (*receive)(void *self, uint8_t *data, size_t size);
+    void (*set_cs)(void *self, uint16_t state);
     void (*transmit_receive)(void *self, uint8_t *txData, uint8_t *rxData, size_t size);
 
 } Spi;

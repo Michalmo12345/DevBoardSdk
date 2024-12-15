@@ -9,5 +9,5 @@ target_include_directories(LLProxys  PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/spi
     ${CMAKE_CURRENT_SOURCE_DIR}/tools)
 
-    target_link_libraries(LLProxys PUBLIC stm32cubemx)
+target_link_libraries(LLProxys PUBLIC stm32cubemx)
 
