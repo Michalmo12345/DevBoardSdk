@@ -34,7 +34,7 @@ Enkapsulacja operacji na peryferiach w interfejs
 ### ToDo
 
 Mieć driver do SN74AHCT367PWR, pozwoli na sterownaie matrycą led i serwami.
-Ewentualnie prosy driver do wyświetlacza led ssd1306.
+Ewentualnie prosty driver do wyświetlacza led ssd1306.
 
 #### Pinout
 
@@ -45,11 +45,10 @@ Konfiguracja stm32l476 na nucleo wygląda następująco:
 
 
 
+
+
 ### Znalezione Problemy
 
-##### LED Array:
-- nie działa dioda PC7
-- na diodzie PB4 odkłada się jakieś niskie napięcie co powoduje lekkie świecenie tej diody nawet w stanie reset
 
 #### Dokumentacja
 
@@ -58,3 +57,11 @@ Konfiguracja stm32l476 na nucleo wygląda następująco:
 - spi2 to spi3
 
 `wydaje mi się ze to tylko kwestia nazewnictwa i nie powinno być problemów`
+
+
+### Zaincludowane dirvery i biblioteki
+
+#### Biblioteka to wyświetlacza OLED
+Wszystkie zmiany wprowadzamy w napisanym pliku ssd1306_conf.h
+Ustalamy tam m.in
+- szerokość  i syokośc  ekranu

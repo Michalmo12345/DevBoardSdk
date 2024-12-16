@@ -1,3 +1,11 @@
+/**
+ * @file Mediator.h
+ * @author Michał Mokrzycki
+ * @brief Mediator  (manager) class for communciation between HLProxies and main application
+ * @date 2024-12-15
+ */
+
+
 #ifndef MEDIATOR_H
 #define MEDIATOR_H
 
@@ -5,6 +13,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stddef.h>
+
 #include "BaseHLProxy.h"
 
 

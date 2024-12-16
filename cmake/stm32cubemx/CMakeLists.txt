@@ -21,6 +21,7 @@ target_include_directories(stm32cubemx INTERFACE
     ../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
     ../../Drivers/CMSIS/Device/ST/STM32L4xx/Include
     ../../Drivers/CMSIS/Include
+    ../../Drivers/OLedDriver/Include
 )
 
 target_sources(stm32cubemx INTERFACE
@@ -62,12 +63,18 @@ target_sources(stm32cubemx INTERFACE
     ../../Core/Src/sysmem.c
     ../../Core/Src/syscalls.c
     ../../startup_stm32l476xx.s
+    ../../Drivers/OLedDriver/Src/ssd1306.c
+    ../../Drivers/OLedDriver/Src/ssd1306_fonts.c
+    ../../Drivers/OLedDriver/Src/ssd1306_tests.c
 )
 
 target_link_directories(stm32cubemx INTERFACE
 )
 
 target_link_libraries(stm32cubemx INTERFACE
+app_core
+LLProxys
+HLProxys
 )
 
 # Validate that STM32CubeMX code is compatible with C standard

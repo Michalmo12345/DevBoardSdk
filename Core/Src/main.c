@@ -19,7 +19,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
-
+#include "stm_headers.h"
+#include OLED_DRIVER
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "../../app/include/app_core.h"
@@ -104,7 +105,7 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
-
+  ssd1306_Init();
   start();
   /* USER CODE END 2 */
 
