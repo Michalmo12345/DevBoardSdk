@@ -22,4 +22,6 @@ typedef struct BaseHLProxy
     void (*shutdown)(struct BaseHLProxy *);
 } BaseHLProxy;
 
+
+
 #endif // BASEHLPROXY_H
