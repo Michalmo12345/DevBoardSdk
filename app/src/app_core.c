@@ -9,17 +9,18 @@
  */
 
 #include "app_core.h"
+
 #include "FreeRTOS.h"
-#include "main.h"
 #include "GpioProxy.h"
-#include "SpiProxy.h"
 #include "LedMatrixProxy.h"
-#include "stm_headers.h"
 #include "Mediator.h"
+#include "SpiProxy.h"
+#include "main.h"
 #include "ssd1306.h"
 #include "ssd1306_fonts.h"
+#include "stdio.h"
+#include "stm_headers.h"
 #include HAL_SPI
-
 
 void start()
 {
@@ -50,38 +51,35 @@ void start()
 
     // csPinSpi1.reset(&csPinSpi1);
 
-
     // //  mediator test
 
     // Mediator mediator;
     // mediator.init(&mediator);
 
     // mediator.shutdown(&mediator);
-    
+
     Spi spi1;
     spi_init(&spi1);
     spi1.configure(&spi1, &hspi1, SPI1_CS_GPIO_Port, SPI1_CS_Pin);
-
 
     Spi spi3;
     spi_init(&spi3);
     spi3.configure(&spi3, &hspi3, SPI3_CS_GPIO_Port, SPI3_CS_Pin);
 
-
-    uint8_t txData[] = {0xAA, 0xBB, 0xCC};
+    uint8_t txData[]  = {0xAA, 0xBB, 0xCC};
     uint8_t rxData[3] = {0};
 
     spi1.transmit_receive(&spi3, txData, rxData, 3);
-    
-    while (1)
-    {
+
+    while (1) {
 
         char displayBuffer[32];
-        snprintf(displayBuffer, sizeof(displayBuffer), "%02X %02X %02X", rxData[0], rxData[1], rxData[2]);
+        snprintf(displayBuffer, sizeof(displayBuffer), "%02X %02X %02X",
+                 rxData[0], rxData[1], rxData[2]);
 
         ssd1306_Fill(Black);
 
-        ssd1306_SetCursor(2, 2); 
+        ssd1306_SetCursor(2, 2);
         ssd1306_WriteString(displayBuffer, Font_11x18, White);
 
         ssd1306_UpdateScreen();

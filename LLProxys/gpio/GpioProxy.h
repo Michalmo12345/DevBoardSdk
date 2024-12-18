@@ -13,8 +13,7 @@
 
 #include <stdint.h>
 
-typedef struct
-{
+typedef struct {
     void *port;
     uint16_t pin;
 
