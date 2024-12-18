@@ -35,11 +35,21 @@ project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Create an executable object type
-add_executable(${CMAKE_PROJECT_NAME})
+add_executable(${CMAKE_PROJECT_NAME} Core/Src/main.c) # idk if correct
 
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
 
+
+# Add other subdirectories
+add_subdirectory(app)
+
+set(LLPROXYS_DIR ${CMAKE_SOURCE_DIR}/LLProxys)
+
+set(HLPROXYS_DIR ${CMAKE_SOURCE_DIR}/HLProxys)
+# Add the framework library
+add_subdirectory(${LLPROXYS_DIR})
+add_subdirectory(${HLPROXYS_DIR})
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
@@ -47,7 +57,7 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user sources here
+
 )
 
 # Add include paths
@@ -56,13 +66,16 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 )
 
 # Add project symbols (macros)
+# we can use it to define multiple platforms
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined symbols
+    STM32L476xx
 )
 
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
-
+    app_core
+    LLProxys 
+    HLProxys
     # Add user defined libraries
 )

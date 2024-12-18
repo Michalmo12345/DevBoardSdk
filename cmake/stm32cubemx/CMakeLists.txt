@@ -21,6 +21,7 @@ target_include_directories(stm32cubemx INTERFACE
     ../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
     ../../Drivers/CMSIS/Device/ST/STM32L4xx/Include
     ../../Drivers/CMSIS/Include
+    ../../Drivers/OLedDriver/Include
 )
 
 target_sources(stm32cubemx INTERFACE
@@ -44,10 +45,10 @@ target_sources(stm32cubemx INTERFACE
     ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.c
     ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c
     ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c
+    ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.c
+    ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c
     ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c
     ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c
-    ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.c
-    ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.c
     ../../Core/Src/system_stm32l4xx.c
     ../../Middlewares/Third_Party/FreeRTOS/Source/croutine.c
     ../../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
@@ -62,12 +63,18 @@ target_sources(stm32cubemx INTERFACE
     ../../Core/Src/sysmem.c
     ../../Core/Src/syscalls.c
     ../../startup_stm32l476xx.s
+    ../../Drivers/OLedDriver/Src/ssd1306.c
+    ../../Drivers/OLedDriver/Src/ssd1306_fonts.c
+    ../../Drivers/OLedDriver/Src/ssd1306_tests.c
 )
 
 target_link_directories(stm32cubemx INTERFACE
 )
 
 target_link_libraries(stm32cubemx INTERFACE
+app_core
+LLProxys
+HLProxys
 )
 
 # Validate that STM32CubeMX code is compatible with C standard

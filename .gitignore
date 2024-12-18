@@ -10,3 +10,6 @@ build*/
 # cmake files
 CMakeFiles/
 CMakeCache.txt
+
+build.ninja
+cmake_install.cmake
