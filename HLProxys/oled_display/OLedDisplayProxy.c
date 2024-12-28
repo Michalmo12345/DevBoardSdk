@@ -35,11 +35,12 @@ void OLEDProxy_update_display() { ssd1306_UpdateScreen(); }
 
 OLEDProxy CreateOLEDProxy(const char *name)
 {
-    OLEDProxy proxy; // now it just creates object on the stack
-    proxy.base_proxy.name       = name;
-    proxy.base_proxy.initialize = OLEDProxy_initialize;
-    proxy.base_proxy.execute    = OLEDProxy_execute;
-    proxy.base_proxy.shutdown   = OLEDProxy_shutdown;
-    proxy.clear                 = OLEDProxy_clear;
-    return proxy;
+    OLEDProxy oled_proxy; // now it just creates object on the stack
+    oled_proxy.base_proxy.name       = name;
+    oled_proxy.base_proxy.initialize = OLEDProxy_initialize;
+    oled_proxy.base_proxy.execute    = OLEDProxy_execute;
+    oled_proxy.base_proxy.shutdown   = OLEDProxy_shutdown;
+    oled_proxy.clear                 = OLEDProxy_clear;
+    oled_proxy.update_display        = OLEDProxy_update_display;
+    return oled_proxy;
 }

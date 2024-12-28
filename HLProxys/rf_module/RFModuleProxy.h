@@ -9,6 +9,6 @@ typedef struct RFModuleProxy {
     BaseHLProxy base_proxy;
 } RFModuleProxy;
 
-RFModuleProxy *CreateRFModuleProxy(const char *name);
+RFModuleProxy CreateRFModuleProxy(const char *name);
 
 #endif // RFMODULEPROXY_H
