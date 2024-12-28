@@ -13,6 +13,6 @@ typedef struct OLEDProxy {
     void (*update_display)();
 } OLEDProxy;
 
-OLEDProxy *CreateOLEDProxy(const char *name);
+OLEDProxy CreateOLEDProxy(const char *name);
 
 #endif // OLEDDISPLAYPROXY_H

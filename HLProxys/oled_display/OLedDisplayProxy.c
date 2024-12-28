@@ -23,8 +23,6 @@ void OLEDProxy_shutdown(BaseHLProxy *self)
     OLEDProxy *oledProxy = (OLEDProxy *)self;
     ssd1306_Fill(Black);
     oledProxy->update_display(oledProxy);
-
-    free(oledProxy);
 }
 
 void OLEDProxy_clear()
@@ -35,13 +33,13 @@ void OLEDProxy_clear()
 
 void OLEDProxy_update_display() { ssd1306_UpdateScreen(); }
 
-OLEDProxy *CreateOLEDProxy(const char *name)
+OLEDProxy CreateOLEDProxy(const char *name)
 {
-    OLEDProxy *proxy             = (OLEDProxy *)malloc(sizeof(OLEDProxy));
-    proxy->base_proxy.name       = name;
-    proxy->base_proxy.initialize = OLEDProxy_initialize;
-    proxy->base_proxy.execute    = OLEDProxy_execute;
-    proxy->base_proxy.shutdown   = OLEDProxy_shutdown;
-    proxy->clear                 = OLEDProxy_clear;
+    OLEDProxy proxy; // now it just creates object on the stack
+    proxy.base_proxy.name       = name;
+    proxy.base_proxy.initialize = OLEDProxy_initialize;
+    proxy.base_proxy.execute    = OLEDProxy_execute;
+    proxy.base_proxy.shutdown   = OLEDProxy_shutdown;
+    proxy.clear                 = OLEDProxy_clear;
     return proxy;
 }

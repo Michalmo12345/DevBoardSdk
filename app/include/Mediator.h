@@ -15,10 +15,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define INIT_HL_PROXIES_COUNT 10
+#define MAX_HL_PROXIES_COUNT 10
 
 typedef struct Mediator {
-    BaseHLProxy **hlProxies;
+    BaseHLProxy *hlProxies[MAX_HL_PROXIES_COUNT];
     size_t hlProxiesCount;
     void (*init)(struct Mediator *);
     void (*register_proxy)(struct Mediator *, BaseHLProxy *);

@@ -11,12 +11,6 @@
 
 void mediator_init(Mediator *mediator)
 {
-    mediator->hlProxies =
-        (BaseHLProxy **)malloc(INIT_HL_PROXIES_COUNT * sizeof(BaseHLProxy *));
-
-    if (mediator->hlProxies == NULL) {
-        // handle error
-    }
 
     mediator->hlProxiesCount = 0;
 
@@ -27,16 +21,10 @@ void mediator_init(Mediator *mediator)
 
 void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy)
 {
-    if (mediator->hlProxiesCount >= INIT_HL_PROXIES_COUNT) {
-        mediator->hlProxies = (BaseHLProxy **)realloc(
-            mediator->hlProxies,
-            (mediator->hlProxiesCount + 1) * sizeof(BaseHLProxy *));
-        if (mediator->hlProxies == NULL) {
-            // handle error
-            return;
-        }
+    if (mediator->hlProxiesCount >= MAX_HL_PROXIES_COUNT) {
+        // handle error: exceeded maximum number of proxies
+        return;
     }
-
     mediator->hlProxies[mediator->hlProxiesCount] = proxy;
     mediator->hlProxiesCount++;
 }
@@ -62,9 +50,6 @@ void mediator_shutdown(Mediator *mediator)
             proxy->shutdown(proxy);
         }
     }
-
-    free(mediator->hlProxies);
-    mediator->hlProxies = NULL;
 
     mediator->hlProxiesCount = 0;
 }
