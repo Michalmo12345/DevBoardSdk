@@ -12,13 +12,13 @@
 #define SX1276_REG_FRF_MSB 0x06
 
 #include "BaseHLProxy.h"
-
+#include "SpiProxy.h"
 typedef struct RFModuleProxy {
     BaseHLProxy base_proxy;
     void (*read)(uint8_t reg);
     void (*write)(uint8_t reg, uint8_t data);
 } RFModuleProxy;
 
-RFModuleProxy CreateRFModuleProxy(const char *name);
+RFModuleProxy CreateRFModuleProxy(const char *name, Spi *spi, Gpio *gpio);
 
 #endif // RFMODULEPROXY_H
