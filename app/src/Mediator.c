@@ -9,17 +9,7 @@
 
 #include "Mediator.h"
 
-void mediator_init(Mediator *mediator)
-{
-
-    mediator->hlProxiesCount = 0;
-
-    mediator->register_proxy = mediator_register_proxy;
-    mediator->notify         = mediator_notify;
-    mediator->shutdown       = mediator_shutdown;
-}
-
-void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy)
+static void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy)
 {
     if (mediator->hlProxiesCount >= MAX_HL_PROXIES_COUNT) {
         // handle error: exceeded maximum number of proxies
@@ -29,8 +19,8 @@ void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy)
     mediator->hlProxiesCount++;
 }
 
-void mediator_notify(Mediator *mediator, const char *action,
-                     const char *proxy_name)
+static void mediator_notify(Mediator *mediator, const char *action,
+                            const char *proxy_name)
 {
     for (size_t i = 0; i < mediator->hlProxiesCount; i++) {
         BaseHLProxy *proxy = mediator->hlProxies[i];
@@ -41,7 +31,7 @@ void mediator_notify(Mediator *mediator, const char *action,
     }
 }
 
-void mediator_shutdown(Mediator *mediator)
+static void mediator_shutdown(Mediator *mediator)
 {
     for (size_t i = 0; i < mediator->hlProxiesCount; i++) {
         BaseHLProxy *proxy = mediator->hlProxies[i];
@@ -49,7 +39,23 @@ void mediator_shutdown(Mediator *mediator)
         if (proxy && proxy->shutdown) {
             proxy->shutdown(proxy);
         }
+
+        mediator->hlProxies[i] = NULL;
     }
 
     mediator->hlProxiesCount = 0;
+}
+
+void mediator_init(Mediator *mediator)
+{
+
+    if (!mediator)
+        return;
+
+    memset(mediator->hlProxies, 0, sizeof(mediator->hlProxies));
+    mediator->hlProxiesCount = 0;
+
+    mediator->register_proxy = mediator_register_proxy;
+    mediator->notify         = mediator_notify;
+    mediator->shutdown       = mediator_shutdown;
 }

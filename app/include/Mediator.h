@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
-
+#include <string.h>
 #define MAX_HL_PROXIES_COUNT 10
 
 typedef struct Mediator {
@@ -27,9 +27,9 @@ typedef struct Mediator {
 } Mediator;
 
 void mediator_init(Mediator *mediator);
-void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy);
-void mediator_notify(Mediator *mediator, const char *action,
-                     const char *proxy_name);
-void mediator_shutdown(Mediator *mediator);
+// void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy);
+// void mediator_notify(Mediator *mediator, const char *action,
+//                      const char *proxy_name);
+// void mediator_shutdown(Mediator *mediator);
 
 #endif // MEDIATOR_H
