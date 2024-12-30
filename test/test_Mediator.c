@@ -55,7 +55,6 @@
 //     for (size_t i = 0; i < MAX_HL_PROXIES_COUNT; i++) {
 //         TEST_ASSERT_NULL(test_mediator.hlProxies[i]);
 //     }
-//     TEST_ASSERT_EQUAL(0, test_mediator.hlProxiesCount);
 // }
 
 ///////////////////////////////////////////
