@@ -28,7 +28,8 @@ static void mediator_notify(Mediator *mediator, const char *action,
         OLEDProxy *oledProxy = mediator->oled_proxy;
 
         if (proxy && proxy->execute && proxy->name == proxy_name) {
-            bool success = proxy->execute(proxy, action);
+            bool success =
+                proxy->execute(proxy, action); // debugging problem here
             if (success) {
 
                 oledProxy->clear(oledProxy);

@@ -24,7 +24,7 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
     uint8_t test_value = 0x55;
     uint8_t read_value = 0;
 
-    proxy->write(test_reg, test_value);
+    proxy->write(test_reg, test_value); // got stuck here
 
     uint8_t tx_buffer[2] = {test_reg & 0x7F, 0x00};
     uint8_t rx_buffer[2] = {0};
@@ -56,7 +56,7 @@ static void RFModuleProxy_Write(RFModuleProxy *proxy, uint8_t reg, uint8_t data)
     uint8_t tx_buffer[2] = {reg | 0x80, data}; // MSB ustawiony na 1 dla zapisu
 
     Spi *spi = proxy->base_proxy.spi;
-    spi->transmit(spi, tx_buffer, 2);
+    spi->transmit(spi, tx_buffer, 2); // problem here, getting HardFault_Handler
 }
 
 RFModuleProxy CreateRFModuleProxy(const char *name, Spi *spi, Gpio *gpio)
@@ -66,8 +66,11 @@ RFModuleProxy CreateRFModuleProxy(const char *name, Spi *spi, Gpio *gpio)
     rf_module_proxy.base_proxy.initialize = RFModuleProxy_initialize;
     rf_module_proxy.base_proxy.execute    = RFModuleProxy_execute;
     rf_module_proxy.base_proxy.shutdown   = RFModuleProxy_shutdown;
-    rf_module_proxy.base_proxy.spi        = spi;
-    rf_module_proxy.base_proxy.gpio       = gpio;
+    rf_module_proxy.read                  = RFModuleProxy_Read;
+    rf_module_proxy.write                 = RFModuleProxy_Write;
+
+    rf_module_proxy.base_proxy.spi  = spi;
+    rf_module_proxy.base_proxy.gpio = gpio;
     // add pointer for i2c later
     return rf_module_proxy;
 }
