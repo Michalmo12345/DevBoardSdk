@@ -16,7 +16,7 @@ void RFModuleProxy_initialize(BaseHLProxy *self, Spi *spi, Gpio *gpio)
     }
 }
 
-void RFModuleProxy_execute(BaseHLProxy *self, const char *action)
+bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
 {
     RFModuleProxy *proxy = (RFModuleProxy *)self;
 
@@ -33,10 +33,7 @@ void RFModuleProxy_execute(BaseHLProxy *self, const char *action)
     spi->transmit_receive(spi, tx_buffer, rx_buffer, 2);
     read_value = rx_buffer[1];
 
-    // wyświetlanie czegoiś na ekranie  lcd
-    if (read_value == test_value) {
-    } else {
-    }
+    return (read_value == test_value);
 }
 
 void RFModuleProxy_shutdown(BaseHLProxy *self)

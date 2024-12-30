@@ -24,7 +24,7 @@ typedef struct BaseHLProxy {
     Gpio *gpio;
 
     void (*initialize)(struct BaseHLProxy *, Spi *spi, Gpio *gpio);
-    void (*execute)(struct BaseHLProxy *, const char *action);
+    bool (*execute)(struct BaseHLProxy *, const char *action);
     void (*shutdown)(struct BaseHLProxy *);
 } BaseHLProxy;
 

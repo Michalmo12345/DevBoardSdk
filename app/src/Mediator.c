@@ -25,8 +25,21 @@ static void mediator_notify(Mediator *mediator, const char *action,
     for (size_t i = 0; i < mediator->hlProxiesCount; i++) {
         BaseHLProxy *proxy = mediator->hlProxies[i];
 
+        OLEDProxy *oledProxy = mediator->oled_proxy;
+
         if (proxy && proxy->execute && proxy->name == proxy_name) {
-            proxy->execute(proxy, action);
+            bool success = proxy->execute(proxy, action);
+            if (success) {
+
+                oledProxy->clear(oledProxy);
+                oledProxy->draw_text("Responds", 0, 0);
+                oledProxy->update_display(oledProxy);
+            } else {
+
+                oledProxy->clear(oledProxy);
+                oledProxy->draw_text("Doesnt repond", 0, 0);
+                oledProxy->update_display(oledProxy);
+            }
         }
     }
 }

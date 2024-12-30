@@ -12,7 +12,7 @@ void OLEDProxy_initialize(BaseHLProxy *self)
     oledProxy->update_display(oledProxy);
 }
 
-void OLEDProxy_execute(BaseHLProxy *self, const char *action)
+bool OLEDProxy_execute(BaseHLProxy *self, const char *action)
 {
     OLEDProxy *oledProxy = (OLEDProxy *)self;
     // actions to define later
@@ -33,6 +33,11 @@ void OLEDProxy_clear()
 
 void OLEDProxy_update_display() { ssd1306_UpdateScreen(); }
 
+void OLEDProxy_draw_text(const char *text, uint8_t x, uint8_t y)
+{
+    ssd1306_SetCursor(x, y);
+    ssd1306_WriteString(text, Font_7x10, White);
+}
 OLEDProxy CreateOLEDProxy(const char *name)
 {
     OLEDProxy oled_proxy; // now it just creates object on the stack
