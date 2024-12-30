@@ -16,6 +16,7 @@
 #include "LedMatrixProxy.h"
 #include "Mediator.h"
 #include "OLedDisplayProxy.h"
+#include "RFModuleProxy.h"
 #include "SpiProxy.h"
 #include "main.h"
 #include "ssd1306.h"
@@ -73,9 +74,18 @@ void start()
     gpio_init(&gpio1);
     gpio1.configure(&gpio1, DIG_B1_GPIO_Port, DIG_B1_Pin);
 
-    OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy");
+    OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &spi1, &gpio1);
     oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &gpio1);
 
+    Mediator mediator;
+    mediator_init(&mediator, &oled_proxy);
+
+    RFModuleProxy rf_module_proxy =
+        CreateRFModuleProxy("rf_module_proxy", &spi1, &gpio1);
+    rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
+                                          &gpio1);
+
+    mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
     while (1) {
 
         // ssd1306_Fill(Black);
