@@ -4,9 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-void OLEDProxy_initialize(BaseHLProxy *self)
+void OLEDProxy_initialize(BaseHLProxy *self, Spi *spi, Gpio *gpio)
 {
-    OLEDProxy *oledProxy = (OLEDProxy *)self;
+    OLEDProxy *oledProxy       = (OLEDProxy *)self;
+    oledProxy->base_proxy.spi  = spi;
+    oledProxy->base_proxy.gpio = gpio;
     ssd1306_Init();
     oledProxy->clear(oledProxy);
     oledProxy->update_display(oledProxy);

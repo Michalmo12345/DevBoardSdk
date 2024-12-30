@@ -10,16 +10,19 @@
 
 #include "app_core.h"
 
+#include "BaseHLProxy.h"
 #include "FreeRTOS.h"
 #include "GpioProxy.h"
 #include "LedMatrixProxy.h"
 #include "Mediator.h"
+#include "OLedDisplayProxy.h"
 #include "SpiProxy.h"
 #include "main.h"
 #include "ssd1306.h"
 #include "ssd1306_fonts.h"
 #include "stdio.h"
 #include "stm_headers.h"
+
 #include HAL_SPI
 
 void start()
@@ -66,23 +69,15 @@ void start()
     spi_init(&spi3);
     spi3.configure(&spi3, &hspi3, SPI3_CS_GPIO_Port, SPI3_CS_Pin);
 
-    uint8_t txData[]  = {0xAA, 0xBB, 0xCC};
-    uint8_t rxData[3] = {0};
+    Gpio gpio1;
+    gpio_init(&gpio1);
+    gpio1.configure(&gpio1, DIG_B1_GPIO_Port, DIG_B1_Pin);
 
-    spi1.transmit_receive(&spi3, txData, rxData, 3);
+    OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy");
+    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &gpio1);
 
     while (1) {
 
-        char displayBuffer[32];
-        snprintf(displayBuffer, sizeof(displayBuffer), "%02X %02X %02X",
-                 rxData[0], rxData[1], rxData[2]);
-
-        ssd1306_Fill(Black);
-
-        ssd1306_SetCursor(2, 2);
-        ssd1306_WriteString(displayBuffer, Font_11x18, White);
-
-        ssd1306_UpdateScreen();
         // ssd1306_Fill(Black);
         // ssd1306_SetCursor(2, 2);
         // ssd1306_WriteString("Hello", Font_11x18, White);
