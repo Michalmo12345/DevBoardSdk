@@ -46,7 +46,7 @@ static void mediator_shutdown(Mediator *mediator)
     mediator->hlProxiesCount = 0;
 }
 
-void mediator_init(Mediator *mediator)
+void mediator_init(Mediator *mediator, OLEDProxy *oled_proxy)
 {
 
     if (!mediator)
@@ -55,6 +55,7 @@ void mediator_init(Mediator *mediator)
     memset(mediator->hlProxies, 0, sizeof(mediator->hlProxies));
     mediator->hlProxiesCount = 0;
 
+    mediator->oled_proxy     = oled_proxy;
     mediator->register_proxy = mediator_register_proxy;
     mediator->notify         = mediator_notify;
     mediator->shutdown       = mediator_shutdown;

@@ -12,6 +12,7 @@
 #define SX1276_REG_FRF_MSB 0x06
 
 #include "BaseHLProxy.h"
+#include "OLedDisplayProxy.h"
 #include "SpiProxy.h"
 typedef struct RFModuleProxy {
     BaseHLProxy base_proxy;

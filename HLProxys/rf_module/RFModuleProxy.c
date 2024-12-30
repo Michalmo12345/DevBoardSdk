@@ -35,7 +35,6 @@ void RFModuleProxy_execute(BaseHLProxy *self, const char *action)
 
     // wyświetlanie czegoiś na ekranie  lcd
     if (read_value == test_value) {
-
     } else {
     }
 }

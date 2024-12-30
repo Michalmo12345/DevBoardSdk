@@ -10,6 +10,7 @@
 #define MEDIATOR_H
 
 #include "BaseHLProxy.h"
+#include "OLedDisplayProxy.h"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -19,6 +20,7 @@
 
 typedef struct Mediator {
     BaseHLProxy *hlProxies[MAX_HL_PROXIES_COUNT];
+    OLEDProxy *oled_proxy;
     size_t hlProxiesCount;
     void (*init)(struct Mediator *);
     void (*register_proxy)(struct Mediator *, BaseHLProxy *);
@@ -26,7 +28,7 @@ typedef struct Mediator {
     void (*shutdown)(struct Mediator *);
 } Mediator;
 
-void mediator_init(Mediator *mediator);
+void mediator_init(Mediator *mediator, OLEDProxy *oled_proxy);
 // void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy);
 // void mediator_notify(Mediator *mediator, const char *action,
 //                      const char *proxy_name);
