@@ -46,6 +46,7 @@ OLEDProxy CreateOLEDProxy(const char *name, Spi *spi, Gpio *gpio)
     oled_proxy.base_proxy.initialize = OLEDProxy_initialize;
     oled_proxy.base_proxy.execute    = OLEDProxy_execute;
     oled_proxy.base_proxy.shutdown   = OLEDProxy_shutdown;
+    oled_proxy.draw_text             = OLEDProxy_draw_text;
     oled_proxy.clear                 = OLEDProxy_clear;
     oled_proxy.update_display        = OLEDProxy_update_display;
     oled_proxy.base_proxy.spi        = spi;

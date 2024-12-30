@@ -31,36 +31,6 @@ void start()
 
     extern SPI_HandleTypeDef hspi1;
     extern SPI_HandleTypeDef hspi3;
-    // just tests
-    // Gpio led1;
-    // Gpio led2;
-    // Gpio led3;
-
-    // Gpio csPinSpi1;
-
-    // gpio_init(&led1);
-    // gpio_init(&led2);
-    // gpio_init(&led3);
-    // gpio_init(&csPinSpi1);
-
-    // led1.configure(&led1, DIG_LED1_GPIO_Port, DIG_LED1_Pin);
-    // led2.configure(&led2, DIG_LED2_GPIO_Port, DIG_LED2_Pin);
-    // led3.configure(&led3, DIG_LED3_GPIO_Port, DIG_LED3_Pin);
-
-    // csPinSpi1.configure(&csPinSpi1, SPI1_CS_GPIO_Port, SPI1_CS_Pin);
-
-    // led1.reset(&led1);
-    // led2.reset(&led2);
-    // led3.reset(&led3);
-
-    // csPinSpi1.reset(&csPinSpi1);
-
-    // //  mediator test
-
-    // Mediator mediator;
-    // mediator.init(&mediator);
-
-    // mediator.shutdown(&mediator);
 
     Spi spi1;
     spi_init(&spi1);
@@ -86,6 +56,9 @@ void start()
                                           &gpio1);
 
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
+
+    mediator.notify(&mediator, "execute", "rf_module_proxy");
+
     while (1) {
 
         // ssd1306_Fill(Black);
