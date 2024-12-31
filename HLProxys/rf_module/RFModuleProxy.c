@@ -24,14 +24,27 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
     uint8_t test_value = 0x55;
     uint8_t read_value = 0;
 
-    proxy->write(test_reg, test_value); // got stuck here
+    // uint8_t tx_buffer[2] = {
+    //     test_reg | 0x80,
+    // }; // MSB ustawiony na 1 dla zapisu
 
-    uint8_t tx_buffer[2] = {test_reg & 0x7F, 0x00};
-    uint8_t rx_buffer[2] = {0};
-    Spi *spi             = proxy->base_proxy.spi;
+    Spi *spi = proxy->base_proxy.spi;
+    // spi->transmit(spi, tx_buffer, 2);
+    // proxy->write(test_reg, test_value);
 
-    spi->transmit_receive(spi, tx_buffer, rx_buffer, 2);
-    read_value = rx_buffer[1];
+    // HAL_Delay(1000);
+
+    uint8_t tx_write_buffer[2] = {test_reg | 0x80, test_value};
+    uint8_t rx_write_buffer[2] = {0};
+    spi->transmit_receive(spi, tx_write_buffer, rx_write_buffer, 2);
+    HAL_Delay(500);
+
+    uint8_t tx_read_buffer[2] = {test_reg & 0x7F, 0x00};
+    uint8_t rx_read_buffer[2] = {0};
+    spi->transmit_receive(spi, tx_read_buffer, rx_read_buffer, 2);
+    HAL_Delay(500);
+
+    read_value = rx_read_buffer[1];
 
     return (read_value == test_value);
 }
@@ -53,10 +66,11 @@ static void RFModuleProxy_Read(RFModuleProxy *proxy, uint8_t reg)
 
 static void RFModuleProxy_Write(RFModuleProxy *proxy, uint8_t reg, uint8_t data)
 {
+
     uint8_t tx_buffer[2] = {reg | 0x80, data}; // MSB ustawiony na 1 dla zapisu
 
     Spi *spi = proxy->base_proxy.spi;
-    spi->transmit(spi, tx_buffer, 2); // problem here, getting HardFault_Handler
+    spi->transmit(spi, tx_buffer, 2); // problem here, getting HardFault
 }
 
 RFModuleProxy CreateRFModuleProxy(const char *name, Spi *spi, Gpio *gpio)
