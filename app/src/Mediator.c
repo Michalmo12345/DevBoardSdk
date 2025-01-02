@@ -9,51 +9,43 @@
 
 #include "Mediator.h"
 
-void mediator_init(Mediator *mediator)
+static void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy)
 {
-    mediator->hlProxies =
-        (BaseHLProxy **)malloc(INIT_HL_PROXIES_COUNT * sizeof(BaseHLProxy *));
-
-    if (mediator->hlProxies == NULL) {
-        // handle error
+    if (mediator->hlProxiesCount >= MAX_HL_PROXIES_COUNT) {
+        // handle error: exceeded maximum number of proxies
+        return;
     }
-
-    mediator->hlProxiesCount = 0;
-
-    mediator->register_proxy = mediator_register_proxy;
-    mediator->notify         = mediator_notify;
-    mediator->shutdown       = mediator_shutdown;
-}
-
-void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy)
-{
-    if (mediator->hlProxiesCount >= INIT_HL_PROXIES_COUNT) {
-        mediator->hlProxies = (BaseHLProxy **)realloc(
-            mediator->hlProxies,
-            (mediator->hlProxiesCount + 1) * sizeof(BaseHLProxy *));
-        if (mediator->hlProxies == NULL) {
-            // handle error
-            return;
-        }
-    }
-
     mediator->hlProxies[mediator->hlProxiesCount] = proxy;
     mediator->hlProxiesCount++;
 }
 
-void mediator_notify(Mediator *mediator, const char *action,
-                     const char *proxy_name)
+static void mediator_notify(Mediator *mediator, const char *action,
+                            const char *proxy_name)
 {
     for (size_t i = 0; i < mediator->hlProxiesCount; i++) {
         BaseHLProxy *proxy = mediator->hlProxies[i];
 
+        OLEDProxy *oledProxy = mediator->oled_proxy;
+
         if (proxy && proxy->execute && proxy->name == proxy_name) {
-            proxy->execute(proxy, action);
+            bool success =
+                proxy->execute(proxy, action); // debugging problem here
+            if (success) {
+
+                oledProxy->clear(oledProxy);
+                oledProxy->draw_text("Responds", 0, 0);
+                oledProxy->update_display(oledProxy);
+            } else {
+
+                oledProxy->clear(oledProxy);
+                oledProxy->draw_text("Doesnt repond", 0, 0);
+                oledProxy->update_display(oledProxy);
+            }
         }
     }
 }
 
-void mediator_shutdown(Mediator *mediator)
+static void mediator_shutdown(Mediator *mediator)
 {
     for (size_t i = 0; i < mediator->hlProxiesCount; i++) {
         BaseHLProxy *proxy = mediator->hlProxies[i];
@@ -61,10 +53,24 @@ void mediator_shutdown(Mediator *mediator)
         if (proxy && proxy->shutdown) {
             proxy->shutdown(proxy);
         }
+
+        mediator->hlProxies[i] = NULL;
     }
 
-    free(mediator->hlProxies);
-    mediator->hlProxies = NULL;
-
     mediator->hlProxiesCount = 0;
+}
+
+void mediator_init(Mediator *mediator, OLEDProxy *oled_proxy)
+{
+
+    if (!mediator)
+        return;
+
+    memset(mediator->hlProxies, 0, sizeof(mediator->hlProxies));
+    mediator->hlProxiesCount = 0;
+
+    mediator->oled_proxy     = oled_proxy;
+    mediator->register_proxy = mediator_register_proxy;
+    mediator->notify         = mediator_notify;
+    mediator->shutdown       = mediator_shutdown;
 }

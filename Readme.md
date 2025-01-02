@@ -49,6 +49,8 @@ Konfiguracja stm32l476 na nucleo wygląda następująco:
 
 ### Znalezione Problemy
 
+- test_Mediator.c działą różnie w zależnosci od platformy(widnows/ubuntu)
+zakomnetowane testy działają na windowsie, jednak na Ubuntu  powodują  segmentation fault - powód  nieznany
 
 #### Dokumentacja
 
