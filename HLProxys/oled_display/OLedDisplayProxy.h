@@ -4,7 +4,6 @@
 #define OLEDDISPLAYPROXY_H
 
 #include "BaseHLProxy.h"
-#include "oled_drivers.h"
 
 typedef struct OLEDProxy {
     BaseHLProxy base_proxy;

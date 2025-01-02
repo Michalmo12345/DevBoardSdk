@@ -1,5 +1,7 @@
 #include "OLedDisplayProxy.h"
 
+#include "oled_drivers.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
