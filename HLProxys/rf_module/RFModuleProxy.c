@@ -20,13 +20,16 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
 {
     RFModuleProxy *proxy = (RFModuleProxy *)self;
 
-    uint8_t test_reg   = SX1276_REG_OP_MODE;
+    uint8_t test_reg   = SX1276_REG_FIFO;
     uint8_t test_value = 0x55;
     uint8_t read_value = 0;
 
     // uint8_t tx_buffer[2] = {
     //     test_reg | 0x80,
     // }; // MSB ustawiony na 1 dla zapisu
+
+    Gpio *gpio = proxy->base_proxy.gpio;
+    gpio->set(gpio);
 
     Spi *spi = proxy->base_proxy.spi;
     // spi->transmit(spi, tx_buffer, 2);
@@ -45,7 +48,7 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
     HAL_Delay(500);
 
     read_value = rx_read_buffer[1];
-
+    gpio->reset(gpio);
     return (read_value == test_value);
 }
 

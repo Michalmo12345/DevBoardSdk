@@ -44,6 +44,10 @@ void start()
     gpio_init(&gpio1);
     gpio1.configure(&gpio1, DIG_B1_GPIO_Port, DIG_B1_Pin);
 
+    Gpio rfm_rst_gpio;
+    gpio_init(&rfm_rst_gpio);
+    rfm_rst_gpio.configure(&rfm_rst_gpio, RFM_RST_GPIO_Port, RFM_RST_Pin);
+
     OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &spi1, &gpio1);
     oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &gpio1);
 
@@ -51,25 +55,14 @@ void start()
     mediator_init(&mediator, &oled_proxy);
 
     RFModuleProxy rf_module_proxy =
-        CreateRFModuleProxy("rf_module_proxy", &spi1, &gpio1);
+        CreateRFModuleProxy("rf_module_proxy", &spi1, &rfm_rst_gpio);
     rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
-                                          &gpio1);
+                                          &rfm_rst_gpio);
 
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
 
     mediator.notify(&mediator, "execute", "rf_module_proxy");
 
     while (1) {
-
-        // ssd1306_Fill(Black);
-        // ssd1306_SetCursor(2, 2);
-        // ssd1306_WriteString("Hello", Font_11x18, White);
-        // ssd1306_UpdateScreen();
-        // HAL_Delay(500);
-        // ssd1306_Fill(White);
-        // ssd1306_SetCursor(2, 2);
-        // ssd1306_WriteString("World",Font_11x18, Black);
-        // ssd1306_UpdateScreen();
-        // HAL_Delay(500);
     }
 }
