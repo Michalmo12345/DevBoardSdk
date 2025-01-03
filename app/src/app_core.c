@@ -32,6 +32,9 @@ void start()
     extern SPI_HandleTypeDef hspi1;
     extern SPI_HandleTypeDef hspi3;
 
+    extern I2C_HandleTypeDef hi2c1;
+    extern I2C_HandleTypeDef hi2c3;
+
     Spi spi1;
     spi_init(&spi1);
     spi1.configure(&spi1, &hspi1, SPI1_CS_GPIO_Port, SPI1_CS_Pin);
@@ -39,6 +42,14 @@ void start()
     Spi spi3;
     spi_init(&spi3);
     spi3.configure(&spi3, &hspi3, SPI3_CS_GPIO_Port, SPI3_CS_Pin);
+
+    // I2c i2c1;
+    // i2c_init(&i2c1);
+    // i2c1.configure(&i2c1, &hi2c1);
+
+    // I2c i2c3;
+    // i2c_init(&i2c3);
+    // i2c3.configure(&i2c3, &hi2c3);
 
     Gpio gpio1;
     gpio_init(&gpio1);
