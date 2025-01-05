@@ -11,13 +11,16 @@
 #ifndef GPIOPROXY_H
 #define GPIOPROXY_H
 
-#include <stdint.h>
+#include "stm32l4xx.h"
+#include "stm32l4xx_hal_def.h"
+#include "stm32l4xx_hal_gpio.h"
 
+#include <stdint.h>
 typedef struct {
-    void *port;
+    GPIO_TypeDef *port;
     uint16_t pin;
 
-    void (*configure)(void *self, void *port, uint16_t pin);
+    void (*configure)(void *self, GPIO_TypeDef *port, uint16_t pin);
     int (*read)(void *self);
     void (*set)(void *self);
     void (*reset)(void *self);

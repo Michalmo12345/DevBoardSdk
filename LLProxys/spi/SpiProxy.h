@@ -13,7 +13,7 @@
 #include <stdint.h>
 
 typedef struct {
-    void *spi_handle;
+    void *spi_handle; // zmienić na wskaźnik na spihandle, nie void
     void *csPort;
     uint16_t csPin;
 

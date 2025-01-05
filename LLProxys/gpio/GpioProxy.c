@@ -12,7 +12,7 @@
 
 #include "main.h"
 
-static void gpio_configure(void *self, void *port, uint16_t pin)
+static void gpio_configure(void *self, GPIO_TypeDef *port, uint16_t pin)
 {
     Gpio *gpio = (Gpio *)self;
     gpio->port = port;

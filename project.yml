@@ -44,6 +44,10 @@
     - +:LLProxys/gpio/**
     - +:LLProxys/spi/**
     - HLProxys/**
+    - Drivers/STM32L4xx_HAL_Driver/Inc/**
+    - Drivers/CMSIS/Device/ST/STM32L4xx/Include/**
+    - Drivers/CMSIS/Core/Include/**
+    - Core/Inc/**
     # - -:LLProxys/gpio/**/*.c
     # - +:LLProxys/spi/**/*.h
   :support:
@@ -61,7 +65,10 @@
   # in order to add common defines:
   #  1) remove the trailing [] from the :common: section
   #  2) add entries to the :common: section (e.g. :test: has TEST defined)
-  :common: &common_defines []
+  :common: &common_defines 
+    - STM32L476xx
+    - USE_HAL_DRIVER
+  
   :test:
     - *common_defines
     - TEST

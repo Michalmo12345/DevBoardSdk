@@ -38,7 +38,7 @@ static void mediator_notify(Mediator *mediator, const char *action,
             } else {
 
                 oledProxy->clear(oledProxy);
-                oledProxy->draw_text("Doesnt repond", 0, 0);
+                oledProxy->draw_text("Doesnt respond", 0, 0);
                 oledProxy->update_display(oledProxy);
             }
         }
