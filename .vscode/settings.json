@@ -14,6 +14,8 @@
         "stdio.h": "c",
         "string.h": "c",
         "stdlib.h": "c",
-        "new": "cpp"
+        "new": "cpp",
+        "stm_headers.h": "c",
+        "oleddisplayproxy.h": "c"
     }
 }

@@ -25,6 +25,7 @@
 #include "stm_headers.h"
 
 #include HAL_SPI
+#include HAL_UART
 
 void start()
 {
@@ -34,6 +35,8 @@ void start()
 
     extern I2C_HandleTypeDef hi2c1;
     extern I2C_HandleTypeDef hi2c3;
+
+    extern UART_HandleTypeDef huart4;
 
     Spi spi1;
     spi_init(&spi1);
@@ -60,20 +63,25 @@ void start()
     rfm_rst_gpio.configure(&rfm_rst_gpio, RFM_RST_GPIO_Port, RFM_RST_Pin);
 
     OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &spi1, &i2c1, &gpio1);
-    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1, &gpio1);
+    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
+                                     &gpio1);
 
     Mediator mediator;
     mediator_init(&mediator, &oled_proxy);
 
     RFModuleProxy rf_module_proxy =
         CreateRFModuleProxy("rf_module_proxy", &spi1, &rfm_rst_gpio);
-    rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1, &i2c1,
-                                          &rfm_rst_gpio);
+    rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
+                                          &i2c1, &rfm_rst_gpio);
 
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
 
     mediator.notify(&mediator, "execute", "rf_module_proxy");
 
+    // TEST UART SENDING
+    uint8_t Test[] = "Hello World !!!\r\n";
+    HAL_UART_Transmit(&huart4, Test, sizeof(Test), 10);
+    HAL_Delay(1000);
     while (1) {
     }
 }
