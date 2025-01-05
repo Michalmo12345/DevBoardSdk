@@ -24,24 +24,12 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
     uint8_t test_value = 0x55;
     uint8_t read_value = 0;
 
-    uint8_t tx_buffer[2] = {
-        test_reg | 0x80,
-    }; // MSB ustawiony na 1 dla zapisu
-
     Gpio *gpio = proxy->base_proxy.gpio;
     gpio->set(gpio);
-    Spi *spi = proxy->base_proxy.spi;
+
     //
-    spi->transmit(spi, tx_buffer, 2);
-    // proxy->write(test_reg, test_value);
-
-    // HAL_Delay(1000);
-    // Spi *spi                   = proxy->base_proxy.spi;
-    uint8_t tx_write_buffer[2] = {test_reg | 0x80, test_value};
-    uint8_t rx_write_buffer[2] = {0};
-    spi->transmit_receive(spi, tx_write_buffer, rx_write_buffer, 2);
-    HAL_Delay(500);
-
+    proxy->write(proxy, test_reg, test_value);
+    Spi *spi                  = proxy->base_proxy.spi;
     uint8_t tx_read_buffer[2] = {test_reg & 0x7F, 0x00};
     uint8_t rx_read_buffer[2] = {0};
     spi->transmit_receive(spi, tx_read_buffer, rx_read_buffer, 2);
