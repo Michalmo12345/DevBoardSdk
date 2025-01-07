@@ -19,13 +19,21 @@
 #include "RFModuleProxy.h"
 #include "SpiProxy.h"
 #include "main.h"
+#include "queue.h"
 #include "ssd1306.h"
 #include "ssd1306_fonts.h"
 #include "stdio.h"
 #include "stm_headers.h"
+#include "task.h"
 
 #include HAL_SPI
 #include HAL_UART
+TaskHandle_t lcdTaskHandle;
+TaskHandle_t mediatorTaskHandle;
+
+void lcdTask(void *params) {}
+
+void mediatorTask(void *params) {}
 
 void start()
 {
@@ -82,6 +90,11 @@ void start()
     uint8_t Test[] = "Hello World !!!\r\n";
     HAL_UART_Transmit(&huart4, Test, sizeof(Test), 10);
     HAL_Delay(1000);
+
+    // freertos
+    xTaskCreate(lcdTask, "LCD Task", 256, NULL, 1, &lcdTaskHandle);
+    xTaskCreate(mediatorTask, "Mediator Task", 256, NULL, 1,
+                &mediatorTaskHandle);
     while (1) {
     }
 }
