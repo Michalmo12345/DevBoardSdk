@@ -1,11 +1,12 @@
 #include "BaseHLProxyMock.h"
 #include "Mediator.h"
+#include "mock_OLedDisplayProxy.h"
 #include "unity.h"
 
 #define MAX_HL_PROXIES_COUNT 10
 
 // Mediator test_mediator;
-
+// OLEDProxy mock_oled_proxy;
 // void setUp(void) { mediator_init(&test_mediator); }
 
 // void tearDown(void) { test_mediator.shutdown(&test_mediator); }
@@ -58,70 +59,76 @@
 // }
 
 // ///////////////////////////////////////////
-// void setUp(void) {}
+void setUp(void) {}
 
-// void tearDown(void) {}
+void tearDown(void) {}
 
-// void test_mediator_init(void)
-// {
+void test_mediator_init(void)
+{
 
-//     Mediator test_mediator;
-//     mediator_init(&test_mediator);
+    Mediator test_mediator;
+    OLEDProxy mock_oled_proxy;
 
-//     TEST_ASSERT_NOT_NULL(test_mediator.hlProxies);
-//     TEST_ASSERT_EQUAL(0, test_mediator.hlProxiesCount);
-//     TEST_ASSERT_NOT_NULL(test_mediator.register_proxy);
-//     TEST_ASSERT_NOT_NULL(test_mediator.notify);
-//     TEST_ASSERT_NOT_NULL(test_mediator.shutdown);
-// }
+    mediator_init(&test_mediator, &mock_oled_proxy);
 
-// void test_mediator_register_proxy(void)
-// {
+    TEST_ASSERT_NOT_NULL(test_mediator.hlProxies);
+    TEST_ASSERT_EQUAL(0, test_mediator.hlProxiesCount);
+    TEST_ASSERT_NOT_NULL(test_mediator.register_proxy);
+    TEST_ASSERT_NOT_NULL(test_mediator.notify);
+    TEST_ASSERT_NOT_NULL(test_mediator.shutdown);
+}
 
-//     Mediator test_mediator;
-//     mediator_init(&test_mediator);
+void test_mediator_register_proxy(void)
+{
 
-//     BaseHLProxy test_proxy;
-//     mock_BaseHLProxy_init(&test_proxy);
+    Mediator test_mediator;
+    OLEDProxy mock_oled_proxy;
+    mediator_init(&test_mediator, &mock_oled_proxy);
 
-//     test_mediator.register_proxy(&test_mediator, &test_proxy);
+    BaseHLProxy test_proxy;
+    mock_BaseHLProxy_init(&test_proxy);
 
-//     TEST_ASSERT_EQUAL(1, test_mediator.hlProxiesCount);
-//     TEST_ASSERT_EQUAL_PTR(&test_proxy, test_mediator.hlProxies[0]);
-// }
+    test_mediator.register_proxy(&test_mediator, &test_proxy);
 
-// void test_mediator_notify(void)
-// {
+    TEST_ASSERT_EQUAL(1, test_mediator.hlProxiesCount);
+    TEST_ASSERT_EQUAL_PTR(&test_proxy, test_mediator.hlProxies[0]);
+}
 
-//     Mediator test_mediator;
-//     mediator_init(&test_mediator);
+void test_mediator_notify(void)
+{
 
-//     BaseHLProxy test_proxy;
-//     mock_BaseHLProxy_init(&test_proxy);
+    Mediator test_mediator;
+    OLEDProxy mock_oled_proxy;
 
-//     test_mediator.register_proxy(&test_mediator, &test_proxy);
+    mediator_init(&test_mediator, &mock_oled_proxy);
 
-//     test_mediator.notify(&test_mediator, "test_action", "default_name");
+    BaseHLProxy test_proxy;
+    mock_BaseHLProxy_init(&test_proxy);
 
-//     TEST_ASSERT_EQUAL(1, test_mediator.hlProxiesCount);
-// }
+    test_mediator.register_proxy(&test_mediator, &test_proxy);
 
-// void test_mediator_shutdown(void)
-// {
+    test_mediator.notify(&test_mediator, "test_action", "default_name");
 
-//     Mediator test_mediator;
-//     mediator_init(&test_mediator);
+    TEST_ASSERT_EQUAL(1, test_mediator.hlProxiesCount);
+}
 
-//     BaseHLProxy test_proxy;
-//     mock_BaseHLProxy_init(&test_proxy);
+void test_mediator_shutdown(void)
+{
 
-//     test_mediator.register_proxy(&test_mediator, &test_proxy);
+    Mediator test_mediator;
+    OLEDProxy mock_oled_proxy;
+    mediator_init(&test_mediator, &mock_oled_proxy);
 
-//     TEST_ASSERT_EQUAL(1, test_mediator.hlProxiesCount);
+    BaseHLProxy test_proxy;
+    mock_BaseHLProxy_init(&test_proxy);
 
-//     test_mediator.shutdown(&test_mediator);
-//     for (size_t i = 0; i < MAX_HL_PROXIES_COUNT; i++) {
-//         TEST_ASSERT_NULL(test_mediator.hlProxies[i]);
-//     }
-//     TEST_ASSERT_EQUAL(0, test_mediator.hlProxiesCount);
-// }
+    test_mediator.register_proxy(&test_mediator, &test_proxy);
+
+    TEST_ASSERT_EQUAL(1, test_mediator.hlProxiesCount);
+
+    test_mediator.shutdown(&test_mediator);
+    for (size_t i = 0; i < MAX_HL_PROXIES_COUNT; i++) {
+        TEST_ASSERT_NULL(test_mediator.hlProxies[i]);
+    }
+    TEST_ASSERT_EQUAL(0, test_mediator.hlProxiesCount);
+}
