@@ -9,19 +9,20 @@
  */
 
 #include "GpioProxy.h"
+
 #include "main.h"
 
 static void gpio_configure(void *self, void *port, uint16_t pin)
 {
     Gpio *gpio = (Gpio *)self;
     gpio->port = port;
-    gpio->pin = pin;
+    gpio->pin  = pin;
 }
 
 static int gpio_read(void *self)
 {
     Gpio *gpio = (Gpio *)self;
-    int value = HAL_GPIO_ReadPin(gpio->port, gpio->pin);
+    int value  = HAL_GPIO_ReadPin(gpio->port, gpio->pin);
     return value;
 }
 
@@ -40,7 +41,7 @@ static void gpio_reset(void *self)
 void gpio_init(Gpio *gpio)
 {
     gpio->configure = gpio_configure;
-    gpio->read = gpio_read;
-    gpio->set = gpio_set;
-    gpio->reset = gpio_reset;
+    gpio->read      = gpio_read;
+    gpio->set       = gpio_set;
+    gpio->reset     = gpio_reset;
 }
