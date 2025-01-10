@@ -8,17 +8,23 @@
 #ifndef I2CPROXY_H
 #define I2CPROXY_H
 
-#include <stdint.h>
+#include "stm32l4xx.h"
+#include "stm32l4xx_hal_def.h"
+
 #include <stddef.h>
+#include <stdint.h>
 
 typedef struct {
-    void *i2c_handle;         // Uchwyt I2C (np. I2C_HandleTypeDef w HAL)
-    uint16_t device_address;  // Adres urządzenia I2C
+    I2C_HandleTypeDef *i2c_handle; // Uchwyt I2C z HAL
+    uint16_t device_address;       // Adres urządzenia I2C
 
-    void (*configure)(void *self, void *i2c_handle, uint16_t device_address);
-    void (*transmit)(void *self, uint8_t *data, size_t size);
-    void (*receive)(void *self, uint8_t *data, size_t size);
-    void (*transmit_receive)(void *self, uint8_t *txData, uint8_t *rxData, size_t size);
+    void (*configure)(void *self, void *i2c_handle);
+    void (*transmit)(void *self, uint8_t *data, size_t size,
+                     uint16_t device_address);
+    void (*receive)(void *self, uint8_t *data, size_t size,
+                    uint16_t device_address);
+    void (*transmit_receive)(void *self, uint8_t *txData, uint8_t *rxData,
+                             size_t size, uint16_t device_address);
 } I2c;
 
 void i2c_init(I2c *i2c);

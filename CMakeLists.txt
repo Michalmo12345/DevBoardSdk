@@ -79,3 +79,5 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     HLProxys
     # Add user defined libraries
 )
+
+set(CMAKE_COLOR_MAKEFILE ON)

@@ -11,6 +11,7 @@
 #define BASEHLPROXY_H
 
 #include "GpioProxy.h"
+#include "I2CProxy.h"
 #include "SpiProxy.h"
 
 #include <stdint.h>
@@ -20,10 +21,10 @@ typedef struct BaseHLProxy {
 
     // Pointers to different peripherals
     Spi *spi;
-    // I2c *i2c;       // Add when done
+    I2c *i2c;
     Gpio *gpio;
 
-    void (*initialize)(struct BaseHLProxy *, Spi *spi, Gpio *gpio);
+    void (*initialize)(struct BaseHLProxy *, Spi *spi, I2c *i2c, Gpio *gpio);
     bool (*execute)(struct BaseHLProxy *, const char *action);
     void (*shutdown)(struct BaseHLProxy *);
 } BaseHLProxy;
