@@ -8,7 +8,7 @@
 
 #include "RFModuleProxy.h"
 
-void RFModuleProxy_initialize(BaseHLProxy *self, Spi *spi, Gpio *gpio)
+void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, Gpio *gpio)
 {
     RFModuleProxy *rf_module_proxy = (RFModuleProxy *)self;
     if (spi != NULL) {
@@ -37,7 +37,7 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
     gpio->reset(gpio);
     //
     proxy->write(proxy, test_reg, test_value);
-    Spi *spi                  = proxy->base_proxy.spi;
+    Spi_t *spi                = proxy->base_proxy.spi;
     uint8_t tx_read_buffer[2] = {test_reg & 0x7F, 0x00};
     uint8_t rx_read_buffer[2] = {0};
     spi->transmit_receive(spi, tx_read_buffer, rx_read_buffer, 2);
@@ -59,7 +59,7 @@ static void RFModuleProxy_Read(RFModuleProxy *proxy, uint8_t reg)
     uint8_t tx_buffer[2] = {reg & 0x7F, 0x00}; // MSB ustawiony na 0 dla odczytu
     uint8_t rx_buffer[2] = {0};
 
-    Spi *spi = proxy->base_proxy.spi;
+    Spi_t *spi = proxy->base_proxy.spi;
     spi->transmit_receive(spi, tx_buffer, rx_buffer, 2);
 }
 
@@ -68,11 +68,11 @@ static void RFModuleProxy_Write(RFModuleProxy *proxy, uint8_t reg, uint8_t data)
 
     uint8_t tx_buffer[2] = {reg | 0x80, data}; // MSB ustawiony na 1 dla zapisu
 
-    Spi *spi = proxy->base_proxy.spi;
+    Spi_t *spi = proxy->base_proxy.spi;
     spi->transmit(spi, tx_buffer, 2); // problem here, getting HardFault
 }
 
-RFModuleProxy CreateRFModuleProxy(const char *name, Spi *spi, Gpio *gpio)
+RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio *gpio)
 {
     RFModuleProxy rf_module_proxy;
     rf_module_proxy.base_proxy.name       = name;

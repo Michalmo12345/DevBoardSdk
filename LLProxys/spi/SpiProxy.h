@@ -1,6 +1,6 @@
 /**
  * @file SpiProxy.h
- * @author  Michał Mokrzycki
+ * @author
  * @brief ProxyFramework for Spi
  * @date 2024-12-09
  */
@@ -21,14 +21,14 @@ typedef struct {
     GPIO_TypeDef *csPort;
     uint16_t csPin;
 
-    void (*configure)(void *self, SPI_HandleTypeDef *spi_handle,
+    void (*configure)(struct Spi_t *self, SPI_HandleTypeDef *spi_handle,
                       GPIO_TypeDef *csPort, uint16_t csPin);
-    void (*transmit)(void *self, uint8_t *data, size_t size);
-    void (*receive)(void *self, uint8_t *data, size_t size);
-    void (*set_cs)(void *self, uint16_t state);
-    void (*transmit_receive)(void *self, uint8_t *txData, uint8_t *rxData,
-                             size_t size);
-} Spi;
+    void (*transmit)(struct Spi_t *self, uint8_t *data, size_t size);
+    void (*receive)(struct Spi_t *self, uint8_t *data, size_t size);
+    void (*set_cs)(struct Spi_t *self, uint16_t state);
+    void (*transmit_receive)(struct Spi_t *self, uint8_t *txData,
+                             uint8_t *rxData, size_t size);
+} Spi_t;
 
-void spi_init(Spi *spi);
+void spi_init(Spi_t *spi);
 #endif // SPIPROXY_H

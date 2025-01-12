@@ -46,11 +46,11 @@ void start()
 
     extern UART_HandleTypeDef huart4;
 
-    Spi spi1;
+    Spi_t spi1;
     spi_init(&spi1);
     spi1.configure(&spi1, &hspi1, SPI1_CS_GPIO_Port, SPI1_CS_Pin);
 
-    Spi spi3;
+    Spi_t spi3;
     spi_init(&spi3);
     spi3.configure(&spi3, &hspi3, SPI3_CS_GPIO_Port, SPI3_CS_Pin);
 
