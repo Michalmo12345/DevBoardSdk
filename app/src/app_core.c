@@ -92,7 +92,7 @@ void start()
     HAL_Delay(1000);
 
     // freertos
-    xTaskCreate(lcdTask, "LCD Task", 256, NULL, 1, &lcdTaskHandle);
+    xTaskCreate(lcdTask, "LCD Task", 256, NULL, 2, &lcdTaskHandle);
     xTaskCreate(mediatorTask, "Mediator Task", 256, NULL, 1,
                 &mediatorTaskHandle);
     while (1) {

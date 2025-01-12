@@ -1,3 +1,11 @@
+
+/**
+ * @file RFModuleProxy.c
+ * @author Michał Mokrzycki
+ * @brief Implementation of RFModuleProxy
+ * @date 2025-01-01
+ */
+
 #include "RFModuleProxy.h"
 
 void RFModuleProxy_initialize(BaseHLProxy *self, Spi *spi, Gpio *gpio)

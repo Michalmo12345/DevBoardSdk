@@ -31,14 +31,14 @@ static void mediator_notify(Mediator *mediator, const char *action,
             bool success = proxy->execute(proxy, action);
             if (success) {
 
-                oledProxy->clear(oledProxy);
+                oledProxy->clear();
                 oledProxy->draw_text("Responds", 0, 0);
-                oledProxy->update_display(oledProxy);
+                oledProxy->update_display();
             } else {
 
-                oledProxy->clear(oledProxy);
+                oledProxy->clear();
                 oledProxy->draw_text("Doesnt respond", 0, 0);
-                oledProxy->update_display(oledProxy);
+                oledProxy->update_display();
             }
         }
     }

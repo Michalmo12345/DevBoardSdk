@@ -1,4 +1,10 @@
-
+/**
+ * @file RFModuleProxy.h
+ * @author Michał Mokrzycki
+ * @brief ProxyFramework for RFModule
+ * @date 2025-01-01
+ *
+ */
 
 #ifndef RFMODULEPROXY_H
 #define RFMODULEPROXY_H
