@@ -8,7 +8,7 @@
 
 #include "RFModuleProxy.h"
 
-void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, Gpio *gpio)
+void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, Gpio_t *gpio)
 {
     RFModuleProxy *rf_module_proxy = (RFModuleProxy *)self;
     if (spi != NULL) {
@@ -32,7 +32,7 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
     uint8_t test_value = 0x55;
     uint8_t read_value = 0;
 
-    Gpio *gpio = proxy->base_proxy.gpio;
+    Gpio_t *gpio = proxy->base_proxy.gpio;
     gpio->set(gpio);
     gpio->reset(gpio);
     //
@@ -72,7 +72,7 @@ static void RFModuleProxy_Write(RFModuleProxy *proxy, uint8_t reg, uint8_t data)
     spi->transmit(spi, tx_buffer, 2); // problem here, getting HardFault
 }
 
-RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio *gpio)
+RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio_t *gpio)
 {
     RFModuleProxy rf_module_proxy;
     rf_module_proxy.base_proxy.name       = name;

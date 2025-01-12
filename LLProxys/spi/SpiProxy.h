@@ -16,7 +16,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef struct {
+// typedef struct Spi_t Spi_t;
+
+typedef struct Spi_t {
     SPI_HandleTypeDef *spi_handle;
     GPIO_TypeDef *csPort;
     uint16_t csPin;

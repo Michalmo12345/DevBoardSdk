@@ -62,11 +62,11 @@ void start()
     i2c_init(&i2c3);
     i2c3.configure(&i2c3, &hi2c3);
 
-    Gpio gpio1;
+    Gpio_t gpio1;
     gpio_init(&gpio1);
     gpio1.configure(&gpio1, DIG_B1_GPIO_Port, DIG_B1_Pin);
 
-    Gpio rfm_rst_gpio;
+    Gpio_t rfm_rst_gpio;
     gpio_init(&rfm_rst_gpio);
     rfm_rst_gpio.configure(&rfm_rst_gpio, RFM_RST_GPIO_Port, RFM_RST_Pin);
 

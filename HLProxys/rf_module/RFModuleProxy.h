@@ -26,6 +26,6 @@ typedef struct RFModuleProxy {
     void (*write)(struct RFModuleProxy *proxy, uint8_t reg, uint8_t data);
 } RFModuleProxy;
 
-RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio *gpio);
+RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio_t *gpio);
 
 #endif // RFMODULEPROXY_H
