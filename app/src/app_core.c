@@ -14,6 +14,7 @@
 #include "FreeRTOS.h"
 #include "GpioProxy.h"
 #include "LedMatrixProxy.h"
+#include "EEPROMProxy.h"
 #include "Mediator.h"
 #include "OLedDisplayProxy.h"
 #include "RFModuleProxy.h"
@@ -60,18 +61,26 @@ void start()
     rfm_rst_gpio.configure(&rfm_rst_gpio, RFM_RST_GPIO_Port, RFM_RST_Pin);
 
     OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &spi1, &i2c1, &gpio1);
-    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1, &gpio1);
+    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
+                                     &gpio1);
 
     Mediator mediator;
     mediator_init(&mediator, &oled_proxy);
 
     RFModuleProxy rf_module_proxy =
         CreateRFModuleProxy("rf_module_proxy", &spi1, &rfm_rst_gpio);
-    rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1, &i2c1,
-                                          &rfm_rst_gpio);
+    rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
+                                          &i2c1, &rfm_rst_gpio);
+
+    EEPROMProxy eeprom_proxy = CreateEEPROMProxy("eeprom_proxy", &i2c1);
+
+    eeprom_proxy.base_proxy.initialize(&eeprom_proxy.base_proxy, &spi1, &i2c1,
+                                       &gpio1);
 
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
+    mediator.register_proxy(&mediator, &eeprom_proxy.base_proxy);
 
+    mediator.notify(&mediator, "execute", "eeprom_proxy");
     mediator.notify(&mediator, "execute", "rf_module_proxy");
 
     while (1) {
