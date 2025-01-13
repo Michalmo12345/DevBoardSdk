@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void OLEDProxy_initialize(BaseHLProxy *self, Spi *spi, Gpio *gpio)
+void OLEDProxy_initialize(BaseHLProxy *self, Spi *spi, I2c *i2c, Gpio *gpio)
 {
     OLEDProxy *oledProxy = (OLEDProxy *)self;
 
@@ -39,7 +39,7 @@ void OLEDProxy_draw_text(const char *text, uint8_t x, uint8_t y)
     ssd1306_SetCursor(x, y);
     ssd1306_WriteString(text, Font_7x10, White);
 }
-OLEDProxy CreateOLEDProxy(const char *name, Spi *spi, Gpio *gpio)
+OLEDProxy CreateOLEDProxy(const char *name, Spi *spi, I2c *i2c, Gpio *gpio)
 {
     OLEDProxy oled_proxy; // now it just creates object on the stack
     oled_proxy.base_proxy.name       = name;
@@ -51,5 +51,6 @@ OLEDProxy CreateOLEDProxy(const char *name, Spi *spi, Gpio *gpio)
     oled_proxy.update_display        = OLEDProxy_update_display;
     oled_proxy.base_proxy.spi        = spi;
     oled_proxy.base_proxy.gpio       = gpio;
+    oled_proxy.base_proxy.i2c        = i2c;
     return oled_proxy;
 }

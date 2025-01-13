@@ -43,13 +43,13 @@ void start()
     spi_init(&spi3);
     spi3.configure(&spi3, &hspi3, SPI3_CS_GPIO_Port, SPI3_CS_Pin);
 
-    // I2c i2c1;
-    // i2c_init(&i2c1);
-    // i2c1.configure(&i2c1, &hi2c1);
+    I2c i2c1;
+    i2c_init(&i2c1);
+    i2c1.configure(&i2c1, &hi2c1);
 
-    // I2c i2c3;
-    // i2c_init(&i2c3);
-    // i2c3.configure(&i2c3, &hi2c3);
+    I2c i2c3;
+    i2c_init(&i2c3);
+    i2c3.configure(&i2c3, &hi2c3);
 
     Gpio gpio1;
     gpio_init(&gpio1);
@@ -59,15 +59,15 @@ void start()
     gpio_init(&rfm_rst_gpio);
     rfm_rst_gpio.configure(&rfm_rst_gpio, RFM_RST_GPIO_Port, RFM_RST_Pin);
 
-    OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &spi1, &gpio1);
-    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &gpio1);
+    OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &spi1, &i2c1, &gpio1);
+    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1, &gpio1);
 
     Mediator mediator;
     mediator_init(&mediator, &oled_proxy);
 
     RFModuleProxy rf_module_proxy =
         CreateRFModuleProxy("rf_module_proxy", &spi1, &rfm_rst_gpio);
-    rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
+    rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1, &i2c1,
                                           &rfm_rst_gpio);
 
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
