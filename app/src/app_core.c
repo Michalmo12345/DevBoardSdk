@@ -31,9 +31,39 @@
 TaskHandle_t lcdTaskHandle;
 TaskHandle_t mediatorTaskHandle;
 
-void lcdTask(void *params) {}
+typedef struct {
+    OLEDProxy *oled_proxy;
+    Mediator *mediator;
+    RFModuleProxy *rf_module_proxy;
+} TaskParams;
 
-void mediatorTask(void *params) {}
+void lcdTask(void *params)
+{
+    TaskParams *taskParams = (TaskParams *)params;
+    OLEDProxy *oled_proxy  = taskParams->oled_proxy;
+
+    while (1) {
+        if (oled_proxy) {
+            oled_proxy->clear();
+            oled_proxy->draw_text("Break from testing", 0, 0);
+        }
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
+}
+
+void mediatorTask(void *params)
+{
+    TaskParams *taskParams         = (TaskParams *)params;
+    Mediator *mediator             = taskParams->mediator;
+    RFModuleProxy *rf_module_proxy = taskParams->rf_module_proxy;
+
+    while (1) {
+        if (mediator && rf_module_proxy) {
+            mediator->notify(&mediator, "execute", "rf_module_proxy");
+        }
+        vTaskDelay(pdMS_TO_TICKS(500)); // Delay for 500 ms
+    }
+}
 
 void start()
 {
@@ -84,17 +114,20 @@ void start()
 
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
 
+    TaskParams lcdTaskParams      = {&oled_proxy, &mediator, NULL};
+    TaskParams mediatorTaskParams = {NULL, &mediator, &rf_module_proxy};
+
     mediator.notify(&mediator, "execute", "rf_module_proxy");
 
     // TEST UART SENDING
-    uint8_t Test[] = "Hello World !!!\r\n";
-    HAL_UART_Transmit(&huart4, Test, sizeof(Test), 10);
-    HAL_Delay(1000);
+    // uint8_t Test[] = "Hello World !!!\r\n";
+    // HAL_UART_Transmit(&huart4, Test, sizeof(Test), 10);
+    // HAL_Delay(1000);
 
     // freertos
-    xTaskCreate(lcdTask, "LCD Task", 256, NULL, 2, &lcdTaskHandle);
-    xTaskCreate(mediatorTask, "Mediator Task", 256, NULL, 1,
-                &mediatorTaskHandle);
-    while (1) {
-    }
+    // xTaskCreate(lcdTask, "LCD Task", 256, &lcdTaskParams, 2, &lcdTaskHandle);
+    // xTaskCreate(mediatorTask, "Mediator Task", 256, &mediatorTaskParams, 1,
+    //             &mediatorTaskHandle);
+
+    // vTaskStartScheduler();
 }

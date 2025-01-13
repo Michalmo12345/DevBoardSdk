@@ -40,6 +40,7 @@ void OLEDProxy_draw_text(const char *text, uint8_t x, uint8_t y)
 {
     ssd1306_SetCursor(x, y);
     ssd1306_WriteString(text, Font_7x10, White);
+    ssd1306_UpdateScreen();
 }
 OLEDProxy CreateOLEDProxy(const char *name, Spi_t *spi, I2c *i2c, Gpio_t *gpio)
 {
