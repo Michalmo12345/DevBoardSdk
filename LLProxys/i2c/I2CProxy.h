@@ -16,16 +16,15 @@
 
 typedef struct {
     I2C_HandleTypeDef *i2c_handle; // Uchwyt I2C z HAL
-    uint16_t device_address;       // Adres urządzenia I2C
 
-    void (*configure)(void *self, void *i2c_handle);
+    void (*configure)(void *self, I2C_HandleTypeDef *i2c_handle);
     void (*transmit)(void *self, uint8_t *data, size_t size,
                      uint16_t device_address);
     void (*receive)(void *self, uint8_t *data, size_t size,
                     uint16_t device_address);
     void (*transmit_receive)(void *self, uint8_t *txData, uint8_t *rxData,
                              size_t size, uint16_t device_address);
-} I2c;
+} I2c; //zmiana nazwy na _t
 
 void i2c_init(I2c *i2c);
 

@@ -1,6 +1,6 @@
 #include "EEPROMProxy.h"
 
-void EEPROMProxy_initialize(BaseHLProxy *self, I2c *i2c)
+void EEPROMProxy_initialize(BaseHLProxy *self, I2c *i2c)  // wyzerować nieużywane wskaźniki
 {
     EEPROMProxy *eeprom_proxy = (EEPROMProxy *)self;
     if (i2c != NULL) {
@@ -13,7 +13,7 @@ void EEPROMProxy_shutdown(BaseHLProxy *self)
     EEPROMProxy *eeprom_proxy = (EEPROMProxy *)self;
 }
 
-bool EEPROMProxy_execute(BaseHLProxy *self, const char *action)
+bool EEPROMProxy_execute(BaseHLProxy *self, const char *action) // dodać drugie sprawdzenie
 {
     EEPROMProxy *proxy = (EEPROMProxy *)self;
 

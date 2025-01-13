@@ -3,7 +3,7 @@
 
 
 #define EEPROM_ADDRESS 0x50 
-#define TEST_REG 0x00       
+#define TEST_REG 0x00
 
 #include "BaseHLProxy.h"
 #include "I2CProxy.h"
