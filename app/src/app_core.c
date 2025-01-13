@@ -28,6 +28,10 @@
 
 #include HAL_SPI
 #include HAL_UART
+#include HAL_GPIO
+#include OLED_DRIVER
+#include HAL_I2C
+
 TaskHandle_t lcdTaskHandle;
 TaskHandle_t mediatorTaskHandle;
 
@@ -59,7 +63,7 @@ void mediatorTask(void *params)
 
     while (1) {
         if (mediator && rf_module_proxy) {
-            mediator->notify(&mediator, "execute", "rf_module_proxy");
+            mediator->notify(mediator, "execute", "rf_module_proxy");
         }
         vTaskDelay(pdMS_TO_TICKS(500)); // Delay for 500 ms
     }
@@ -74,7 +78,7 @@ void start()
     extern I2C_HandleTypeDef hi2c1;
     extern I2C_HandleTypeDef hi2c3;
 
-    extern UART_HandleTypeDef huart4;
+    // extern UART_HandleTypeDef huart4;
 
     Spi_t spi1;
     spi_init(&spi1);
@@ -125,6 +129,7 @@ void start()
     // HAL_Delay(1000);
 
     // freertos
+    // uncoment to further work
     // xTaskCreate(lcdTask, "LCD Task", 256, &lcdTaskParams, 2, &lcdTaskHandle);
     // xTaskCreate(mediatorTask, "Mediator Task", 256, &mediatorTaskParams, 1,
     //             &mediatorTaskHandle);

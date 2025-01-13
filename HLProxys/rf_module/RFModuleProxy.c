@@ -34,7 +34,7 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
 
     Gpio_t *gpio = proxy->base_proxy.gpio;
     gpio->set(gpio);
-    gpio->reset(gpio);
+
     //
     proxy->write(proxy, test_reg, test_value);
     Spi_t *spi                = proxy->base_proxy.spi;
@@ -44,7 +44,7 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
     HAL_Delay(500);
 
     read_value = rx_read_buffer[1];
-
+    gpio->reset(gpio);
     return (read_value == test_value);
 }
 
