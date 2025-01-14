@@ -11,6 +11,7 @@
 #include "app_core.h"
 
 #include "BaseHLProxy.h"
+#include "EEPROMProxy.h"
 #include "FreeRTOS.h"
 #include "GpioProxy.h"
 #include "LedMatrixProxy.h"
@@ -116,7 +117,12 @@ void start()
     rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
                                           &i2c1, &rfm_rst_gpio);
 
+    EEPROMProxy eeprom_proxy = CreateEEPROMProxy("eeprom_proxy", &i2c1);
+    eeprom_proxy.base_proxy.initialize(&eeprom_proxy.base_proxy, &spi1, &i2c1,
+                                       &gpio1);
+
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
+    mediator.register_proxy(&mediator, &eeprom_proxy.base_proxy);
 
     TaskParams lcdTaskParams      = {&oled_proxy, &mediator, NULL};
     TaskParams mediatorTaskParams = {NULL, &mediator, &rf_module_proxy};
