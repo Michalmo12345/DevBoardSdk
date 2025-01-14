@@ -8,16 +8,17 @@
 
 #include "RFModuleProxy.h"
 
-void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, Gpio_t *gpio)
+void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c *i2c,
+                              Gpio_t *gpio)
 {
     RFModuleProxy *rf_module_proxy = (RFModuleProxy *)self;
     if (spi != NULL) {
         self->spi = spi;
     }
 
-    // if (i2c != NULL) {
-    //     rf_module_proxy->i2c = i2c;
-    // }
+    if (i2c != NULL) {
+        self->i2c = i2c;
+    }
 
     if (gpio != NULL) {
         self->gpio = gpio;
@@ -44,7 +45,7 @@ bool RFModuleProxy_execute(BaseHLProxy *self, const char *action)
     HAL_Delay(500);
 
     read_value = rx_read_buffer[1];
-    // gpio->reset(gpio);
+    gpio->reset(gpio);
     return (read_value == test_value);
 }
 
