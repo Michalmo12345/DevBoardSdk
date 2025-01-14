@@ -20,6 +20,7 @@
 #include "RFModuleProxy.h"
 #include "SpiProxy.h"
 #include "main.h"
+#include "proxy_actions.h"
 #include "queue.h"
 #include "ssd1306.h"
 #include "ssd1306_fonts.h"
@@ -64,7 +65,7 @@ void mediatorTask(void *params)
 
     while (1) {
         if (mediator && rf_module_proxy) {
-            mediator->notify(mediator, "execute", "rf_module_proxy");
+            mediator->notify(mediator, EXECUTE, "rf_module_proxy");
         }
         vTaskDelay(pdMS_TO_TICKS(500)); // Delay for 500 ms
     }
@@ -127,7 +128,7 @@ void start()
     TaskParams lcdTaskParams      = {&oled_proxy, &mediator, NULL};
     TaskParams mediatorTaskParams = {NULL, &mediator, &rf_module_proxy};
 
-    mediator.notify(&mediator, "execute", "eeprom_proxy");
+    mediator.notify(&mediator, EXECUTE, "eeprom_proxy");
 
     // TEST UART SENDING
     // uint8_t Test[] = "Hello World !!!\r\n";

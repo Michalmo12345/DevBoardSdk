@@ -13,6 +13,7 @@
 #include "GpioProxy.h"
 #include "I2CProxy.h"
 #include "SpiProxy.h"
+#include "proxy_actions.h"
 
 #include <stdint.h>
 
@@ -26,7 +27,7 @@ typedef struct BaseHLProxy {
 
     void (*initialize)(struct BaseHLProxy *, Spi_t *spi, I2c *i2c,
                        Gpio_t *gpio);
-    bool (*execute)(struct BaseHLProxy *, const char *action);
+    bool (*execute)(struct BaseHLProxy *, ActionType action);
     void (*shutdown)(struct BaseHLProxy *);
 } BaseHLProxy;
 

@@ -22,7 +22,7 @@ void EEPROMProxy_shutdown(BaseHLProxy *self)
 }
 
 bool EEPROMProxy_execute(BaseHLProxy *self,
-                         const char *action) // dodać drugie sprawdzenie
+                         ActionType action) // dodać drugie sprawdzenie
 {
     EEPROMProxy *proxy = (EEPROMProxy *)self;
 
