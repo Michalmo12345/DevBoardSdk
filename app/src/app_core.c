@@ -115,11 +115,11 @@ void start()
     RFModuleProxy rf_module_proxy =
         CreateRFModuleProxy("rf_module_proxy", &spi1, &rfm_rst_gpio);
     rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
-                                          &i2c1, &rfm_rst_gpio);
+                                          NULL, &rfm_rst_gpio);
 
     EEPROMProxy eeprom_proxy = CreateEEPROMProxy("eeprom_proxy", &i2c1);
-    eeprom_proxy.base_proxy.initialize(&eeprom_proxy.base_proxy, &spi1, &i2c1,
-                                       &gpio1);
+    eeprom_proxy.base_proxy.initialize(&eeprom_proxy.base_proxy, NULL, &i2c1,
+                                       NULL);
 
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
     mediator.register_proxy(&mediator, &eeprom_proxy.base_proxy);
@@ -127,7 +127,7 @@ void start()
     TaskParams lcdTaskParams      = {&oled_proxy, &mediator, NULL};
     TaskParams mediatorTaskParams = {NULL, &mediator, &rf_module_proxy};
 
-    mediator.notify(&mediator, "execute", "rf_module_proxy");
+    mediator.notify(&mediator, "execute", "eeprom_proxy");
 
     // TEST UART SENDING
     // uint8_t Test[] = "Hello World !!!\r\n";
