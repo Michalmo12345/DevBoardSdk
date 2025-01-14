@@ -1,4 +1,10 @@
-
+/**
+ * @file RFModuleProxy.h
+ * @author Michał Mokrzycki
+ * @brief ProxyFramework for RFModule
+ * @date 2025-01-01
+ *
+ */
 
 #ifndef RFMODULEPROXY_H
 #define RFMODULEPROXY_H
@@ -16,10 +22,10 @@
 #include "SpiProxy.h"
 typedef struct RFModuleProxy {
     BaseHLProxy base_proxy;
-    void (*read)(uint8_t reg);
-    void (*write)(uint8_t reg, uint8_t data);
+    void (*read)(struct RFModuleProxy *proxy, uint8_t reg);
+    void (*write)(struct RFModuleProxy *proxy, uint8_t reg, uint8_t data);
 } RFModuleProxy;
 
-RFModuleProxy CreateRFModuleProxy(const char *name, Spi *spi, Gpio *gpio);
+RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio_t *gpio);
 
 #endif // RFMODULEPROXY_H

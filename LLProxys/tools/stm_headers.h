@@ -19,6 +19,7 @@
 #define HAL_GPIO "stm32l4xx_hal_gpio.h"
 #define HAL_SPI "stm32l4xx_hal_spi.h"
 #define HAL_I2C "stm32l4xx_hal_i2c.h"
+#define HAL_UART "stm32l4xx_hal_uart.h"
 #define OLED_DRIVER "oled_drivers.h"
 // define other peripherial headers
 // #else

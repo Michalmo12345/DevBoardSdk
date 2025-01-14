@@ -19,7 +19,8 @@ static void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy)
     mediator->hlProxiesCount++;
 }
 
-static void mediator_notify(Mediator *mediator, const char *action, // zmeinić na enuma
+static void mediator_notify(Mediator *mediator,
+                            const char *action, // zmeinić na enuma
                             const char *proxy_name)
 {
     for (size_t i = 0; i < mediator->hlProxiesCount; i++) {
@@ -27,19 +28,18 @@ static void mediator_notify(Mediator *mediator, const char *action, // zmeinić 
 
         OLEDProxy *oledProxy = mediator->oled_proxy;
 
-        if (proxy && proxy->execute && proxy->name == proxy_name) { // nie sprawdzać tej nazwy, poprawić z tymi wskaźnikami 
-            bool success =
-                proxy->execute(proxy, action); // debugging problem here
+        if (proxy && proxy->execute && proxy->name == proxy_name) {
+            bool success = proxy->execute(proxy, action);
             if (success) {
 
-                oledProxy->clear(oledProxy);
+                oledProxy->clear();
                 oledProxy->draw_text("Responds", 0, 0);
-                oledProxy->update_display(oledProxy);
+                oledProxy->update_display();
             } else {
 
-                oledProxy->clear(oledProxy);
-                oledProxy->draw_text("Doesnt repond", 0, 0);
-                oledProxy->update_display(oledProxy);
+                oledProxy->clear();
+                oledProxy->draw_text("Doesnt respond", 0, 0);
+                oledProxy->update_display();
             }
         }
     }

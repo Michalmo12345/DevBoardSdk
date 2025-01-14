@@ -67,3 +67,12 @@ zakomnetowane testy działają na windowsie, jednak na Ubuntu  powodują  segmen
 Wszystkie zmiany wprowadzamy w napisanym pliku ssd1306_conf.h
 Ustalamy tam m.in
 - szerokość  i syokośc  ekranu
+
+### UWAGA
+
+Po kazdej generacji kodu należy do pliku cmake/stm32cubemx/CMakeLists.txt dodac 
+../../Drivers/OLedDriver/Include w sekji target_include_directories 
+oraz
+../../Drivers/OLedDriver/Src/ssd1306.c
+    ../../Drivers/OLedDriver/Src/ssd1306_fonts.c
+    ../../Drivers/OLedDriver/Src/ssd1306_tests.c w sekcji target sources
