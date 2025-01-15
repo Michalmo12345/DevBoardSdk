@@ -10,63 +10,54 @@
 
 #include "main.h"
 
-static void spi_configure(void *self, void *spi_handle, void *csPort,
-                          uint16_t csPin)
+static void spi_configure(Spi_t *self, SPI_HandleTypeDef *spi_handle,
+                          GPIO_TypeDef *csPort, uint16_t csPin)
 {
-    Spi *spi        = (Spi *)self;
-    spi->spi_handle = spi_handle;
-    spi->csPort     = csPort;
-    spi->csPin      = csPin;
+    self->spi_handle = spi_handle;
+    self->csPort     = csPort;
+    self->csPin      = csPin;
 }
 
-static void spi_transmit(void *self, uint8_t *data, size_t size)
+static void spi_transmit(Spi_t *self, uint8_t *data, size_t size)
 {
-    Spi *spi = (Spi *)self;
-
-    HAL_GPIO_WritePin((GPIO_TypeDef *)spi->csPort, spi->csPin, GPIO_PIN_RESET);
-    HAL_SPI_Transmit((SPI_HandleTypeDef *)self, data, size, HAL_MAX_DELAY);
-    HAL_GPIO_WritePin((GPIO_TypeDef *)spi->csPort, spi->csPin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(self->csPort, self->csPin, GPIO_PIN_RESET);
+    HAL_SPI_Transmit(self->spi_handle, data, size, HAL_MAX_DELAY);
+    HAL_GPIO_WritePin(self->csPort, self->csPin, GPIO_PIN_SET);
 }
 
-static void spi_receive(void *self, uint8_t *data, size_t size)
+static void spi_receive(Spi_t *self, uint8_t *data, size_t size)
 {
-
-    Spi *spi = (Spi *)self;
-    HAL_GPIO_WritePin((GPIO_TypeDef *)spi->csPort, spi->csPin, GPIO_PIN_RESET);
-    HAL_SPI_Receive((SPI_HandleTypeDef *)self, data, size, HAL_MAX_DELAY);
-    HAL_GPIO_WritePin((GPIO_TypeDef *)spi->csPort, spi->csPin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(self->csPort, self->csPin, GPIO_PIN_RESET);
+    HAL_SPI_Receive(self->spi_handle, data, size, HAL_MAX_DELAY);
+    HAL_GPIO_WritePin(self->csPort, self->csPin, GPIO_PIN_SET);
 }
 
-static void spi_select(void *self, uint16_t state)
+static void spi_select(Spi_t *self, uint16_t state)
 {
-    Spi *spi = (Spi *)self;
     if (state == 0)
-        HAL_GPIO_WritePin((GPIO_TypeDef *)spi->csPort, spi->csPin,
-                          GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(self->csPort, self->csPin, GPIO_PIN_RESET);
     else
-        HAL_GPIO_WritePin((GPIO_TypeDef *)spi->csPort, spi->csPin,
-                          GPIO_PIN_SET);
+        HAL_GPIO_WritePin(self->csPort, self->csPin, GPIO_PIN_SET);
 }
 
-static void spi_transmit_receive(void *self, uint8_t *txData, uint8_t *rxData,
+static void spi_transmit_receive(Spi_t *self, uint8_t *txData, uint8_t *rxData,
                                  size_t size)
 {
-    Spi *spi = (Spi *)self;
-    HAL_GPIO_WritePin((GPIO_TypeDef *)spi->csPort, spi->csPin, GPIO_PIN_RESET);
-    HAL_SPI_TransmitReceive((SPI_HandleTypeDef *)self, txData, rxData, size,
+    HAL_GPIO_WritePin(self->csPort, self->csPin, GPIO_PIN_RESET);
+    HAL_SPI_TransmitReceive(self->spi_handle, txData, rxData, size,
                             HAL_MAX_DELAY);
-    HAL_GPIO_WritePin((GPIO_TypeDef *)spi->csPort, spi->csPin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(self->csPort, self->csPin, GPIO_PIN_SET);
 }
 
-void spi_init(Spi *spi)
+void spi_init(Spi_t *self)
 {
-    spi->configure        = spi_configure;
-    spi->transmit         = spi_transmit;
-    spi->receive          = spi_receive;
-    spi->set_cs           = spi_select;
-    spi->transmit_receive = spi_transmit_receive;
+    self->configure        = spi_configure;
+    self->transmit         = spi_transmit;
+    self->receive          = spi_receive;
+    self->set_cs           = spi_select;
+    self->transmit_receive = spi_transmit_receive;
 
-    spi->spi_handle = NULL;
-    spi->csPort     = NULL;
-    spi->csPin      = 0;
+    self->spi_handle = NULL;
+    self->csPort     = NULL;
+    self->csPin      = 0;
 }

@@ -11,6 +11,7 @@
 
 #include "BaseHLProxy.h"
 #include "OLedDisplayProxy.h"
+#include "proxy_actions.h"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -24,7 +25,7 @@ typedef struct Mediator {
     size_t hlProxiesCount;
     void (*init)(struct Mediator *);
     void (*register_proxy)(struct Mediator *, BaseHLProxy *);
-    void (*notify)(struct Mediator *, const char *, const char *);
+    void (*notify)(struct Mediator *, ActionType, const char *);
     void (*shutdown)(struct Mediator *);
 } Mediator;
 

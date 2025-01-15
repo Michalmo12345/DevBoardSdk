@@ -1,19 +1,28 @@
 #include "EEPROMProxy.h"
 
-void EEPROMProxy_initialize(BaseHLProxy *self, I2c *i2c)  // wyzerować nieużywane wskaźniki
+void EEPROMProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c *i2c,
+                            Gpio_t *gpio) // wyzerować nieużywane wskaźniki
 {
     EEPROMProxy *eeprom_proxy = (EEPROMProxy *)self;
+    if (spi != NULL) {
+        self->spi = spi;
+    }
+
     if (i2c != NULL) {
         self->i2c = i2c;
     }
-}
 
+    if (gpio != NULL) {
+        self->gpio = gpio;
+    }
+}
 void EEPROMProxy_shutdown(BaseHLProxy *self)
 {
     EEPROMProxy *eeprom_proxy = (EEPROMProxy *)self;
 }
 
-bool EEPROMProxy_execute(BaseHLProxy *self, const char *action) // dodać drugie sprawdzenie
+bool EEPROMProxy_execute(BaseHLProxy *self,
+                         ActionType action) // dodać drugie sprawdzenie
 {
     EEPROMProxy *proxy = (EEPROMProxy *)self;
 

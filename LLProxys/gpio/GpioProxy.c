@@ -12,36 +12,32 @@
 
 #include "main.h"
 
-static void gpio_configure(void *self, void *port, uint16_t pin)
+static void gpio_configure(Gpio_t *self, GPIO_TypeDef *port, uint16_t pin)
 {
-    Gpio *gpio = (Gpio *)self;
-    gpio->port = port;
-    gpio->pin  = pin;
+    self->port = port;
+    self->pin  = pin;
 }
 
-static int gpio_read(void *self)
+static int gpio_read(Gpio_t *self)
 {
-    Gpio *gpio = (Gpio *)self;
-    int value  = HAL_GPIO_ReadPin(gpio->port, gpio->pin);
+    int value = HAL_GPIO_ReadPin(self->port, self->pin);
     return value;
 }
 
-static void gpio_set(void *self)
+static void gpio_set(Gpio_t *self)
 {
-    Gpio *gpio = (Gpio *)self;
-    HAL_GPIO_WritePin(gpio->port, gpio->pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(self->port, self->pin, GPIO_PIN_SET);
 }
 
-static void gpio_reset(void *self)
+static void gpio_reset(Gpio_t *self)
 {
-    Gpio *gpio = (Gpio *)self;
-    HAL_GPIO_WritePin(gpio->port, gpio->pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(self->port, self->pin, GPIO_PIN_RESET);
 }
 
-void gpio_init(Gpio *gpio)
+void gpio_init(Gpio_t *self)
 {
-    gpio->configure = gpio_configure;
-    gpio->read      = gpio_read;
-    gpio->set       = gpio_set;
-    gpio->reset     = gpio_reset;
+    self->configure = gpio_configure;
+    self->read      = gpio_read;
+    self->set       = gpio_set;
+    self->reset     = gpio_reset;
 }

@@ -1,10 +1,12 @@
 #include "OLedDisplayProxy.h"
 
+#include "oled_drivers.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-void OLEDProxy_initialize(BaseHLProxy *self, Spi *spi, I2c *i2c, Gpio *gpio)
+void OLEDProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c *i2c, Gpio_t *gpio)
 {
     OLEDProxy *oledProxy = (OLEDProxy *)self;
 
@@ -13,7 +15,7 @@ void OLEDProxy_initialize(BaseHLProxy *self, Spi *spi, I2c *i2c, Gpio *gpio)
     oledProxy->update_display(oledProxy);
 }
 
-bool OLEDProxy_execute(BaseHLProxy *self, const char *action)
+bool OLEDProxy_execute(BaseHLProxy *self, ActionType action)
 {
     OLEDProxy *oledProxy = (OLEDProxy *)self;
     // actions to define later
@@ -38,10 +40,11 @@ void OLEDProxy_draw_text(const char *text, uint8_t x, uint8_t y)
 {
     ssd1306_SetCursor(x, y);
     ssd1306_WriteString(text, Font_7x10, White);
+    ssd1306_UpdateScreen();
 }
-OLEDProxy CreateOLEDProxy(const char *name, Spi *spi, I2c *i2c, Gpio *gpio)
+OLEDProxy CreateOLEDProxy(const char *name, Spi_t *spi, I2c *i2c, Gpio_t *gpio)
 {
-    OLEDProxy oled_proxy; // now it just creates object on the stack
+    OLEDProxy oled_proxy;
     oled_proxy.base_proxy.name       = name;
     oled_proxy.base_proxy.initialize = OLEDProxy_initialize;
     oled_proxy.base_proxy.execute    = OLEDProxy_execute;
