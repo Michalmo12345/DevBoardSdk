@@ -7,6 +7,7 @@ target_sources(LLProxys  PRIVATE
 
 target_include_directories(LLProxys  PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/gpio
+    ${CMAKE_CURRENT_SOURCE_DIR}/adc
     ${CMAKE_CURRENT_SOURCE_DIR}/i2c
     ${CMAKE_CURRENT_SOURCE_DIR}/spi
     ${CMAKE_CURRENT_SOURCE_DIR}/tools)
