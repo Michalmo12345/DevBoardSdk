@@ -91,11 +91,11 @@ void start()
     spi_init(&spi3);
     spi3.configure(&spi3, &hspi3, SPI3_CS_GPIO_Port, SPI3_CS_Pin);
 
-    I2c i2c1;
+    I2c_t i2c1;
     i2c_init(&i2c1);
     i2c1.configure(&i2c1, &hi2c1);
 
-    I2c i2c3;
+    I2c_t i2c3;
     i2c_init(&i2c3);
     i2c3.configure(&i2c3, &hi2c3);
 

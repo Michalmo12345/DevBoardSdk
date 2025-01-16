@@ -22,10 +22,10 @@ typedef struct BaseHLProxy {
 
     // Pointers to different peripherals
     Spi_t *spi;
-    I2c *i2c;
+    I2c_t *i2c;
     Gpio_t *gpio;
 
-    void (*initialize)(struct BaseHLProxy *, Spi_t *spi, I2c *i2c,
+    void (*initialize)(struct BaseHLProxy *, Spi_t *spi, I2c_t *i2c,
                        Gpio_t *gpio);
     bool (*execute)(struct BaseHLProxy *, ActionType action);
     void (*shutdown)(struct BaseHLProxy *);

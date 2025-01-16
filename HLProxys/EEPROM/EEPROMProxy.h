@@ -14,6 +14,6 @@ typedef struct EEPROMProxy {
     void (*write)(uint8_t reg, uint8_t data);
 } EEPROMProxy;
 
-EEPROMProxy CreateEEPROMProxy(const char *name, I2c *i2c);
+EEPROMProxy CreateEEPROMProxy(const char *name, I2c_t *i2c);
 
 #endif // EEPROMPROXY_H
