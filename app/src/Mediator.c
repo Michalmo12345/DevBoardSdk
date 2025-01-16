@@ -20,7 +20,7 @@ static void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy)
 }
 
 static void mediator_notify(Mediator *mediator, ActionType action,
-                            const char *proxy_name) // zmeinić na enuma
+                            const char *proxy_name)
 {
     for (size_t i = 0; i < mediator->hlProxiesCount; i++) {
         BaseHLProxy *proxy = mediator->hlProxies[i];
