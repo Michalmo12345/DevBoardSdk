@@ -10,19 +10,18 @@
 
 #include "app_core.h"
 
-#include "BaseHLProxy.h"
-#include "FreeRTOS.h"
-
-#include "GpioProxy.h"
-#include "SpiProxy.h"
-#include "I2CProxy.h"
 #include "AdcProxy.h"
-
-#include "LedMatrixProxy.h"
+#include "BaseHLProxy.h"
 #include "EEPROMProxy.h"
+#include "FreeRTOS.h"
+#include "GpioProxy.h"
+#include "I2CProxy.h"
+#include "LedMatrixProxy.h"
+#include "LightSensorProxy.h"
 #include "Mediator.h"
 #include "OLedDisplayProxy.h"
 #include "RFModuleProxy.h"
+#include "SpiProxy.h"
 #include "main.h"
 #include "proxy_actions.h"
 #include "queue.h"
@@ -89,7 +88,7 @@ void start()
 
     Adc_t adc1;
     adc_init(&adc1);
-    adc1.configure(&adc1, &hadc1, 0);
+    adc1.configure(&adc1, &hadc1);
 
     Spi_t spi1;
     spi_init(&spi1);
@@ -117,9 +116,9 @@ void start()
 
     OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &spi1, &i2c1, &gpio1);
     oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
-                                     &gpio1);
+                                     &gpio1, NULL);
     oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
-                                     &gpio1);
+                                     &gpio1, NULL);
 
     Mediator mediator;
     mediator_init(&mediator, &oled_proxy);
@@ -127,20 +126,38 @@ void start()
     RFModuleProxy rf_module_proxy =
         CreateRFModuleProxy("rf_module_proxy", &spi1, &rfm_rst_gpio);
     rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
-                                          NULL, &rfm_rst_gpio);
+                                          NULL, &rfm_rst_gpio, NULL);
 
     EEPROMProxy eeprom_proxy = CreateEEPROMProxy("eeprom_proxy", &i2c1);
     eeprom_proxy.base_proxy.initialize(&eeprom_proxy.base_proxy, NULL, &i2c1,
-                                       NULL);
+                                       NULL, NULL);
+
+    LightSensorProxy light_sensor_proxy =
+        CreateLightSensorProxy("light_sensor_proxy", &adc1);
 
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
     mediator.register_proxy(&mediator, &eeprom_proxy.base_proxy);
+    mediator.register_proxy(&mediator, &light_sensor_proxy.base_proxy);
 
     TaskParams lcdTaskParams      = {&oled_proxy, &mediator, NULL};
     TaskParams mediatorTaskParams = {NULL, &mediator, &rf_module_proxy};
 
     mediator.notify(&mediator, EXECUTE, "eeprom_proxy");
 
+    HAL_Delay(500);
+
+    mediator.notify(&mediator, EXECUTE, "light_sensor_proxy");
+
+    HAL_Delay(500);
+
+    for (size_t i; i < 10; i++) {
+        oled_proxy.clear();
+        char buffer[32];
+        snprintf(buffer, sizeof(buffer), "%d", light_sensor_proxy.readValue(&light_sensor_proxy));
+        oled_proxy.draw_text(buffer, 0, 0);
+        oled_proxy.update_display();
+        HAL_Delay(500);
+    }
     // TEST UART SENDING
     // uint8_t Test[] = "Hello World !!!\r\n";
     // HAL_UART_Transmit(&huart4, Test, sizeof(Test), 10);
