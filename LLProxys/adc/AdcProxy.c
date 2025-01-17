@@ -7,11 +7,10 @@
 
 #include "AdcProxy.h"
 
-static void configure(void *self, ADC_HandleTypeDef *adc_handle, uint32_t channel)
+static void configure(void *self, ADC_HandleTypeDef *adc_handle)
 {
     Adc_t *adc = (Adc_t *)self;
     adc->adc_handle = adc_handle;
-    adc->channel = channel;
 }
 
 static void start_conversion(void *self)
@@ -43,5 +42,4 @@ void adc_init(Adc_t *adc)
     adc->stop_conversion = stop_conversion;
 
     adc->adc_handle = NULL;
-    adc->channel = 0;
 }
