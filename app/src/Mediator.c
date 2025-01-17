@@ -32,12 +32,16 @@ static void mediator_notify(Mediator *mediator, ActionType action,
             if (success) {
 
                 oledProxy->clear();
-                oledProxy->draw_text("Responds", 0, 0);
+                char response_text1[100];
+                sprintf(response_text1, "Resp:  %s", proxy->name);
+                oledProxy->draw_text(response_text1, 0, 0);
                 oledProxy->update_display();
             } else {
 
                 oledProxy->clear();
-                oledProxy->draw_text("Doesnt respond", 0, 0);
+                char response_text2[100];
+                sprintf(response_text2, "NResp: %s", proxy->name);
+                oledProxy->draw_text(response_text2, 0, 0);
                 oledProxy->update_display();
             }
         }
