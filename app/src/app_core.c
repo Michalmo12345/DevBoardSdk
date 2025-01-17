@@ -11,15 +11,18 @@
 #include "app_core.h"
 
 #include "BaseHLProxy.h"
-#include "EEPROMProxy.h"
 #include "FreeRTOS.h"
+
 #include "GpioProxy.h"
+#include "SpiProxy.h"
+#include "I2CProxy.h"
+#include "AdcProxy.h"
+
 #include "LedMatrixProxy.h"
 #include "EEPROMProxy.h"
 #include "Mediator.h"
 #include "OLedDisplayProxy.h"
 #include "RFModuleProxy.h"
-#include "SpiProxy.h"
 #include "main.h"
 #include "proxy_actions.h"
 #include "queue.h"
@@ -74,6 +77,7 @@ void mediatorTask(void *params)
 
 void start()
 {
+    extern ADC_HandleTypeDef hadc1;
 
     extern SPI_HandleTypeDef hspi1;
     extern SPI_HandleTypeDef hspi3;
@@ -82,6 +86,10 @@ void start()
     extern I2C_HandleTypeDef hi2c3;
 
     // extern UART_HandleTypeDef huart4;
+
+    Adc_t adc1;
+    adc_init(&adc1);
+    adc1.configure(&adc1, &hadc1, 0);
 
     Spi_t spi1;
     spi_init(&spi1);

@@ -75,7 +75,7 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
     app_core
-    LLProxys 
+    LLProxys
     HLProxys
     # Add user defined libraries
 )

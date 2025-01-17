@@ -16,6 +16,7 @@
 #include "stm32l4xx_hal_gpio.h"
 
 #include <stdint.h>
+
 typedef struct Gpio_t {
     GPIO_TypeDef *port;
     uint16_t pin;
