@@ -1,3 +1,10 @@
+/**
+ * @file I2CProxy.h
+ * @author  Karol Pieczka
+ * @brief ProxyFramework for I2C
+ * @date 2024-12-09
+ */
+
 #ifndef EEPROMPROXY_H
 #define EEPROMPROXY_H
 
