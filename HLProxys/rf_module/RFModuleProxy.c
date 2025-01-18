@@ -10,24 +10,24 @@
 
 #include "proxy_actions.h"
 
-void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
-                              Gpio_t *gpio)
-{
-    RFModuleProxy *rf_module_proxy = (RFModuleProxy *)self;
-    if (spi != NULL) {
-        self->spi = spi;
-    }
+// void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
+//                               Gpio_t *gpio)
+// {
+//     RFModuleProxy *rf_module_proxy = (RFModuleProxy *)self;
+//     if (spi != NULL) {
+//         self->spi = spi;
+//     }
 
-    if (i2c != NULL) {
-        self->i2c = i2c;
-    }
+//     if (i2c != NULL) {
+//         self->i2c = i2c;
+//     }
 
-    if (gpio != NULL) {
-        self->gpio = gpio;
-    }
-}
+//     if (gpio != NULL) {
+//         self->gpio = gpio;
+//     }
+// }
 
-bool RFModuleProxy_execute(BaseHLProxy *self, ActionType action)
+static bool RFModuleProxy_execute(BaseHLProxy *self, ActionType action)
 {
     if (action == EXECUTE) {
 
@@ -56,10 +56,11 @@ bool RFModuleProxy_execute(BaseHLProxy *self, ActionType action)
     }
 }
 
-void RFModuleProxy_shutdown(BaseHLProxy *self)
+static void RFModuleProxy_shutdown(BaseHLProxy *self)
 {
-    RFModuleProxy *rf_module_proxy = (RFModuleProxy *)self;
-    // 
+    (void)self;
+    // RFModuleProxy *rf_module_proxy = (RFModuleProxy *)self;
+    //
 }
 
 static void RFModuleProxy_Read(RFModuleProxy *proxy, uint8_t reg)
@@ -84,13 +85,13 @@ static void RFModuleProxy_Write(RFModuleProxy *proxy, uint8_t reg, uint8_t data)
 RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio_t *gpio)
 {
     RFModuleProxy rf_module_proxy;
-    // set memset to 0
-    rf_module_proxy.base_proxy.name       = name;
-    rf_module_proxy.base_proxy.initialize = RFModuleProxy_initialize;
-    rf_module_proxy.base_proxy.execute    = RFModuleProxy_execute;
-    rf_module_proxy.base_proxy.shutdown   = RFModuleProxy_shutdown;
-    rf_module_proxy.read                  = RFModuleProxy_Read;
-    rf_module_proxy.write                 = RFModuleProxy_Write;
+    memset(&rf_module_proxy, 0, sizeof(RFModuleProxy));
+    rf_module_proxy.base_proxy.name = name;
+    // rf_module_proxy.base_proxy.initialize = RFModuleProxy_initialize;
+    rf_module_proxy.base_proxy.execute  = RFModuleProxy_execute;
+    rf_module_proxy.base_proxy.shutdown = RFModuleProxy_shutdown;
+    rf_module_proxy.read                = RFModuleProxy_Read;
+    rf_module_proxy.write               = RFModuleProxy_Write;
 
     rf_module_proxy.base_proxy.spi  = spi;
     rf_module_proxy.base_proxy.gpio = gpio;

@@ -114,19 +114,19 @@ void start()
     gpio_init(&rfm_rst_gpio);
     rfm_rst_gpio.configure(&rfm_rst_gpio, RFM_RST_GPIO_Port, RFM_RST_Pin);
 
-    OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &spi1, &i2c1, &gpio1);
-    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
-                                     &gpio1, NULL);
-    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
-                                     &gpio1, NULL);
+    OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &i2c1);
+    // oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
+    //                                  &gpio1, NULL);
+    // oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
+    //                                  &gpio1, NULL);
 
     Mediator mediator;
     mediator_init(&mediator, &oled_proxy);
 
     RFModuleProxy rf_module_proxy =
         CreateRFModuleProxy("rf_module_proxy", &spi1, &rfm_rst_gpio);
-    rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
-                                          NULL, &rfm_rst_gpio, NULL);
+    // rf_module_proxy.base_proxy.initialize(&rf_module_proxy.base_proxy, &spi1,
+    //                                       NULL, &rfm_rst_gpio, NULL);
 
     EEPROMProxy eeprom_proxy = CreateEEPROMProxy("eeprom_proxy", &i2c1);
     eeprom_proxy.base_proxy.initialize(&eeprom_proxy.base_proxy, NULL, &i2c1,

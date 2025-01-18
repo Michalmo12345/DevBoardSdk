@@ -9,10 +9,13 @@
 
 #include "Mediator.h"
 
+#include <stdio.h>
 static void mediator_register_proxy(Mediator *mediator, BaseHLProxy *proxy)
 {
     if (mediator->hlProxiesCount >= MAX_HL_PROXIES_COUNT) {
-        // handle error: exceeded maximum number of proxies
+        mediator->oled_proxy->clear();
+        mediator->oled_proxy->draw_text("Cannot add proxy", 0, 0);
+        mediator->oled_proxy->update_display();
         return;
     }
     mediator->hlProxies[mediator->hlProxiesCount] = proxy;
@@ -30,14 +33,12 @@ static void mediator_notify(Mediator *mediator, ActionType action,
         if (proxy && proxy->execute && proxy->name == proxy_name) {
             bool success = proxy->execute(proxy, action);
             if (success) {
-
                 oledProxy->clear();
                 char response_text1[100];
                 sprintf(response_text1, "Resp:  %s", proxy->name);
                 oledProxy->draw_text(response_text1, 0, 0);
                 oledProxy->update_display();
             } else {
-
                 oledProxy->clear();
                 char response_text2[100];
                 sprintf(response_text2, "NResp: %s", proxy->name);
