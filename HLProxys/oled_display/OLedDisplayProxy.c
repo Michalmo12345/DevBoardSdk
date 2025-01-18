@@ -2,10 +2,6 @@
 
 #include "oled_drivers.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 // void OLEDProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
 //                           Gpio_t *gpio)
 // {
@@ -50,6 +46,7 @@ static void OLEDProxy_draw_text(char *text, uint8_t x, uint8_t y)
 OLEDProxy CreateOLEDProxy(const char *name, I2c_t *i2c)
 {
     OLEDProxy oled_proxy;
+    memset(&oled_proxy, 0, sizeof(OLEDProxy));
     ssd1306_Init();
     oled_proxy.base_proxy.name = name;
     // oled_proxy.base_proxy.initialize = OLEDProxy_initialize;

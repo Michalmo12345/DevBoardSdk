@@ -129,13 +129,13 @@ void start()
     //                                       NULL, &rfm_rst_gpio, NULL);
 
     EEPROMProxy eeprom_proxy = CreateEEPROMProxy("eeprom_proxy", &i2c1);
-    eeprom_proxy.base_proxy.initialize(&eeprom_proxy.base_proxy, NULL, &i2c1,
-                                       NULL, NULL);
+    // eeprom_proxy.base_proxy.initialize(&eeprom_proxy.base_proxy, NULL, &i2c1,
+    //                                    NULL, NULL);
 
     LightSensorProxy light_sensor_proxy =
         CreateLightSensorProxy("light_sensor_proxy", &adc1);
-    light_sensor_proxy.base_proxy.initialize(&light_sensor_proxy.base_proxy,
-                                             NULL, NULL, NULL, &adc1);
+    // light_sensor_proxy.base_proxy.initialize(&light_sensor_proxy.base_proxy,
+    //                                          NULL, NULL, NULL, &adc1);
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
     mediator.register_proxy(&mediator, &eeprom_proxy.base_proxy);
     mediator.register_proxy(&mediator, &light_sensor_proxy.base_proxy);
@@ -151,10 +151,10 @@ void start()
 
     HAL_Delay(500);
 
-    for (size_t i; i < 10; i++) {
+    for (size_t i = 0; i < 10; i++) {
         oled_proxy.clear();
         char buffer[32];
-        snprintf(buffer, sizeof(buffer), "%d",
+        snprintf(buffer, sizeof(buffer), "%lu",
                  light_sensor_proxy.readValue(&light_sensor_proxy));
         oled_proxy.draw_text(buffer, 0, 0);
         oled_proxy.update_display();

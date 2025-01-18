@@ -1,21 +1,21 @@
 #include "EEPROMProxy.h"
 
-void EEPROMProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
-                            Gpio_t *gpio, Adc_t *adc)
-{
-    EEPROMProxy *eeprom_proxy = (EEPROMProxy *)self;
-    if (spi != NULL) {
-        self->spi = spi;
-    }
+// void EEPROMProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
+//                             Gpio_t *gpio, Adc_t *adc)
+// {
+//     EEPROMProxy *eeprom_proxy = (EEPROMProxy *)self;
+//     if (spi != NULL) {
+//         self->spi = spi;
+//     }
 
-    if (i2c != NULL) {
-        self->i2c = i2c;
-    }
+//     if (i2c != NULL) {
+//         self->i2c = i2c;
+//     }
 
-    if (gpio != NULL) {
-        self->gpio = gpio;
-    }
-}
+//     if (gpio != NULL) {
+//         self->gpio = gpio;
+//     }
+// }
 void EEPROMProxy_shutdown(BaseHLProxy *self)
 {
     EEPROMProxy *eeprom_proxy = (EEPROMProxy *)self;
@@ -68,10 +68,11 @@ bool EEPROMProxy_execute(BaseHLProxy *self, ActionType action)
 EEPROMProxy CreateEEPROMProxy(const char *name, I2c_t *i2c)
 {
     EEPROMProxy eeprom_proxy;
-    eeprom_proxy.base_proxy.name       = name;
-    eeprom_proxy.base_proxy.i2c        = i2c;
-    eeprom_proxy.base_proxy.initialize = EEPROMProxy_initialize;
-    eeprom_proxy.base_proxy.execute    = EEPROMProxy_execute;
-    eeprom_proxy.base_proxy.shutdown   = EEPROMProxy_shutdown;
+    eeprom_proxy.base_proxy.name = name;
+    eeprom_proxy.base_proxy.i2c  = i2c;
+    // eeprom_proxy.base_proxy.initialize = EEPROMProxy_initialize;
+    eeprom_proxy.base_proxy.execute  = EEPROMProxy_execute;
+    eeprom_proxy.base_proxy.shutdown = EEPROMProxy_shutdown;
+    eeprom_proxy.base_proxy.i2c      = i2c;
     return eeprom_proxy;
 }

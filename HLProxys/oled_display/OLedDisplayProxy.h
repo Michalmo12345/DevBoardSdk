@@ -5,6 +5,10 @@
 
 #include "BaseHLProxy.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct OLEDProxy {
     BaseHLProxy base_proxy;
     // we can add more methods here, specific for OLED display

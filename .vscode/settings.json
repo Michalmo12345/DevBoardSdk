@@ -19,6 +19,7 @@
         "oleddisplayproxy.h": "c",
         "queue.h": "c",
         "main.h": "c",
-        "rfmoduleproxy.h": "c"
+        "rfmoduleproxy.h": "c",
+        "typeinfo": "cpp"
     }
 }
