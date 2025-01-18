@@ -15,6 +15,7 @@
 #include "FreeRTOS.h"
 #include "GpioProxy.h"
 #include "LedMatrixProxy.h"
+#include "EEPROMProxy.h"
 #include "Mediator.h"
 #include "OLedDisplayProxy.h"
 #include "RFModuleProxy.h"
@@ -90,11 +91,11 @@ void start()
     spi_init(&spi3);
     spi3.configure(&spi3, &hspi3, SPI3_CS_GPIO_Port, SPI3_CS_Pin);
 
-    I2c i2c1;
+    I2c_t i2c1;
     i2c_init(&i2c1);
     i2c1.configure(&i2c1, &hi2c1);
 
-    I2c i2c3;
+    I2c_t i2c3;
     i2c_init(&i2c3);
     i2c3.configure(&i2c3, &hi2c3);
 
@@ -107,6 +108,8 @@ void start()
     rfm_rst_gpio.configure(&rfm_rst_gpio, RFM_RST_GPIO_Port, RFM_RST_Pin);
 
     OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &spi1, &i2c1, &gpio1);
+    oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
+                                     &gpio1);
     oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
                                      &gpio1);
 

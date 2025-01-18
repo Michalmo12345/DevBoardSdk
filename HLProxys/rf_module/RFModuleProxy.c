@@ -10,7 +10,7 @@
 
 #include "proxy_actions.h"
 
-void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c *i2c,
+void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
                               Gpio_t *gpio)
 {
     RFModuleProxy *rf_module_proxy = (RFModuleProxy *)self;

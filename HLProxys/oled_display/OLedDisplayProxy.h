@@ -13,6 +13,6 @@ typedef struct OLEDProxy {
     void (*draw_text)(const char *text, uint8_t x, uint8_t y);
 } OLEDProxy;
 
-OLEDProxy CreateOLEDProxy(const char *name, Spi_t *spi, I2c *i2c, Gpio_t *gpio);
+OLEDProxy CreateOLEDProxy(const char *name, Spi_t *spi, I2c_t *i2c, Gpio_t *gpio);
 
 #endif // OLEDDISPLAYPROXY_H

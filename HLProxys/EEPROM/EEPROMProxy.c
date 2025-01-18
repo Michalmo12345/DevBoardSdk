@@ -1,6 +1,6 @@
 #include "EEPROMProxy.h"
 
-void EEPROMProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c *i2c,
+void EEPROMProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
                             Gpio_t *gpio) // wyzerować nieużywane wskaźniki
 {
     EEPROMProxy *eeprom_proxy = (EEPROMProxy *)self;
@@ -29,7 +29,7 @@ bool EEPROMProxy_execute(BaseHLProxy *self,
     uint8_t test_value = 0x55;
     uint8_t read_value = 0;
 
-    I2c *i2c = proxy->base_proxy.i2c;
+    I2c_t *i2c = proxy->base_proxy.i2c;
 
     // Zapis wartości do rejestru EEPROM
     uint8_t txData[2] = {TEST_REG, test_value};
@@ -47,7 +47,7 @@ bool EEPROMProxy_execute(BaseHLProxy *self,
     return (read_value == test_value);
 }
 
-EEPROMProxy CreateEEPROMProxy(const char *name, I2c *i2c)
+EEPROMProxy CreateEEPROMProxy(const char *name, I2c_t *i2c)
 {
     EEPROMProxy eeprom_proxy;
     eeprom_proxy.base_proxy.name       = name;
