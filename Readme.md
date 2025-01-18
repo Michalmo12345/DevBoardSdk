@@ -31,6 +31,7 @@ Przydatne potem w tworzeniu dokumentacji.
 ##### Framework
 
 Enkapsulacja operacji na peryferiach w interfejs
+
 ### ToDo
 
 Mieć driver do SN74AHCT367PWR, pozwoli na sterownaie matrycą led i serwami.
@@ -42,10 +43,6 @@ Konfiguracja stm32l476 na nucleo wygląda następująco:
 (Należy updatować readme po konifguracji w cubemx)
 
 ![CubeMx](docs/update_pinout.png)
-
-
-
-
 
 ### Znalezione Problemy
 
@@ -64,9 +61,10 @@ zakomnetowane testy działają na windowsie, jednak na Ubuntu  powodują  segmen
 ### Zaincludowane dirvery i biblioteki
 
 #### Biblioteka to wyświetlacza OLED
+
 Wszystkie zmiany wprowadzamy w napisanym pliku ssd1306_conf.h
 Ustalamy tam m.in
-- szerokość  i syokośc  ekranu
+- szerokość  i wysokośc  ekranu
 
 ### UWAGA
 

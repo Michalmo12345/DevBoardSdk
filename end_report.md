@@ -28,7 +28,8 @@ Wszystkie testy zostały zaprojektowane w taki sposób, aby były modularne i ł
 Konfiguracja środowiska testowego zawarta jest w ***project.yml***.
 
 ### Użyte biblioteki zewnętrzne
-## Zarządzanie wyświetlaczem OLED
+
+### Zarządzanie wyświetlaczem OLED
 
 W projekcie wykorzystano bibliotekę **stm32-ssd1306** autorstwa [afiskon](https://github.com/afiskon/stm32-ssd1306) do zarządzania wyświetlaczem OLED opartym na kontrolerze SSD1306. Biblioteka ta zapewnia funkcjonalności umożliwiające łatwą obsługę wyświetlacza, takie jak rysowanie pikseli, tekstu czy prostych kształtów.  
 
@@ -36,4 +37,48 @@ Aby oddzielić bibliotekę od aplikacji oraz zwiększyć jej przenośność i mo
 - Łatwą wymianę używanej biblioteki w przyszłości.  
 - Zachowanie czystości kodu aplikacji, który nie zależy bezpośrednio od szczegółów implementacyjnych biblioteki.  
 - Ułatwienie testowania aplikacji poprzez możliwość mockowania funkcjonalności wyświetlacza.  
+
+### Pinout
+
+Konfiguracja stm32l476 na nucleo wygląda następująco:
+(Należy updatować readme po konifguracji w cubemx)
+
+![CubeMx](docs/update_pinout.png)
+
+
+### Development i struktura branchy
+- *main*: Tylko przetestowany i działający kod, zabronione commitowanie na tego brancha,tylko merge z deva
+- *dev*: możliwe proste commity, zalecane merge z innych branchy rozwijające funkcjonalności
+- *inne branche*: niestabilny kod 
+
+Należy zaczynać każdy plik poprzez ```/**```
+Pozwoli to wygenerować Doxygen-style komentarze:
+```
+/**
+ * @file "file_name"
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2024-11-09
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */ 
+ (Pomijamy copyright i wersję)
+```
+
+### Uwagi i natrafione problemy
+
+Z racji tego, że automatyczna generacja kodu nadpisuje jedną z *CmakeLists.txt*
+Po kazdej generacji kodu należy do pliku cmake/stm32cubemx/CMakeLists.txt dodac 
+../../Drivers/OLedDriver/Include w sekji target_include_directories 
+oraz
+../../Drivers/OLedDriver/Src/ssd1306.c
+    ../../Drivers/OLedDriver/Src/ssd1306_fonts.c
+    ../../Drivers/OLedDriver/Src/ssd1306_tests.c w sekcji target sources
+
+Aby zmienić szerokość i wysokoć ekranu OLED oraz inne prametry:
+Zmiany wprowadzamy w napisanym pliku ssd1306_conf.h
+Ustalamy tam m.in
+- szerokość  i wysokośc  ekranu
 
