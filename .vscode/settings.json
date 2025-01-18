@@ -18,6 +18,7 @@
         "stm_headers.h": "c",
         "oleddisplayproxy.h": "c",
         "queue.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "rfmoduleproxy.h": "c"
     }
 }

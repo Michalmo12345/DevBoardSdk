@@ -59,6 +59,7 @@ bool RFModuleProxy_execute(BaseHLProxy *self, ActionType action)
 void RFModuleProxy_shutdown(BaseHLProxy *self)
 {
     RFModuleProxy *rf_module_proxy = (RFModuleProxy *)self;
+    // 
 }
 
 static void RFModuleProxy_Read(RFModuleProxy *proxy, uint8_t reg)
@@ -83,6 +84,7 @@ static void RFModuleProxy_Write(RFModuleProxy *proxy, uint8_t reg, uint8_t data)
 RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio_t *gpio)
 {
     RFModuleProxy rf_module_proxy;
+    // set memset to 0
     rf_module_proxy.base_proxy.name       = name;
     rf_module_proxy.base_proxy.initialize = RFModuleProxy_initialize;
     rf_module_proxy.base_proxy.execute    = RFModuleProxy_execute;
@@ -92,6 +94,7 @@ RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio_t *gpio)
 
     rf_module_proxy.base_proxy.spi  = spi;
     rf_module_proxy.base_proxy.gpio = gpio;
+
     // add pointer for i2c later
     return rf_module_proxy;
 }
