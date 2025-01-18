@@ -1,7 +1,7 @@
 #include "EEPROMProxy.h"
 
 void EEPROMProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
-                            Gpio_t *gpio)
+                            Gpio_t *gpio, Adc_t *adc)
 {
     EEPROMProxy *eeprom_proxy = (EEPROMProxy *)self;
     if (spi != NULL) {

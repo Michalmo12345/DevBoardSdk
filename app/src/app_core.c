@@ -134,7 +134,8 @@ void start()
 
     LightSensorProxy light_sensor_proxy =
         CreateLightSensorProxy("light_sensor_proxy", &adc1);
-
+    light_sensor_proxy.base_proxy.initialize(&light_sensor_proxy.base_proxy, NULL, NULL,
+                                  NULL, &adc1);
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
     mediator.register_proxy(&mediator, &eeprom_proxy.base_proxy);
     mediator.register_proxy(&mediator, &light_sensor_proxy.base_proxy);
