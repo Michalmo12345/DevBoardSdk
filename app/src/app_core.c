@@ -128,8 +128,10 @@ void start()
     TaskParams lcdTaskParams      = {&oled_proxy, &mediator, NULL};
     TaskParams mediatorTaskParams = {NULL, &mediator, &rf_module_proxy};
 
-    mediator.notify(&mediator, EXECUTE, "eeprom_proxy");
-
+    while (1) {
+        mediator.notify(&mediator, EXECUTE, "rf_module_proxy");
+        HAL_Delay(500);
+    }
     // TEST UART SENDING
     // uint8_t Test[] = "Hello World !!!\r\n";
     // HAL_UART_Transmit(&huart4, Test, sizeof(Test), 10);

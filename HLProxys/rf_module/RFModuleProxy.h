@@ -16,6 +16,7 @@
 #define SX1276_REG_FDEV_MSB 0x04
 #define SX1276_REG_FDEV_LSB 0x05
 #define SX1276_REG_FRF_MSB 0x06
+#define SX1276_REG 0x28
 
 #include "BaseHLProxy.h"
 #include "OLedDisplayProxy.h"

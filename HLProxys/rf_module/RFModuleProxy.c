@@ -33,7 +33,7 @@ bool RFModuleProxy_execute(BaseHLProxy *self, ActionType action)
 
         RFModuleProxy *proxy = (RFModuleProxy *)self;
 
-        uint8_t test_reg   = SX1276_REG_OP_MODE;
+        uint8_t test_reg   = SX1276_REG;
         uint8_t test_value = 0x55;
         uint8_t read_value = 0;
 
