@@ -22,6 +22,7 @@
 #include "OLedDisplayProxy.h"
 #include "RFModuleProxy.h"
 #include "SpiProxy.h"
+#include "TofSensorProxy.h"
 #include "main.h"
 #include "proxy_actions.h"
 #include "queue.h"
@@ -114,6 +115,11 @@ void start()
     gpio_init(&rfm_rst_gpio);
     rfm_rst_gpio.configure(&rfm_rst_gpio, RFM_RST_GPIO_Port, RFM_RST_Pin);
 
+    Gpio_t tof_xshut_gpio;
+    gpio_init(&tof_xshut_gpio);
+    tof_xshut_gpio.configure(&tof_xshut_gpio, TOF_XSHUT_GPIO_Port,
+                             TOF_XSHUT_Pin);
+
     OLEDProxy oled_proxy = CreateOLEDProxy("oled_proxy", &i2c1);
     // oled_proxy.base_proxy.initialize(&oled_proxy.base_proxy, &spi1, &i2c1,
     //                                  &gpio1, NULL);
@@ -136,20 +142,33 @@ void start()
         CreateLightSensorProxy("light_sensor_proxy", &adc1);
     // light_sensor_proxy.base_proxy.initialize(&light_sensor_proxy.base_proxy,
     //                                          NULL, NULL, NULL, &adc1);
+
+    TofSensorProxy tof_sensor_proxy =
+        CreateTofSensorProxy("tof_sensor_proxy", &tof_xshut_gpio, &i2c1);
+
     mediator.register_proxy(&mediator, &rf_module_proxy.base_proxy);
     mediator.register_proxy(&mediator, &eeprom_proxy.base_proxy);
     mediator.register_proxy(&mediator, &light_sensor_proxy.base_proxy);
+    mediator.register_proxy(&mediator, &tof_sensor_proxy.base_proxy);
 
     TaskParams lcdTaskParams      = {&oled_proxy, &mediator, NULL};
     TaskParams mediatorTaskParams = {NULL, &mediator, &rf_module_proxy};
 
+    mediator.notify(&mediator, EXECUTE, "rf_module_proxy");
+
+    HAL_Delay(2000);
+
     mediator.notify(&mediator, EXECUTE, "eeprom_proxy");
 
-    HAL_Delay(500);
+    HAL_Delay(2000);
 
     mediator.notify(&mediator, EXECUTE, "light_sensor_proxy");
 
-    HAL_Delay(500);
+    HAL_Delay(2000);
+
+    mediator.notify(&mediator, EXECUTE, "tof_sensor_proxy");
+
+    HAL_Delay(2000);
 
     for (size_t i = 0; i < 10; i++) {
         oled_proxy.clear();
