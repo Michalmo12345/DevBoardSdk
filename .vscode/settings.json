@@ -20,6 +20,9 @@
         "queue.h": "c",
         "main.h": "c",
         "rfmoduleproxy.h": "c",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "proxy_actions.h": "c",
+        "tofsensorproxy.h": "c",
+        "basehlproxy.h": "c"
     }
 }
