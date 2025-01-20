@@ -30,21 +30,22 @@ static void mediator_notify(Mediator *mediator, ActionType action,
 
         OLEDProxy *oledProxy = mediator->oled_proxy;
 
-        if (proxy && proxy->execute && proxy->name == proxy_name) {
+        if (proxy && proxy->execute && strcmp(proxy->name, proxy_name) == 0) {
             bool success = proxy->execute(proxy, action);
-            if (success) {
-                oledProxy->clear();
-                char response_text1[100];
-                sprintf(response_text1, "Resp:  %s", proxy->name);
-                oledProxy->draw_text(response_text1, 0, 0);
-                oledProxy->update_display();
-            } else {
-                oledProxy->clear();
-                char response_text2[100];
-                sprintf(response_text2, "NResp: %s", proxy->name);
-                oledProxy->draw_text(response_text2, 0, 0);
-                oledProxy->update_display();
-            }
+            oledProxy->clear();
+
+            char response_text1[100];
+            snprintf(response_text1, sizeof(response_text1), "Proxy: %s",
+                     proxy->name);
+            oledProxy->draw_text(response_text1, 0, 0);
+
+            // TODO dobrać parametry w draw text by wyświetlało się w drugiej
+            // linii
+            char response_text2[100];
+            snprintf(response_text2, sizeof(response_text2), "%s",
+                     success ? "Responds" : "Not responding");
+            oledProxy->draw_text(response_text2, 0, 10);
+            oledProxy->update_display();
         }
     }
 }
