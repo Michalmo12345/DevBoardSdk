@@ -18,6 +18,25 @@ Cały projekt jest kompilowany przy pomocy plików konfiguracji **CMakeLists**, 
 
 ### Struktura projektu
 
+![Structure](docs/AosywStructure.png)
+
+Diagram przedstawia strukturę projektu opartą na warstwowej architekturze, wzbogaconą o Mediatora i zintegrowaną z systemem FreeRTOS. Rozwiązanie to ułatwia zarządzanie komunikacją i obsługę różnorodnych peryferiów.
+
+HAL (Hardware Abstraction Layer): Warstwa abstrakcji sprzętowej, która izoluje dostęp do sprzętu, dostarczając jednolite interfejsy dla modułów wyższych warstw.
+
+LLProxys (Low-Level Proxies): Moduły te oddzielają warstwę HAL od warstwy aplikacyjnej, tłumacząc specyficzne protokoły sprzętowe (np. SPI, I2C, ADC) na bardziej uniwersalne interfejsy. Dzięki temu warstwa aplikacyjna nie wymaga wiedzy o szczegółach sprzętowych.
+
+HLProxys (High-Level Proxies): Moduły wysokopoziomowe, które implementują logikę specyficzną dla danych urządzeń (np. ToF Sensor Proxy, Light Sensor Proxy). Po wykonaniu polecenia execute() przesyłają wynik testu do Mediatora.
+
+Mediator: Centralny moduł zarządzający komunikacją pomiędzy HLProxys. Wywołuje funkcję notify(), aby powiadomić wszystkie proxy o konieczności wykonania testów, a następnie zbiera wyniki od poszczególnych modułów. Mediator minimalizuje bezpośrednie zależności między komponentami, co upraszcza integrację.
+
+FreeRTOS: Odpowiada za harmonogramowanie zadań w czasie rzeczywistym, zapewniając wydajną i bezpieczną pracę systemu, np. w obsłudze OLED Display Proxy.
+
+Dzięki takiej architekturze łatwo można dodawać nowe peryferia i moduły. Wystarczy utworzyć odpowiedni LL Proxy oraz HL Proxy, bez konieczności modyfikacji istniejącego kodu. 
+
+#### Stuktura Proxy
+
+
 ### Testowanie
 Do testowania oprogramowania wykorzystano framework Ceedling, który pozwala na wygodne pisanie i uruchamianie testów jednostkowych w języku C. W procesie developmentu starano się stosować dobre praktyki inżynierii oprogramowania, takie jak iteracyjne podejście do wprowadzania zmian oraz wczesne i częste testowanie.
 
@@ -27,9 +46,7 @@ Wszystkie testy zostały zaprojektowane w taki sposób, aby były modularne i ł
 
 Konfiguracja środowiska testowego zawarta jest w ***project.yml***.
 
-### Użyte biblioteki zewnętrzne
-
-### Zarządzanie wyświetlaczem OLED
+### Użyte biblioteki zewnętrzne - Zarządzanie wyświetlaczem OLED
 
 W projekcie wykorzystano bibliotekę **stm32-ssd1306** autorstwa [afiskon](https://github.com/afiskon/stm32-ssd1306) do zarządzania wyświetlaczem OLED opartym na kontrolerze SSD1306. Biblioteka ta zapewnia funkcjonalności umożliwiające łatwą obsługę wyświetlacza, takie jak rysowanie pikseli, tekstu czy prostych kształtów.  
 
