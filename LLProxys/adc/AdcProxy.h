@@ -11,14 +11,14 @@
 #include "stm32l4xx.h"
 #include "stm32l4xx_hal_def.h"
 
-typedef struct {
+typedef struct Adc_t {
     ADC_HandleTypeDef *adc_handle;
     uint32_t channel;
 
-    void (*configure)(void *self, ADC_HandleTypeDef *adc_handle);
-    void (*start_conversion)(void *self);
-    uint32_t (*get_value)(void *self);
-    void (*stop_conversion)(void *self);
+    void (*configure)(struct Adc_t *self, ADC_HandleTypeDef *adc_handle);
+    void (*start_conversion)(struct Adc_t *self);
+    uint32_t (*get_value)(struct Adc_t *self);
+    void (*stop_conversion)(struct Adc_t *self);
 } Adc_t;
 
 void adc_init(Adc_t *adc);
