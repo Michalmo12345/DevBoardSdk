@@ -5,8 +5,14 @@
 - Karol Pieczka
 
 ### Architektura systemu
+System oparty jest na procesorze STM32L476, który należy do energooszczędnej rodziny mikrokontrolerów STM32 z rdzeniem ARM Cortex-M4.
+### Kluczowe komponenty systemu:
+- **Moduły peryferyjne**: Zarządzanie poszczególnymi elementami systemu, takimi jak czujniki, moduły komunikacyjne czy sterowniki silników.
+- **Proxy wysokiego poziomu**: Interfejsy abstrakcyjne, które umożliwiają ujednolicenie komunikacji z modułami peryferyjnymi.
+- **Mediator**: Centralny moduł zarządzający komunikacją i koordynacją między różnymi proxy.
+- **System czasu rzeczywistego (RTOS)**: Wykorzystano **FreeRTOS** do obłsugi poszczególnych testów dla kolejnych proxy.
 
-### Zależności między peryferiami
+Architektura została zaprojektowana z myślą o modularności i łatwości utrzymania, co pozwala na łatwe rozszerzanie funkcjonalności w przyszłości.
 
 ### Środowisko programistyczne i automatyzacja generacji kodu
 
@@ -34,8 +40,39 @@ FreeRTOS: Odpowiada za harmonogramowanie zadań w czasie rzeczywistym, zapewniaj
 
 Dzięki takiej architekturze łatwo można dodawać nowe peryferia i moduły. Wystarczy utworzyć odpowiedni LL Proxy oraz HL Proxy, bez konieczności modyfikacji istniejącego kodu. 
 
-#### Stuktura Proxy
+### Stuktura Proxy
+W celu umożliwienia przechowywania proxy przez mediator jako listy obiektów tego samego typu, zdecydowano się utworzyć klasę (strukturę) bazową - BaseHLProxy. Struktura ta pełni rolę interfejsu bazowego, który inne proxy wysokiego poziomu implementują jako jeden z atrybutów. Dzięki temu możliwe jest zunifikowanie zarządzania różnymi typami proxy.
 
+Każde proxy wysokiego poziomu, takie jak obsługa modułu RFM czy komunikacji SPI, posiada własną implementację podstawowych funkcji, takich jak `execute` czy `shutdown`, a także innych funkcji specyficznych dla danego modułu, które są niezbędne do przeprowadzenia odpowiednich testów i operacji.
+
+Przykład implementacji proxy dla modułu `RFM`:
+```
+typedef struct RFModuleProxy {
+    BaseHLProxy base_proxy;
+    void (*read)(struct RFModuleProxy *proxy, uint8_t reg);
+    void (*write)(struct RFModuleProxy *proxy, uint8_t reg, uint8_t data);
+} RFModuleProxy;
+
+RFModuleProxy CreateRFModuleProxy(const char *name, Spi_t *spi, Gpio_t *gpio);
+```
+Funkcje Create["nazwa_proxy'] odpowiadają za inicjalizacje obiektu wraz z odpowiednimi peryferiami Low Level przypisanymi do tego modułu. Dzięki temu tworzenie proxy jest bardziej modułowe i elastyczne.
+Przykładowo proxy odpowiadające za komunikację po SPI:
+```
+typedef struct Spi_t {
+    SPI_HandleTypeDef *spi_handle;
+    GPIO_TypeDef *csPort;
+    uint16_t csPin;
+
+    void (*configure)(struct Spi_t *self, SPI_HandleTypeDef *spi_handle,
+                      GPIO_TypeDef *csPort, uint16_t csPin);
+    void (*transmit)(struct Spi_t *self, uint8_t *data, size_t size);
+    void (*receive)(struct Spi_t *self, uint8_t *data, size_t size);
+    void (*set_cs)(struct Spi_t *self, uint16_t state);
+    void (*transmit_receive)(struct Spi_t *self, uint8_t *txData,
+                             uint8_t *rxData, size_t size);
+} Spi_t;
+```
+Powyższa struktura Spi_t umożliwia łatwe wykorzystanie komunikacji SPI w module RFM, bez konieczności bezpośredniego używania funkcji z biblioteki HAL. Ułatwia to też mockowanie zależności sprzętowych, a co za tym idzie bardziej dokładne testowanie.
 
 ### Testowanie
 Do testowania oprogramowania wykorzystano framework Ceedling, który pozwala na wygodne pisanie i uruchamianie testów jednostkowych w języku C. W procesie developmentu starano się stosować dobre praktyki inżynierii oprogramowania, takie jak iteracyjne podejście do wprowadzania zmian oraz wczesne i częste testowanie.
@@ -45,6 +82,13 @@ W celu eliminacji zależności od warstwy sprzętowej (np. Hardware Abstraction 
 Wszystkie testy zostały zaprojektowane w taki sposób, aby były modularne i łatwe do utrzymania. Przypadki testowe pozwoliły upewnić się, że oprogramowanie działa zgodnie z założeniami w różnych scenariuszach.
 
 Konfiguracja środowiska testowego zawarta jest w ***project.yml***.
+
+#### Uruchomiene testów
+
+W przypadku posiadania przez użytkownika zainstalowanego frameworka ceedling wystarczy wywołać w terminalu komendę:
+```ceedlig test:all```
+Wykona to wszystkie zaimplementowane testy. Można też przetestować wybrany moduł komendą :
+`ceedling test:<module_name>`.
 
 ### Użyte biblioteki zewnętrzne - Zarządzanie wyświetlaczem OLED
 
