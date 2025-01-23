@@ -1,7 +1,7 @@
-#include "unity.h"
-
 #include "SpiProxyMock.h"
 #include "stdio.h"
+#include "unity.h"
+
 #include <string.h>
 
 extern size_t mock_size;
@@ -9,7 +9,7 @@ extern uint8_t mock_data[256];
 
 void setUp(void)
 {
-    // 
+    //
 }
 
 void tearDown(void)
@@ -17,14 +17,13 @@ void tearDown(void)
     // maybe function to reset mock values
 }
 
-
 void test_spi_configure_should_set_spi_handle_csPort_and_csPin(void)
 {
-    Spi spi;
+    Spi_t spi;
     spi_mock_init(&spi);
     void *dummy_spi_handle = (void *)0x12345678;
-    void *dummy_csPort = (void *)0x87654321;
-    uint16_t dummy_csPin = 42;
+    void *dummy_csPort     = (void *)0x87654321;
+    uint16_t dummy_csPin   = 42;
 
     spi.configure(&spi, dummy_spi_handle, dummy_csPort, dummy_csPin);
 
@@ -35,7 +34,7 @@ void test_spi_configure_should_set_spi_handle_csPort_and_csPin(void)
 
 void test_spi_select_should_set_csPin_state_to_low(void)
 {
-    Spi spi;
+    Spi_t spi;
     spi_mock_init(&spi);
 
     mock_csPin = 1;
@@ -47,7 +46,7 @@ void test_spi_select_should_set_csPin_state_to_low(void)
 
 void test_spi_deselect_should_set_csPin_state_to_high(void)
 {
-    Spi spi;
+    Spi_t spi;
     spi_mock_init(&spi);
 
     mock_csPin = 0;
@@ -59,11 +58,11 @@ void test_spi_deselect_should_set_csPin_state_to_high(void)
 
 void test_spi_should_transmit_data(void)
 {
-    Spi spi;
+    Spi_t spi;
     spi_mock_init(&spi);
 
     uint8_t dummy_data[] = {0x01, 0x02, 0x03};
-    size_t dummy_size = sizeof(dummy_data);
+    size_t dummy_size    = sizeof(dummy_data);
 
     spi.transmit(&spi, dummy_data, dummy_size);
 
@@ -71,16 +70,15 @@ void test_spi_should_transmit_data(void)
     TEST_ASSERT_EQUAL_UINT8(0x02, mock_data[1]);
     TEST_ASSERT_EQUAL_UINT8(0x03, mock_data[2]);
     TEST_ASSERT_EQUAL_UINT8(dummy_size, mock_size);
-
 }
 
 void test_spi_should_receive_data(void)
 {
-    Spi spi;
+    Spi_t spi;
     spi_mock_init(&spi);
 
     uint8_t dummy_data[] = {0x01, 0x02, 0x03};
-    size_t dummy_size = sizeof(dummy_data);
+    size_t dummy_size    = sizeof(dummy_data);
 
     spi.receive(&spi, dummy_data, dummy_size);
 
@@ -92,11 +90,11 @@ void test_spi_should_receive_data(void)
 
 void test_spi_should_transmit_and_receive_data(void)
 {
-    Spi spi;
+    Spi_t spi;
     spi_mock_init(&spi);
 
     uint8_t dummy_data[] = {0x01, 0x02, 0x03};
-    size_t dummy_size = sizeof(dummy_data);
+    size_t dummy_size    = sizeof(dummy_data);
 
     spi.transmit_receive(&spi, dummy_data, dummy_data, dummy_size);
 

@@ -38,6 +38,7 @@
     - +:LLProxys/gpio/**/*.c      # Tylko pliki .c z gpio
     - +:LLProxys/spi/**/*.c 
     - +:LLProxys/i2c/**/*.c
+    - +:LLProxys/adc/**/*.c
     - +:HLProxys/**/*.c
 
   :include:
@@ -45,6 +46,8 @@
     - +:LLProxys/gpio/**
     - +:LLProxys/spi/**
     - +:LLProxys/i2c/**
+    - +:LLProxys/tools/**
+    - +:LLProxys/adc/**
     - HLProxys/**
     - Drivers/STM32L4xx_HAL_Driver/Inc/**
     - Drivers/CMSIS/Device/ST/STM32L4xx/Include/**

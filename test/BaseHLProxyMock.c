@@ -12,7 +12,7 @@ void mock_BaseHLProxy_init(BaseHLProxy *proxy)
     proxy->gpio     = NULL;
 }
 
-void mock_execute(BaseHLProxy *proxy, const char *action)
+void mock_execute(BaseHLProxy *proxy, ActionType action)
 {
     mock_execute_call_count++;
 }
