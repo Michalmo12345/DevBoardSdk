@@ -8,10 +8,9 @@
 
 #include "RFModuleProxy.h"
 
-#include "FreeRTOS.h"
+#include "OLedDisplayProxy.h"
 #include "delay_manager.h"
 #include "proxy_actions.h"
-#include "task.h"
 
 // void RFModuleProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
 //                               Gpio_t *gpio)
@@ -49,6 +48,7 @@ static bool RFModuleProxy_execute(BaseHLProxy *self, ActionType action)
         uint8_t tx_read_buffer[2] = {test_reg & 0x7F, 0x00};
         uint8_t rx_read_buffer[2] = {0};
         spi->transmit_receive(spi, tx_read_buffer, rx_read_buffer, 2);
+        // check if it works without delay
         Delay(500);
 
         read_value = rx_read_buffer[1];

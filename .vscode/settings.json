@@ -24,6 +24,8 @@
         "proxy_actions.h": "c",
         "tofsensorproxy.h": "c",
         "basehlproxy.h": "c",
-        "task.h": "c"
+        "task.h": "c",
+        "delay_manager.h": "c",
+        "gpioproxymock.h": "c"
     }
 }

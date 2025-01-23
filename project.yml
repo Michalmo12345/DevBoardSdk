@@ -39,8 +39,8 @@
     - +:LLProxys/spi/**/*.c 
     - +:LLProxys/i2c/**/*.c
     - +:LLProxys/adc/**/*.c
-    - +:HLProxys/**/*.c
-
+    - +:HLProxys/**
+    - +:HLProxys/rf_module/**
   :include:
     - app/include/**
     - +:LLProxys/gpio/**
@@ -48,6 +48,8 @@
     - +:LLProxys/i2c/**
     - +:LLProxys/tools/**
     - +:LLProxys/adc/**
+    - +:LLProxys/delay_manager/**
+    - +:HLProxys/rf_module/**
     - HLProxys/**
     - Drivers/STM32L4xx_HAL_Driver/Inc/**
     - Drivers/CMSIS/Device/ST/STM32L4xx/Include/**

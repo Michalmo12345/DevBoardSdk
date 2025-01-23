@@ -74,6 +74,8 @@ typedef struct Spi_t {
 ```
 Powyższa struktura Spi_t umożliwia łatwe wykorzystanie komunikacji SPI w module RFM, bez konieczności bezpośredniego używania funkcji z biblioteki HAL. Ułatwia to też mockowanie zależności sprzętowych, a co za tym idzie bardziej dokładne testowanie.
 
+Aby wyeliminować zależność od bezpośredniego użycia funkcji z biblioteki HAL w modułach, które nie są częścią LLProxy, stworzono moduł `delay_manager`. Działa on jako wrapper nad funkcją do odmierzania czasu, zapewniając abstrakcję i izolację od implementacji HAL.
+
 ### Testowanie
 Do testowania oprogramowania wykorzystano framework Ceedling, który pozwala na wygodne pisanie i uruchamianie testów jednostkowych w języku C. W procesie developmentu starano się stosować dobre praktyki inżynierii oprogramowania, takie jak iteracyjne podejście do wprowadzania zmian oraz wczesne i częste testowanie.
 

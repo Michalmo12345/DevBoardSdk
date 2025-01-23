@@ -19,8 +19,7 @@
 #define SX1276_REG 0x28
 
 #include "BaseHLProxy.h"
-#include "OLedDisplayProxy.h"
-#include "SpiProxy.h"
+// #include "SpiProxy.h"
 
 #include <string.h>
 typedef struct RFModuleProxy {
