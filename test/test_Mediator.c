@@ -40,23 +40,6 @@ void test_mediator_register_proxy(void)
     TEST_ASSERT_EQUAL_PTR(&test_proxy, test_mediator.hlProxies[0]);
 }
 
-void test_mediator_notify(void)
-{
-
-    Mediator test_mediator;
-    OLEDProxy mock_oled_proxy;
-
-    mediator_init(&test_mediator, &mock_oled_proxy);
-
-    BaseHLProxy test_proxy;
-    mock_BaseHLProxy_init(&test_proxy);
-
-    test_mediator.register_proxy(&test_mediator, &test_proxy);
-
-    // test_mediator.notify(&test_mediator, EXECUTE, "default_name");
-
-    // TEST_ASSERT_EQUAL(1, test_mediator.hlProxiesCount);
-}
 void test_mediator_shutdown(void)
 {
 

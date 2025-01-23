@@ -23,6 +23,7 @@
         "typeinfo": "cpp",
         "proxy_actions.h": "c",
         "tofsensorproxy.h": "c",
-        "basehlproxy.h": "c"
+        "basehlproxy.h": "c",
+        "task.h": "c"
     }
 }

@@ -4,7 +4,8 @@ target_sources(LLProxys  PRIVATE
     gpio/GpioProxy.c
     i2c/I2CProxy.c
     spi/SpiProxy.c
-    adc/AdcProxy.c)
+    adc/AdcProxy.c
+    tools/delay_manager.c)
 
 target_include_directories(LLProxys  PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/gpio
