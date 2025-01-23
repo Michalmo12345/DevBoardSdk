@@ -1,39 +1,39 @@
 #include "LightSensorProxy.h"
 
-void LightSensorProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
-                                 Gpio_t *gpio, Adc_t *adc)
-{
-    LightSensorProxy *light_sensor_proxy = (LightSensorProxy *)self;
-    if (spi != NULL) {
-        self->spi = spi;
-    }
+// void LightSensorProxy_initialize(BaseHLProxy *self, Spi_t *spi, I2c_t *i2c,
+//                                  Gpio_t *gpio, Adc_t *adc)
+// {
+//     LightSensorProxy *light_sensor_proxy = (LightSensorProxy *)self;
+//     if (spi != NULL) {
+//         self->spi = spi;
+//     }
 
-    if (i2c != NULL) {
-        self->i2c = i2c;
-    }
+//     if (i2c != NULL) {
+//         self->i2c = i2c;
+//     }
 
-    if (gpio != NULL) {
-        self->gpio = gpio;
-    }
-    
-    if (adc != NULL) {
-        self->adc = adc;
-    }
-}
+//     if (gpio != NULL) {
+//         self->gpio = gpio;
+//     }
+
+//     if (adc != NULL) {
+//         self->adc = adc;
+//     }
+// }
 
 void LightSensorProxy_shutdown(BaseHLProxy *self)
 {
     LightSensorProxy *light_sensor_proxy = (LightSensorProxy *)self;
 }
 
-void LightSensorProxy_execute(BaseHLProxy *self, ActionType action)
+bool LightSensorProxy_execute(BaseHLProxy *self, ActionType action)
 {
     LightSensorProxy *proxy = (LightSensorProxy *)self;
     Adc_t *adc              = proxy->base_proxy.adc;
 
     if (adc == NULL || adc->get_value == NULL) {
-        // obsługa błędu
-        return;
+
+        return false;
     }
 
     // Odczyt wartości z czujnika w dwóch próbkach
@@ -48,7 +48,7 @@ void LightSensorProxy_execute(BaseHLProxy *self, ActionType action)
     return abs(diff) > 1; // 10 jako próg wykrywalnej zmiany
 }
 
-uint32_t LightSensorProxy_readValue(BaseHLProxy *self)
+uint32_t LightSensorProxy_readValue(LightSensorProxy *self)
 {
     if (self == NULL) {
         // Obsługa błędu, np. zwrócenie specjalnej wartości
@@ -72,11 +72,13 @@ uint32_t LightSensorProxy_readValue(BaseHLProxy *self)
 LightSensorProxy CreateLightSensorProxy(const char *name, Adc_t *adc)
 {
     LightSensorProxy light_sensor_proxy;
-    light_sensor_proxy.base_proxy.name       = name;
-    light_sensor_proxy.base_proxy.adc        = adc;
-    light_sensor_proxy.base_proxy.initialize = LightSensorProxy_initialize;
-    light_sensor_proxy.base_proxy.execute    = LightSensorProxy_execute;
-    light_sensor_proxy.base_proxy.shutdown   = LightSensorProxy_shutdown;
-    light_sensor_proxy.readValue             = LightSensorProxy_readValue;
+    light_sensor_proxy.base_proxy.name = name;
+    light_sensor_proxy.base_proxy.adc  = adc;
+    // light_sensor_proxy.base_proxy.initialize = LightSensorProxy_initialize;
+    light_sensor_proxy.base_proxy.execute  = LightSensorProxy_execute;
+    light_sensor_proxy.base_proxy.shutdown = LightSensorProxy_shutdown;
+    light_sensor_proxy.readValue           = LightSensorProxy_readValue;
+    light_sensor_proxy.base_proxy.adc      = adc;
+
     return light_sensor_proxy;
 }

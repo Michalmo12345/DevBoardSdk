@@ -7,11 +7,12 @@ target_sources(LLProxys PRIVATE
     rf_module/RFModuleProxy.c
     EEPROM/EEPROMProxy.c
     light_sensor/LightSensorProxy.c
+    tof_sensor/TofSensorProxy.c
     )
 
 target_include_directories(HLProxys  PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/hall_sensor
+    ${CMAKE_CURRENT_SOURCE_DIR}/tof_sensor
     ${CMAKE_CURRENT_SOURCE_DIR}/led_matrix
     ${CMAKE_CURRENT_SOURCE_DIR}/oled_display
     ${CMAKE_CURRENT_SOURCE_DIR}/rf_module

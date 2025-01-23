@@ -8,10 +8,12 @@
 #ifndef LIGHTSENSORPROXY_H
 #define LIGHTSENSORPROXY_H
 
-#include "BaseHLProxy.h"
 #include "AdcProxy.h"
+#include "BaseHLProxy.h"
 
-typedef struct {
+#include <stdint.h>
+#include <stdlib.h>
+typedef struct LightSensorProxy {
     BaseHLProxy base_proxy;
     uint32_t (*readValue)(struct LightSensorProxy *proxy);
 } LightSensorProxy;
