@@ -21,6 +21,8 @@
 #include "BaseHLProxy.h"
 #include "OLedDisplayProxy.h"
 #include "SpiProxy.h"
+
+#include <string.h>
 typedef struct RFModuleProxy {
     BaseHLProxy base_proxy;
     void (*read)(struct RFModuleProxy *proxy, uint8_t reg);
