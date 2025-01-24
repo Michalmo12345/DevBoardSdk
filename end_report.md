@@ -7,7 +7,7 @@
 ### Architektura systemu
 System oparty jest na procesorze STM32L476, który należy do energooszczędnej rodziny mikrokontrolerów STM32 z rdzeniem ARM Cortex-M4.
 ### Kluczowe komponenty systemu:
-- **Moduły peryferyjne**: Zarządzanie poszczególnymi elementami systemu, takimi jak czujniki, moduły komunikacyjne czy sterowniki silników.
+- **Moduły peryferyjne**: Zarządzanie poszczególnymi elementami systemu, takimi jak SPI, ADC, GPIO czy SPI
 - **Proxy wysokiego poziomu**: Interfejsy abstrakcyjne, które umożliwiają ujednolicenie komunikacji z modułami peryferyjnymi.
 - **Mediator**: Centralny moduł zarządzający komunikacją i koordynacją między różnymi proxy.
 - **System czasu rzeczywistego (RTOS)**: Wykorzystano **FreeRTOS** do obłsugi poszczególnych testów dla kolejnych proxy.
