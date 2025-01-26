@@ -11,7 +11,6 @@ Tematem przewodnim projektu jest aplikacja weryfikująca obecność danego pery
 ### Metodologia testowania
 
 Do każdego peryferium zostało napisane odpowiednie proxy odpowiadające za przebieg testu danego urządzenia. Każde z proxy dziedziczy po bazowym proxy wysokiego poziomu. Każde z peryferiów implementuje meotdę execute(), która zwraca wynik testu.
-\xoxo uwaga tory
 
 1. Moduł RF
 
