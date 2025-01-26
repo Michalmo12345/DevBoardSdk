@@ -6,7 +6,7 @@
 
 ## Temat projetktu
 
-Tematem przewodnim projektu jest aplikacja weryfikująca obecność danego peryferium na płytce Evalboard, z Shieldem. Na potrzeby projetku napisano uproszczone sterowniki dla czterech peryferiów. Testowanymi peryferiami są pamięć EEPROM, moduł RF, czujnik światła oraz czujnik Tome-of-Flight.
+Tematem przewodnim projektu jest aplikacja weryfikująca obecność danego peryferium na płytce Evalboard, z Shieldem. Na potrzeby projetku napisano uproszczone sterowniki dla czterech peryferiów. Testowanymi peryferiami są pamięć EEPROM, moduł RF, czujnik światła oraz czujnik Time-of-Flight.
 
 ### Metodologia testowania
 
@@ -129,7 +129,7 @@ bool LightSensorProxy_execute(BaseHLProxy *self, ActionType action)
 
 4. Czujnik Time-of-Flight
 
-Czujnik TOF (Time-of-Flight) jest sprawdzany poprzez odczytanie wartości z dwóch rejestrów za pomocą interfejsu I2C. Test jest uznawany za pozytywny, jeśli odczytane wartości z rejestrów są zgodne z oczekiwanymi: 0xEA dla rejestru Model_ID oraz 0xAA dla rejestru Module_Type.
+Czujnik TOF (Time-of-Flight) jest sprawdzany poprzez odczytanie wartości z dwóch rejestrów za pomocą interfejsu I2C. Test jest uznawany za pozytywny, jeśli odczytane wartości z rejestrów są zgodne z oczekiwanymi: 0xEA dla rejestru Model_ID oraz 0xAA dla rejestru Module_Type (takie rejetsry sprawdzające poprawnośc komunikacji zostały przedstawione w dokumnetacji czujnika)
 
 Poniżej kod implementujący funkcjonalność testu:
 
@@ -184,7 +184,6 @@ System oparty jest na procesorze STM32L476, który należy do energooszczędnej 
 - **Moduły peryferyjne**: Zarządzanie poszczególnymi elementami systemu, takimi jak SPI, ADC, GPIO czy SPI
 - **Proxy wysokiego poziomu**: Interfejsy abstrakcyjne, które umożliwiają ujednolicenie komunikacji z modułami peryferyjnymi.
 - **Mediator**: Centralny moduł zarządzający komunikacją i koordynacją między różnymi proxy.
-- **System czasu rzeczywistego (RTOS)**: Wykorzystano **FreeRTOS** do obłsugi poszczególnych testów dla kolejnych proxy.
 
 Architektura została zaprojektowana z myślą o modularności i łatwości utrzymania, co pozwala na łatwe rozszerzanie funkcjonalności w przyszłości.
 
@@ -210,7 +209,7 @@ HLProxys (High-Level Proxies): Moduły wysokopoziomowe, które implementują log
 
 Mediator: Centralny moduł zarządzający komunikacją pomiędzy HLProxys. Wywołuje funkcję notify(), aby powiadomić wszystkie proxy o konieczności wykonania testów, a następnie zbiera wyniki od poszczególnych modułów. Mediator minimalizuje bezpośrednie zależności między komponentami, co upraszcza integrację.
 
-FreeRTOS: Odpowiada za harmonogramowanie zadań w czasie rzeczywistym, zapewniając wydajną i bezpieczną pracę systemu, np. w obsłudze OLED Display Proxy.
+FreeRTOS: Odpowiada za harmonogramowanie zadań w czasie rzeczywistym, zapewniając wydajną i bezpieczną pracę systemu. W głównej wersji aplikacji nie jest on wykorzystywany jednak jest zintegrowany z bazą projektu, która umożliwia łatwe jego dodanie w mediatorze. 
 
 Dzięki takiej architekturze łatwo można dodawać nowe peryferia i moduły. Wystarczy utworzyć odpowiedni LL Proxy oraz HL Proxy, bez konieczności modyfikacji istniejącego kodu. 
 
