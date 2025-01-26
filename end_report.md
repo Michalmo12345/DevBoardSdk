@@ -4,6 +4,181 @@
 - Michał Mokrzycki
 - Karol Pieczka
 
+## Temat projetktu
+
+Tematem przewodnim projektu jest aplikacja weryfikująca obecność danego peryferium na płytce Evalboard, z Shieldem. Na potrzeby projetku napisano uproszczone sterowniki dla czterech peryferiów. Testowanymi peryferiami są pamięć EEPROM, moduł RF, czujnik światła oraz czujnik Tome-of-Flight.
+
+### Metodologia testowania
+
+Do każdego peryferium zostało napisane odpowiednie proxy odpowiadające za przebieg testu danego urządzenia. Każde z proxy dziedziczy po bazowym proxy wysokiego poziomu. Każde z peryferiów implementuje meotdę execute(), która zwraca wynik testu.
+\xoxo uwaga tory
+
+1. Moduł RF
+
+Moduł RF jest testowany poprzez zapis i odczyt rejestru. Wybrany rejestr to jeden z wolnych rejestrów odpowiadających docelowo za synchronizację sygnału w procesach radiowych. Wartość zapisana jest porównywana z wartością odczytaną, w ten sposób weryfikując czy moduł odpowiada w jakikolwiek sposób.
+Poniżej kod implementujący wspomnianą funkcjonalność.
+
+```
+static bool RFModuleProxy_execute(BaseHLProxy *self, ActionType action)
+{
+    if (action == EXECUTE) {
+
+        RFModuleProxy *proxy = (RFModuleProxy *)self;
+
+        uint8_t test_reg   = SX1276_REG;
+        uint8_t test_value = 0x55;
+        uint8_t read_value = 0;
+
+        Gpio_t *gpio = proxy->base_proxy.gpio;
+        gpio->set(gpio);
+
+        proxy->write(proxy, test_reg, test_value);
+        Spi_t *spi                = proxy->base_proxy.spi;
+        uint8_t tx_read_buffer[2] = {test_reg & 0x7F, 0x00};
+        uint8_t rx_read_buffer[2] = {0};
+        spi->transmit_receive(spi, tx_read_buffer, rx_read_buffer, 2);
+        
+        Delay(500);
+
+        read_value = rx_read_buffer[1];
+        gpio->reset(gpio);
+        return (read_value == test_value);
+    } else {
+        return false;
+    }
+}
+```
+
+2. Pamięć EEPPROM
+
+Pamięć EEPROM jest testowana poprzez zapis oraz odczyt wartości z danego rejestru pamięci. W celu uniknięcia przypadkowego odczytania wartości w rejestrze, która była się w nim znajdowała przed zapisem, co by uniemożliwiło dedukcję poprawności testu, zapis jest realizowany dwukrotnie dla dwóch różnych wartości. Obie wartości muszą się zgadzać, aby test można było uznać jako pozytywny.
+Poniżej implementacja wspomnianej funkcjonalności.
+
+```
+bool EEPROMProxy_execute(BaseHLProxy *self, ActionType action)
+{
+    EEPROMProxy *proxy = (EEPROMProxy *)self;
+
+    uint8_t test_value_1 = 0x55;
+    uint8_t test_value_2 = 0xAA;
+    uint8_t read_value_1 = 0;
+    uint8_t read_value_2 = 0;
+
+    I2c_t *i2c = proxy->base_proxy.i2c;
+
+    // Pierwszy test
+    uint8_t txData1[2] = {TEST_REG, test_value_1};
+    i2c->transmit(i2c, txData1, sizeof(txData1), EEPROM_ADDRESS << 1);
+
+    // Czekaj na zapis
+    HAL_Delay(5);
+
+    uint8_t regAddress = TEST_REG;
+    i2c->transmit(i2c, &regAddress, 1, EEPROM_ADDRESS << 1);
+    i2c->receive(i2c, &read_value_1, 1, EEPROM_ADDRESS << 1);
+
+    if (read_value_1 != test_value_1) {
+        return false;
+    }
+
+    // Drugi test
+    uint8_t txData2[2] = {TEST_REG, test_value_2};
+    i2c->transmit(i2c, txData2, sizeof(txData2), EEPROM_ADDRESS << 1);
+
+    // Czekaj na zapis
+    HAL_Delay(5);
+
+    // Odczyt wartości
+    i2c->transmit(i2c, &regAddress, 1, EEPROM_ADDRESS << 1);
+    i2c->receive(i2c, &read_value_2, 1, EEPROM_ADDRESS << 1);
+
+    if (read_value_2 != test_value_2) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+3. Czujnik światła
+
+Czujnik światła jest sprawdzany za pomocą odczytu wartości, które zwraca za pomocją konwertera analogowo-cyfrowego. Test jest unzany za pozytywnym, jeśli w czasie 50ms wartość zwracana przez konwerter zmieni się przynajmniej o 10.
+Poniżej kod implelemtujący funkcjonalność testu.
+
+```
+bool LightSensorProxy_execute(BaseHLProxy *self, ActionType action)
+{
+    LightSensorProxy *proxy = (LightSensorProxy *)self;
+    Adc_t *adc              = proxy->base_proxy.adc;
+
+    if (adc == NULL || adc->get_value == NULL) {
+        return false;
+    }
+
+    // Odczyt wartości z czujnika w dwóch próbkach
+    uint32_t value1 = adc->get_value(adc);
+    HAL_Delay(50);
+    uint32_t value2 = adc->get_value(adc);
+
+    // Sprawdzenie różnicy pomiędzy próbkami
+    int32_t diff = (int32_t)value2 - (int32_t)value1;
+
+    // Warunek testu
+    return abs(diff) > 10; // 10 jako próg wykrywalnej zmiany
+}
+```
+
+4. Czujnik Time-of-Flight
+
+Czujnik TOF (Time-of-Flight) jest sprawdzany poprzez odczytanie wartości z dwóch rejestrów za pomocą interfejsu I2C. Test jest uznawany za pozytywny, jeśli odczytane wartości z rejestrów są zgodne z oczekiwanymi: 0xEA dla rejestru Model_ID oraz 0xAA dla rejestru Module_Type.
+
+Poniżej kod implementujący funkcjonalność testu:
+
+```
+static bool TofSensorProxy_execute(BaseHLProxy *self, ActionType action)
+{
+    TofSensorProxy *proxy     = (TofSensorProxy *)self;
+    uint32_t expected_value_1 = 0xEA; // Model_ID register value
+    uint32_t expected_value_2 = 0xAA; // Module_Type register value
+    uint32_t read_value_1     = 0;
+    uint32_t read_value_2     = 0;
+
+    I2c_t *i2c = proxy->base_proxy.i2c;
+
+    uint8_t regAddress1[2] = {(uint8_t)(MODEL_ID_REGISTER >> 8),
+                              (uint8_t)(MODEL_ID_REGISTER & 0xFF)};
+    uint8_t rxData1[4]     = {0};
+
+    i2c->transmit(i2c, regAddress1, sizeof(regAddress1),
+                  TOF_SENSOR_ADDRESS << 1);
+    i2c->receive(i2c, rxData1, sizeof(rxData1), TOF_SENSOR_ADDRESS << 1);
+
+    read_value_1 = (rxData1[0] << 24) | (rxData1[1] << 16) | (rxData1[2] << 8) |
+                   rxData1[3];
+
+    if (read_value_1 != expected_value_1) {
+        return false;
+    }
+
+    uint8_t regAddress2[2] = {(uint8_t)(MODULE_TYPE_REGISTER >> 8),
+                              (uint8_t)(MODULE_TYPE_REGISTER & 0xFF)};
+    uint8_t rxData2[4]     = {0};
+
+    i2c->transmit(i2c, regAddress2, sizeof(regAddress2),
+                  TOF_SENSOR_ADDRESS << 1);
+    i2c->receive(i2c, rxData2, sizeof(rxData2), TOF_SENSOR_ADDRESS << 1);
+
+    read_value_2 = (rxData2[0] << 24) | (rxData2[1] << 16) | (rxData2[2] << 8) |
+                   rxData2[3];
+
+    if (read_value_2 != expected_value_2) {
+        return false;
+    }
+
+    return true;
+}
+```
+
 ### Architektura systemu
 System oparty jest na procesorze STM32L476, który należy do energooszczędnej rodziny mikrokontrolerów STM32 z rdzeniem ARM Cortex-M4.
 ### Kluczowe komponenty systemu:

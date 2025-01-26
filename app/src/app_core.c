@@ -170,15 +170,16 @@ void start()
 
     HAL_Delay(2000);
 
-    for (size_t i = 0; i < 10; i++) {
-        oled_proxy.clear();
-        char buffer[32];
-        snprintf(buffer, sizeof(buffer), "%lu",
-                 light_sensor_proxy.readValue(&light_sensor_proxy));
-        oled_proxy.draw_text(buffer, 0, 0);
-        oled_proxy.update_display();
-        HAL_Delay(500);
-    }
+    // for (size_t i = 0; i < 10; i++) {
+    //     oled_proxy.clear();
+    //     char buffer[32];
+    //     snprintf(buffer, sizeof(buffer), "%lu",
+    //              light_sensor_proxy.readValue(&light_sensor_proxy));
+    //     oled_proxy.draw_text(buffer, 0, 0);
+    //     oled_proxy.update_display();
+    //     HAL_Delay(500);
+    // }
+    
     // TEST UART SENDING
     // uint8_t Test[] = "Hello World !!!\r\n";
     // HAL_UART_Transmit(&huart4, Test, sizeof(Test), 10);
